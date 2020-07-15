@@ -20,7 +20,7 @@ function parseSheet() {
   const [columnNames, ...data] = sheet.getDataRange().getValues();
 
   const costs = getCosts(columnNames);
-  const { start, end } = getItemColumnIndexes(costs);
+  const { start, end } = getItemColumnIndexes(costs); // Meow lesson: destructuring
 
   Logger.log(
     "Extracted costs:",
@@ -39,7 +39,7 @@ function parseSheet() {
       break;
     }
 
-    parseRow(data[i]);
+    parseRow(data[i]); // !! parseRow now returns rowData obj
   }
 }
 
@@ -105,15 +105,30 @@ function getItemColumnIndexes(costs) {
 
 /**
  * Process row data
+ *
+ * Returns: a row object that will be passed into the template
  */
 function parseRow(row) {
   // create recipt etc
+
+  // let rowData = {name: , num: , order = [], comment: };
+  // comment can be empty
+
+  // name is where column name is: 您的大名
   Logger.log("Parsing row:\n", row);
+
+  // TODO: write/call function that gets total cost dynamically
+
+  return rowData;
 }
 
 /**
  * Creates a receipt page / PDF
  *
- * @param rowData
+ * NOTE: reference this to call functions from templates:
+ * https://developers.google.com/apps-script/guides/html/templates#calling_apps_script_functions_from_a_template
+ *
  */
-function createReceipt(rowData) {}
+function createReceipt() {
+  return HtmlService.createTemplateFromFile("template").evaluate();
+}
