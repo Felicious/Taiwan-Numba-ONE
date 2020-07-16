@@ -23,6 +23,8 @@ function parseSheet() {
   const costs = getCosts(columnNames);
   const { start, end } = getItemColumnIndexes(costs); // Meow lesson: destructuring
 
+  const menuItems = getItemNames(columnNames, start, end);
+
   /*
   Logger.log(
     "Extracted costs:",
@@ -43,6 +45,8 @@ function parseSheet() {
     }
 
     parseRow(data[i], start, end); // !! parseRow now returns rowData obj
+    // TODO: pass i into function that makes the
+    // order ticket to keep track of customer numbers
   }
 }
 
@@ -129,7 +133,7 @@ function parseRow(row, start, end) {
     }
   }
 
-  // let rowData = {name: row[NAME_COL], num: , qty: quantity,
+  // let rowData = {name: row[NAME_COL], qty: quantity,
   // order = menuItems, comment: row[row.length-1]};
   // comment can be empty
 
@@ -137,6 +141,22 @@ function parseRow(row, start, end) {
 
   // return rowData;
 }
+
+/**
+ * TODO:
+ * @param {*} columnNames, array of all the column names
+ * @param {*} start
+ * @param {*} end, inclusive indices where menu items are stored in columnNames
+ *
+ * Returns an array of all extracted Chinese names of the menu items,
+ * without the price and [description].
+ *
+ * Later, the indices to find these menu item names will be
+ * index of columnName - start
+ * to find the index of the extracted menu item name from this menuItems array
+ *
+ */
+function getItemNames(columnNames, start, end) {}
 
 /**
  * Creates a receipt page / PDF
