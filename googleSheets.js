@@ -1,5 +1,6 @@
 const START_ROW = 2;
 const START_COL = 2;
+const NAME_COL = 4;
 
 /*
 Returns: populate template with user order info
@@ -22,6 +23,7 @@ function parseSheet() {
   const costs = getCosts(columnNames);
   const { start, end } = getItemColumnIndexes(costs); // Meow lesson: destructuring
 
+  /*
   Logger.log(
     "Extracted costs:",
     // Pretty print json
@@ -31,15 +33,16 @@ function parseSheet() {
       2
     )
   );
+  */
 
-  Logger.log(`Columns with prices: ${start}-${end} (inclusive)`);
+  // Logger.log(`Columns with prices: ${start}-${end} (inclusive)`);
 
   for (let i = 0; i < data.length; i++) {
     if (!validRow(data[i])) {
       break;
     }
 
-    parseRow(data[i]); // !! parseRow now returns rowData obj
+    parseRow(data[i], start, end); // !! parseRow now returns rowData obj
   }
 }
 
@@ -108,18 +111,31 @@ function getItemColumnIndexes(costs) {
  *
  * Returns: a row object that will be passed into the template
  */
-function parseRow(row) {
+function parseRow(row, start, end) {
   // create recipt etc
 
-  // let rowData = {name: , num: , order = [], comment: };
-  // comment can be empty
+  // Logger.log("Parsing row:\n", row);
+  Logger.log("Name of customer: " + row[NAME_COL]);
 
-  // name is where column name is: 您的大名
-  Logger.log("Parsing row:\n", row);
+  let quantity = [];
+  let menuItems = [];
+
+  for (let i = start; i <= end; i++) {
+    if (row[i] === null) {
+      continue;
+    } else {
+      quantity.push(row[i]);
+      // TODO: get menu item name ): use index i
+    }
+  }
+
+  // let rowData = {name: row[NAME_COL], num: , qty: quantity,
+  // order = menuItems, comment: row[row.length-1]};
+  // comment can be empty
 
   // TODO: write/call function that gets total cost dynamically
 
-  return rowData;
+  // return rowData;
 }
 
 /**

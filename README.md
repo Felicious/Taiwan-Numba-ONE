@@ -40,6 +40,18 @@ In order to run the [Google Apps Script](https://script.google.com), a Google to
    5. Optional: Invite user to [Google Calendar event](https://developers.google.com/apps-script/quickstart/forms "The useful how-to")?
    - This would be cool to implement, but it would require Kevin-叔叔 to indicate the pick-up time somewhere
 
+## Assumptions about User Inputs
+
+In order for this script to work, it assumes that the user will input data into the form a specific way. If the user fails to do so, _script may break_.
+
+1. Customer name is found on the 5th column (labeled "E", with the index 4 for programmers) of the Google Sheet
+2. The first column and row are used as names for each respective part.
+3. Comments are saved as the final data element of the Google Sheet.
+4. Food items are listed with the following naming scheme:
+   `$price item_name [description]`
+   Only _item name_ will be listed with the quantity on the Order Ticket
+5.
+
 ## Testing
 
 ## Author
