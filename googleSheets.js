@@ -156,7 +156,9 @@ function parseRow(row, start, end) {
  * to find the index of the extracted menu item name from this menuItems array
  *
  */
-function getItemNames(columnNames, start, end) {}
+function getItemNames(columnNames, start, end) {
+  // skip the $num, omit the [description]
+}
 
 /**
  * Creates a receipt page / PDF
