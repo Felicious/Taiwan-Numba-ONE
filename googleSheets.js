@@ -20,10 +20,8 @@ function parseSheet() {
   // Gets range with data present - https://developers.google.com/apps-script/reference/spreadsheet/sheet#getdatarange
   const [columnNames, ...data] = sheet.getDataRange().getValues();
 
-  const costs = getCosts(columnNames);
-  const { start, end } = getItemColumnIndexes(costs); // Meow lesson: destructuring
-
-  const menuItems = getItemNames(columnNames, start, end);
+  const menuItems = extractPriceInfo(columnNames);
+  const { start, end } = getItemColumnIndexes(menuItems); // Meow lesson: destructuring
 
   /*
   Logger.log(
@@ -62,43 +60,51 @@ function validRow(row) {
 }
 
 /**
- * gets costs from column names
+ * gets costs, name of item, description from column names.
  *
  * NOTE: Column names MUST have a $cost in name (no space between $ and cost)
- * example: "item name $14"
+ * example: "$11 Taiwan sausage [very yummy]"
  *
  * returns array of objects:
- * {name: "column name", cost: "found cost"}
+ * {name: "found item name", cost: "found cost",
+ *  detail: "found description"}
+ *
+ * Only returns complete obj of menu items; if not in req. format,
+ * the column does not describe a menu item
  *
  * @param columnNames array of column names
  */
-function getCosts(columnNames) {
-  // Find values in column name with $number,
+function extractPriceInfo(columnNames) {
+  // Find values in column name with the above described format
   return columnNames.map(col => {
-    const matches = col.match(/\$(?<cost>\d+)/);
+    const matches = col.match(/\$(?<cost>\d+)(?<item>[^\[]*)\[(?<des>[^\[]+)]/); // key info stored in 3 capture grps
 
-    // No matches and no matching groups cost
+    // No matches and no matching groups cost -> not menu item
     if (!matches || !matches.groups || !matches.groups.cost) {
       Logger.log("WARN: cost not found in:", col);
-      return { name: col, cost: null };
+      return { name: col, cost: null, des: null };
     }
 
-    return { name: col, cost: matches.groups.cost };
+    return {
+      name: matches.groups.item,
+      cost: matches.groups.cost,
+      detail: matches.groups.des
+    };
   });
 }
 
 /**
  * Gets the start and end (inclusive) indices for columns for item quantities
  *
- * @param costs array of getCosts
+ * @param menuItems array of extractPriceInfo
  */
-function getItemColumnIndexes(costs) {
-  const start = costs.findIndex(e => e.cost !== null);
+function getItemColumnIndexes(menuItems) {
+  const start = menuItems.findIndex(e => e.menuItems !== null);
   let end;
 
   // Iterate from start to find first with null
-  for (let i = start; start < costs.length; i++) {
-    if (costs[i].cost === null) {
+  for (let i = start; start < menuItems.length; i++) {
+    if (menuItems[i].cost === null) {
       // Break before setting `end` since we want previous loop index (not current)
       break;
     }
@@ -140,24 +146,6 @@ function parseRow(row, start, end) {
   // TODO: write/call function that gets total cost dynamically
 
   // return rowData;
-}
-
-/**
- * TODO:
- * @param {*} columnNames, array of all the column names
- * @param {*} start
- * @param {*} end, inclusive indices where menu items are stored in columnNames
- *
- * Returns an array of all extracted Chinese names of the menu items,
- * without the price and [description].
- *
- * Later, the indices to find these menu item names will be
- * index of columnName - start
- * to find the index of the extracted menu item name from this menuItems array
- *
- */
-function getItemNames(columnNames, start, end) {
-  // skip the $num, omit the [description]
 }
 
 /**

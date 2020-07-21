@@ -8,6 +8,20 @@ Then use a loop
 
 `for (i in data) {`
 
+### Destructuring
+
+Learning coding from Meow~ The following are lines of code Meowmeow wrote for me, and he used the concept of destructuring a 2D array to make the array a little more read-able.
+
+`const [columnNames, ...data] = getGoogleSheetInfo();`
+
+The concept of [head, ... tail], declaring an array in this fashion names the first index (in our ex, it's an arr of all column names) of the large array is named columnNames, and the rest of the arr elements are left alone.
+
+`const { start, end } = getItemColumnIndexes(menuItems);`
+
+The function getItemColumnIndexes() returns an object with two properties, and the declaration on the left saves the values returned in the obj properties as two separate variables. This is essentially a short version of:
+
+`const object = getItemColumnIndexes(menuItems); const start = object.start; const end = object.end;`
+
 ### Regular Expressions
 
 These are extremely useful to find patterns in words. To extract the price from the name and description of Chinese menu items, Derrick used [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) to find the pattern of a dollar sign directly followed by a number (no space!) `$price`
