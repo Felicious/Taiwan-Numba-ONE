@@ -57,3 +57,9 @@ _Concepts required to understand regex_
    1. I tried to "exclude" \$price and [description] from `$price name [description]` using (incorrectly):
       - `(?:\$\d+)` which excludes price, and
       - `(?:\[\])` which didn't even exclude the brackets [ ], not to mention what's inside the brackets
+      - Typically, Derrick advises not to "exclude" expressions. Instead, group what you want to keep in [capture groups](https://javascript.info/regexp-groups), and try to write out the format of the expression (see #3 for more details)
+   2. Incorrectly placed the `^` to capture "all characters except [" outside the brackets
+      - Correct way: `[^\[]`
+      - Wrong way: `^[\[]`
+   3. Ignore the dollar sign by writing out the dollar sign, but only saving the dollar value in cost
+      - `\$(?<cost>\d+)`
