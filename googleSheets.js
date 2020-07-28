@@ -1,6 +1,10 @@
 const START_ROW = 2;
 const START_COL = 2;
 const NAME_COL = 4;
+let parsedColumns;
+let custNo = 1;
+
+// TODO: add calendar data obj for pick-up date
 
 /**
  * Iterates over spreadsheet rows
@@ -10,9 +14,15 @@ function parseSheet() {
   // Gets range with data present - https://developers.google.com/apps-script/reference/spreadsheet/sheet#getdatarange
   const [columnNames, ...data] = sheet.getDataRange().getValues();
 
-  const menuItems = extractPriceInfo(columnNames);
-  Logger.log("Priced menu items: "+ menuItems);
-  const { start, end } = getItemColumnIndexes(menuItems); // Meow lesson: destructuring
+  parsedColumns = extractPriceInfo(columnNames);
+
+  /* Testing extractPriceInfo func
+  for (let i = 0 ; i < parsedColumns.length; i++){
+    Logger.log(`Priced items: ${parsedColumns[i].name}, cost: ${parsedColumns[i].cost},
+      description: ${parsedColumns[i].detail}`);
+  }
+  */
+  const { start, end } = getItemColumnIndexes(parsedColumns); // Meow lesson: destructuring
 
   /*
   Logger.log(
@@ -87,15 +97,15 @@ function extractPriceInfo(columnNames) {
 /**
  * Gets the start and end (inclusive) indices for columns for item quantities
  *
- * @param menuItems array of extractPriceInfo
+ * @param parsedColumns array of extractPriceInfo
  */
-function getItemColumnIndexes(menuItems) {
-  const start = menuItems.findIndex(e => e.menuItems !== null);
+function getItemColumnIndexes(parsedColumns) {
+  const start = parsedColumns.findIndex(e => e.parsedColumns !== null);
   let end;
 
   // Iterate from start to find first with null
-  for (let i = start; start < menuItems.length; i++) {
-    if (menuItems[i].cost === null) {
+  for (let i = start; start < parsedColumns.length; i++) {
+    if (parsedColumns[i].cost === null) {
       // Break before setting `end` since we want previous loop index (not current)
       break;
     }
@@ -109,37 +119,49 @@ function getItemColumnIndexes(menuItems) {
 
 /**
  * Process row data
+ * @param: start, end inclusive indices of col with menuItems
  *
- * Returns: a row object that will be passed into the template
+ * Returns: a row obj {custName: customer name, custNo: unique # for current batch,
+ *    order: arr of {menuItem, qty} that contains name of menu item paired w/ qty,
+ *    comment: additional specifications from customer abt order}
+ *
+ * Will be passed into the template
  */
 function parseRow(row, start, end) {
   // create recipt etc
 
-  // Logger.log("Parsing row:\n", row);
   Logger.log("Name of customer: " + row[NAME_COL]);
 
   // order: {menuItem, quantity}
   let order = [];
 
+  // iterates through the cols with menuItems
   for (let i = start; i <= end; i++) {
     if (row[i] === null) {
       continue;
     } else {
       // add to array of orders
       // helpp
-      order.push({menuItems[i], row[i]});
-      quantity.push(row[i]);
-      // TODO: get menu item name ): use index i
+      order.push({ menuItem: parsedColumns[i], qty: row[i] });
     }
   }
 
-  // let rowData = {custName: row[NAME_COL], custNo: ?
+  Logger.log("Comment: " + row[row.length - 1]);
+
+  // let rowData = {custName: row[NAME_COL], custNo: custNo
   // order: {menuItem, qty}, comment: row[row.length-1]};
   // comment can be empty
 
+  custNo += 1;
+
   // TODO: write/call function that gets total cost dynamically
 
-  // return rowData;
+  return {
+    custName: row[NAME_COL],
+    custNo: custNo,
+    order: order,
+    comment: row[row.length - 1]
+  };
 }
 
 /**
