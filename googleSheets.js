@@ -2,16 +2,6 @@ const START_ROW = 2;
 const START_COL = 2;
 const NAME_COL = 4;
 
-/*
-Returns: populate template with user order info
-*/
-function fillOrderTemplate() {
-  const sheet = SpreadsheetApp.getActiveSheet();
-  const lrIndex = sheet.getLastRow();
-
-  Logger.log("Last row: " + lrIndex);
-}
-
 /**
  * Iterates over spreadsheet rows
  */
@@ -21,6 +11,7 @@ function parseSheet() {
   const [columnNames, ...data] = sheet.getDataRange().getValues();
 
   const menuItems = extractPriceInfo(columnNames);
+  Logger.log("Priced menu items: "+ menuItems);
   const { start, end } = getItemColumnIndexes(menuItems); // Meow lesson: destructuring
 
   /*
@@ -127,20 +118,23 @@ function parseRow(row, start, end) {
   // Logger.log("Parsing row:\n", row);
   Logger.log("Name of customer: " + row[NAME_COL]);
 
-  let quantity = [];
-  let menuItems = [];
+  // order: {menuItem, quantity}
+  let order = [];
 
   for (let i = start; i <= end; i++) {
     if (row[i] === null) {
       continue;
     } else {
+      // add to array of orders
+      // helpp
+      order.push({menuItems[i], row[i]});
       quantity.push(row[i]);
       // TODO: get menu item name ): use index i
     }
   }
 
-  // let rowData = {name: row[NAME_COL], qty: quantity,
-  // order = menuItems, comment: row[row.length-1]};
+  // let rowData = {custName: row[NAME_COL], custNo: ?
+  // order: {menuItem, qty}, comment: row[row.length-1]};
   // comment can be empty
 
   // TODO: write/call function that gets total cost dynamically
