@@ -9,14 +9,22 @@
   </head>
 
   <body>
-    <? let data =  ?>
     <h1>Customer Name</h1>
 
-    <p>Cust no.</p>
+    <p id="p1">Cust no.</p>
     <hr />
 
-    <p>Quantity (tab) Order name</p>
+    <div id="orders"></div>
 
-    <p>Customer specifications/comments</p>
+    <p id="comments">Comments:</p>
+
+    <? let data =  parseSheet(); ?>
+    <? for (let i = 0; i < data.length; i++){ ?>
+    <? replaceName(data[i].custName, data[i].custNo); ?>
+    <? curateOrders(data[i].order); ?>
+    <? addComment(data[i].comment); ?>
+
+    <? } ?>
+    <? } ?>
   </body>
 </html>

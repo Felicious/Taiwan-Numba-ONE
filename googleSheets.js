@@ -1,8 +1,8 @@
 const START_ROW = 2;
 const START_COL = 2;
 const NAME_COL = 4;
-let parsedColumns;
-let custNo = 1;
+
+let custNo = 0;
 
 // TODO: add calendar data obj for pick-up date
 
@@ -14,15 +14,17 @@ function parseSheet() {
   // Gets range with data present - https://developers.google.com/apps-script/reference/spreadsheet/sheet#getdatarange
   const [columnNames, ...data] = sheet.getDataRange().getValues();
 
-  parsedColumns = extractPriceInfo(columnNames);
+  const parsedColNames = extractPriceInfo(columnNames);
 
   /* Testing extractPriceInfo func
-  for (let i = 0 ; i < parsedColumns.length; i++){
-    Logger.log(`Priced items: ${parsedColumns[i].name}, cost: ${parsedColumns[i].cost},
-      description: ${parsedColumns[i].detail}`);
+  for (let i = 0 ; i < parsedColNames.length; i++){
+    Logger.log(`Priced items: ${parsedColNames[i].name}, cost: ${parsedColNames[i].cost},
+      description: ${parsedColNames[i].detail}`);
   }
   */
-  const { start, end } = getItemColumnIndexes(parsedColumns); // Meow lesson: destructuring
+  const { start, end } = getItemColumnIndexes(parsedColNames); // Meow lesson: destructuring
+
+  // Logger.log(`Columns with prices: ${start}-${end} (inclusive)`);
 
   /*
   Logger.log(
@@ -36,17 +38,16 @@ function parseSheet() {
   );
   */
 
-  // Logger.log(`Columns with prices: ${start}-${end} (inclusive)`);
-
+  let rowData = [];
   for (let i = 0; i < data.length; i++) {
     if (!validRow(data[i])) {
       break;
     }
 
-    parseRow(data[i], start, end); // !! parseRow now returns rowData obj
-    // TODO: pass i into function that makes the
-    // order ticket to keep track of customer numbers
+    rowData.push(parseRow(parsedColNames, data[i], start, end)); // !! parseRow now returns rowData obj
   }
+
+  return rowData;
 }
 
 /**
@@ -97,15 +98,15 @@ function extractPriceInfo(columnNames) {
 /**
  * Gets the start and end (inclusive) indices for columns for item quantities
  *
- * @param parsedColumns array of extractPriceInfo
+ * @param parsedColNames array of extractPriceInfo
  */
-function getItemColumnIndexes(parsedColumns) {
-  const start = parsedColumns.findIndex(e => e.parsedColumns !== null);
+function getItemColumnIndexes(parsedColNames) {
+  const start = parsedColNames.findIndex(e => e.parsedColNames !== null);
   let end;
 
   // Iterate from start to find first with null
-  for (let i = start; start < parsedColumns.length; i++) {
-    if (parsedColumns[i].cost === null) {
+  for (let i = start; start < parsedColNames.length; i++) {
+    if (parsedColNames[i].cost === null) {
       // Break before setting `end` since we want previous loop index (not current)
       break;
     }
@@ -119,7 +120,10 @@ function getItemColumnIndexes(parsedColumns) {
 
 /**
  * Process row data
- * @param: start, end inclusive indices of col with menuItems
+ * @param: parsedColNames -> column names w/ the text, cost, etc organized in an obj
+ *    start, end inclusive indices of col with menuItems
+ *    row: the row data on the sheet
+ *    row[i] refers to col i of the row passed into this func
  *
  * Returns: a row obj {custName: customer name, custNo: unique # for current batch,
  *    order: arr of {menuItem, qty} that contains name of menu item paired w/ qty,
@@ -127,7 +131,7 @@ function getItemColumnIndexes(parsedColumns) {
  *
  * Will be passed into the template
  */
-function parseRow(row, start, end) {
+function parseRow(parsedColNames, row, start, end) {
   // create recipt etc
 
   Logger.log("Name of customer: " + row[NAME_COL]);
@@ -142,7 +146,7 @@ function parseRow(row, start, end) {
     } else {
       // add to array of orders
       // helpp
-      order.push({ menuItem: parsedColumns[i], qty: row[i] });
+      order.push({ menuItem: parsedColNames[i], qty: row[i] });
     }
   }
 
@@ -162,6 +166,55 @@ function parseRow(row, start, end) {
     order: order,
     comment: row[row.length - 1]
   };
+}
+
+function replaceName(name, num) {
+  document.getElementsByTagName("h1").innerHTML = name;
+  document.getElementById("p1").innerHTML = num;
+}
+/**
+ *
+ * returns paragraph-type HTML element for text
+ */
+function insertItem(item, qty) {
+  // want: <p><span class ="item-qty">1</span><span class = "item-name">name</span></p>
+  const para = document.createElement("P");
+  const qtySpan = document.createElement("SPAN");
+  qtySpan.className = "item-qty";
+  qtySpan.innerHTML = qty;
+  para.appendChild(qtySpan);
+
+  const itemSpan = document.createElement("SPAN");
+  itemSpan.className = "item-name";
+  itemSpan.innerHTML = item;
+  para.appendChild(itemSpan);
+
+  return para;
+}
+
+/**
+ *
+ * @param orders: array of obj {menuItem, qty}
+ */
+function curateOrders(orders) {
+  const parent = document.getElementById("orders");
+
+  for (let i = 0; i < orders.length; i++) {
+    parent.appendChild(insertItem(orders[i].menuItem, orders[i].qty));
+  }
+}
+
+function addComment(comment) {
+  const para = document.getElementById("comments");
+  if (comment === null) {
+    para.parentNode.removeChild(para);
+  } else {
+    const addInfo = document.createTextNode(comment);
+    const pElement = document.createElement("P");
+    pElement.appendChild(addInfo);
+
+    para.appendChild(pElement);
+  }
 }
 
 /**
