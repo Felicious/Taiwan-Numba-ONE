@@ -18,8 +18,7 @@ function parseSheet() {
 
   /* Testing extractPriceInfo func
   for (let i = 0 ; i < parsedColNames.length; i++){
-    Logger.log(`Priced items: ${parsedColNames[i].name}, cost: ${parsedColNames[i].cost},
-      description: ${parsedColNames[i].detail}`);
+    Logger.log(`Priced items: ${parsedColNames[i].name}, cost: ${parsedColNames[i].cost}`);
   }
   */
   const { start, end } = getItemColumnIndexes(parsedColNames); // Meow lesson: destructuring
@@ -62,14 +61,13 @@ function validRow(row) {
 }
 
 /**
- * gets costs, name of item, description from column names.
+ * gets costs, name of item from column names.
  *
  * NOTE: Column names MUST have a $cost in name (no space between $ and cost)
  * example: "$11 Taiwan sausage [very yummy]"
  *
  * returns array of objects:
- * {name: "found item name", cost: "found cost",
- *  detail: "found description"}
+ * {name: "found item name", cost: "found cost"}
  *
  * Only returns complete obj of menu items; if not in req. format,
  * the column does not describe a menu item
@@ -79,18 +77,17 @@ function validRow(row) {
 function extractPriceInfo(columnNames) {
   // Find values in column name with the above described format
   return columnNames.map(col => {
-    const matches = col.match(/\$(?<cost>\d+)(?<item>[^\[]*)\[(?<des>[^\[]+)]/); // key info stored in 3 capture grps
+    const matches = col.match(/(?<item>[^\[]*)\$(?<cost>\d+)/); // key info stored in 3 capture grps
 
     // No matches and no matching groups cost -> not menu item
     if (!matches || !matches.groups || !matches.groups.cost) {
       Logger.log("WARN: cost not found in:", col);
-      return { name: col, cost: null, des: null };
+      return { name: col, cost: null };
     }
 
     return {
       name: matches.groups.item,
-      cost: matches.groups.cost,
-      detail: matches.groups.des
+      cost: matches.groups.cost
     };
   });
 }
