@@ -70,3 +70,15 @@ _Concepts required to understand regex_
       - Wrong way: `^[\[]`
    3. Ignore the dollar sign by writing out the dollar sign, but only saving the dollar value in cost
       - `\$(?<cost>\d+)`
+
+## Reading/Writing to Google Sheets
+
+Basic things are to determine
+
+1. which cells you'll write to
+   - Use `sh.getRange(start, end)` for a row
+2. Update them
+   - A single cell, use
+     `const cell = sheet.getRange(1,1); cell.setValue(2);`
+   - Use `sh.updateValues(spreadsheetId, range, valueInputOption, _values)` for multiple rows and columns
+   - [Documentation](https://github.com/gsuitedevs/apps-script-samples/blob/master/sheets/api/spreadsheet_snippets.gs)

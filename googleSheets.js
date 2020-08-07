@@ -1,5 +1,3 @@
-const START_ROW = 2;
-const START_COL = 2;
 const NAME_COL = 4;
 
 let custNo = 0;
@@ -12,7 +10,23 @@ let custNo = 0;
 function parseSheet() {
   const sheet = SpreadsheetApp.getActiveSheet();
   // Gets range with data present - https://developers.google.com/apps-script/reference/spreadsheet/sheet#getdatarange
-  const [columnNames, ...data] = sheet.getDataRange().getValues();
+  let [columnNames, ...data] = sheet.getDataRange().getValues();
+
+  // add new columns if not there
+  if (columnNames[0] != "Sent to Print") {
+    if (columnName[0] == "Timestamp") {
+      const cell = sheet.getRange(1, 1);
+      cell.setValue("Total");
+    }
+    if (columnNames[0] == "Total") {
+      sheet.insertColumnBefore(1); // why does Sheets start indexing at 1???
+      const cell = sheet.getRange(1, 1);
+      cell.setValue("Sent to Print");
+    }
+  }
+
+  //update values
+  [columnNames, ...data] = sheet.getDataRange().getValues();
 
   const parsedColNames = extractPriceInfo(columnNames);
 
@@ -166,7 +180,7 @@ function parseRow(parsedColNames, row, start, end) {
 }
 
 function replaceName(name, num) {
-  document.getElementsByTagName("h1").innerHTML = name;
+  document.getElementsByTagName("h1")[0].innerHTML = name;
   document.getElementById("p1").innerHTML = num;
 }
 /**
