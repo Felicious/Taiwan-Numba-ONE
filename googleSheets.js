@@ -180,7 +180,7 @@ function parseRow(parsedColNames, row, start, end) {
 }
 
 function replaceName(name, num) {
-  document.getElementsByTagName("h1")[0].innerHTML = name;
+  document.getElementsByTagName("h1").innerHTML = name;
   document.getElementById("p1").innerHTML = num;
 }
 /**

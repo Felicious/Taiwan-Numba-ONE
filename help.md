@@ -82,3 +82,21 @@ Basic things are to determine
      `const cell = sheet.getRange(1,1); cell.setValue(2);`
    - Use `sh.updateValues(spreadsheetId, range, valueInputOption, _values)` for multiple rows and columns
    - [Documentation](https://github.com/gsuitedevs/apps-script-samples/blob/master/sheets/api/spreadsheet_snippets.gs)
+
+# Why I can't use Document methods
+
+What I've been working with until now has been Javascript on the browser side, while Apps Script runs on Google's servers, so I will have to be dealing with server-side Javascript for this project. Hurray.
+The following are explanations from my love, Derricku!
+Regular web pages in the browser, which is the only time where there's actually a document. Browsers load HTML, which then loads js. Compared to servers, they execute js without any HTML involved, which is why there isn't a document, or DOM.
+
+This is why the HTML template doesn't know what a document is, because it's just strings within a server js script. Also, it's kind of an external thing compared to the apps script, you evaluate the HTML template from apps script, which is
+
+server js -> evaluates template via inline scriplets -> HTML string
+
+there isn't any HTML involved until the end, which isn't an actual document but rather a string.
+
+vs the browser is
+
+HTML string -> parsed and evaluated in browser -> JS is loaded and evaluated, with access to the DOM
+
+HTML loads the JS as compared to apps script which is JS generating a HTML string
