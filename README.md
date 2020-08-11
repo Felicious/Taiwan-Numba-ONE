@@ -25,19 +25,20 @@ In order to run the [Google Apps Script](https://script.google.com), a Google to
 
 ## Behavior
 
-1. Customer Google Form Submit runs ticket generating script
-2. Google Apps Script
+1. Create a UI for user to select un-processed receipts for a print job
+2. Customer Google Form Submit runs ticket generating script
+3. Google Apps Script
    1. Gather user input
       - Google Forms
       - [Google Sheets](https://developers.google.com/apps-script/guides/sheets#reading_data)
    2. Create printout based on [HTML template](https://developers.google.com/apps-script/guides/html/templates "Google HTML services doc")
    - Script will parse + save Customer order + info as an object
    - Object passed to HTML template. [See example here](https://developers.google.com/apps-script/guides/html/templates#calling_apps_script_functions_from_a_template)
-   3. Send completed ticket to email to print - (not exactly related) [Send email from spreadsheet]{https://developers.google.com/apps-script/articles/sending_emails} - Email code i found somewhere:
+   1. Send completed ticket to email to print - (not exactly related) [Send email from spreadsheet]{https://developers.google.com/apps-script/articles/sending_emails} - Email code i found somewhere:
       `// Email a link to the Doc as well as a PDF copy. MailApp.sendEmail({ to: user.email, subject: doc.getName(), body: 'Thanks for registering! Here\'s your itinerary: ' + doc.getUrl(), attachments: doc.getAs(MimeType.PDF) });`
       - Note: sorry, Kevin-叔叔, your email will get bombarded
-   4. Mark entry on Google Sheet as checked for "Sent to print"
-   5. Optional: Invite user to [Google Calendar event](https://developers.google.com/apps-script/quickstart/forms "The useful how-to")?
+   2. Mark entry on Google Sheet as checked for "Sent to print"
+   3. Optional: Invite user to [Google Calendar event](https://developers.google.com/apps-script/quickstart/forms "The useful how-to")?
    - This would be cool to implement, but it would require Kevin-叔叔 to indicate the pick-up time somewhere
 
 ## Assumptions about User Inputs

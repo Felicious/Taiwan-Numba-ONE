@@ -100,3 +100,51 @@ vs the browser is
 HTML string -> parsed and evaluated in browser -> JS is loaded and evaluated, with access to the DOM
 
 HTML loads the JS as compared to apps script which is JS generating a HTML string
+
+For an incredibly useful guide on HTML templating with Google Apps Script that I followed, please look at [Emily's github](https://github.com/emilyb7/HTML-templating-with-Google-Apps-Script)
+
+# Middle of the Project Complete Overhaul
+
+Originally, I approached this project like this:
+
+1. User (Kevin-susu) runs my script
+2. Script reads spreadsheet -> returns data
+3. Take the data -> script generates html page from data -> returns html receipt
+4. html -> script opens a page with the generated html
+5. User downloads page
+
+This was a script running on the server, where the script is run when the user runs the script through the spreadsheet menu.
+
+Derrick explains that in step 3-4, once you have some html in your script, you can't just throw it at the user; the user has to explicitly open the page with the generated html. However, since you cannot simply pass the html to the user through data urls due to browswer security issues, there's no way to get the user to open the page.
+
+Thus, the only working option is to have the user open a link to the scrip which is independent of the previous logic in steps 1-3.
+
+The revised logical steps are:
+
+1. User opens script web app [standalone scripts](https://developers.google.com/apps-script/guides/standalone)
+2. script reads spreadsheet -> data
+3. data -> script generates html page from data -> html
+4. html -> served to user
+5. user downloads page
+
+Compared to the script running on the server before, this will be web app, which is run when the user loads the script url in their browser. The script then runs the logic on the server, and responds to the browser request with data.
+
+click run -> script exec
+
+vs
+
+browser request -> script run -> script responds with data to browser
+
+"So how you can think of it is like how a c++ program when you execute it, it runs the main() function. so when a user runs a script via the spreadsheet, it runs main(), but when a user runs the script via the web app, it runs doGet() instead.
+
+they're independent from each other."
+
+"you're writing a web app now, which means the function doGet(e) executed when the the browser sends a request to your script
+
+so in order to run the function you send the app an http get request
+
+which is just loading the script in your browser
+doGet() is run on the server
+I request a meowmeow pic, you doGet() which returns a meowmeow, and you respond with a pic
+you're the server, I'm client
+I just ask you for something, you do the thing, doGet(), and respond with the result
