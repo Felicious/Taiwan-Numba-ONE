@@ -13,7 +13,75 @@ function parseSheet() {
   }
 
   const [columnNames, ...data] = sheet.getDataRange().getValues();
+
+  const parsedColNames = extractPriceInfo(columnNames);
+  const { start, end } = getItemColumnIndexes(parsedColNames); // Meow lesson: destructuring
+
+  // create row data for unprinted receipts
+
+  // find first range of "null"s in col "A1".
+  const { aStart, aEnd } = findUnprintedRange(data);
 }
+
+/**
+ * gets costs, name of item from column names.
+ *
+ * NOTE: Column names MUST have a $cost in name (no space between $ and cost)
+ * example: "$11 Taiwan sausage [very yummy]"
+ *
+ * returns array of objects:
+ * {name: "found item name", cost: "found cost"}
+ *
+ * Only returns complete obj of menu items; if not in req. format,
+ * the column does not describe a menu item
+ *
+ * @param columnNames array of column names
+ */
+function extractPriceInfo(columnNames) {
+  // Find values in column name with the above described format
+  return columnNames.map(col => {
+    const matches = col.match(/(?<item>[^\[]*)\$(?<cost>\d+)/); // key info stored in 3 capture grps
+
+    // No matches and no matching groups cost -> not menu item
+    if (!matches || !matches.groups || !matches.groups.cost) {
+      Logger.log("WARN: cost not found in:", col);
+      return { name: col, cost: null };
+    }
+
+    return {
+      name: matches.groups.item,
+      cost: matches.groups.cost
+    };
+  });
+}
+
+/**
+ * Gets the start and end (inclusive) indices for columns for item quantities
+ *
+ * @param parsedColNames array of extractPriceInfo
+ */
+function getItemColumnIndexes(parsedColNames) {
+  const start = parsedColNames.findIndex(e => e.parsedColNames !== null);
+  let end;
+
+  // Iterate from start to find first with null
+  for (let i = start; start < parsedColNames.length; i++) {
+    if (parsedColNames[i].cost === null) {
+      // Break before setting `end` since we want previous loop index (not current)
+      break;
+    }
+
+    end = i;
+  }
+
+  // TODO: Handle if end isn't found
+  return { start, end };
+}
+
+function findUnprintedRange(data) {
+  const sheet = ss.getActiveSheet();
+}
+
 /**
  * Ensure that the first 2 columns are for our app purposes
  *
@@ -21,14 +89,10 @@ function parseSheet() {
  */
 function checkColumns(ss) {
   const sheet = ss.getActiveSheet();
-  if (
-    sheet.getRange("A1").getValue() == "Sent to Print" &&
-    sheet.getRange("B1").getValue() == "Total"
-  ) {
-    return true;
-  } else {
-    return false;
-  }
+  return (
+    sheet.getRange("A1").getValue() === "Sent to Print" &&
+    sheet.getRange("B1").getValue() === "Total"
+  );
 }
 /**
  * Add cols that will be used for data storage
