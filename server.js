@@ -6,7 +6,7 @@ function parseSheet() {
   );
   const sheet = ss.getActiveSheet();
 
-  if (!checkColumns(ss)) {
+  if (!checkColumns()) {
     // are the 1st 2 col modified?
     // no? modify it (:<
     addTrackerCols(sheet);
@@ -15,6 +15,16 @@ function parseSheet() {
   const [columnNames, ...data] = sheet.getDataRange().getValues();
 
   const parsedColNames = extractPriceInfo(columnNames);
+
+  /* Testing extractPriceInfo func
+  for (let i = 0 ; i < parsedColNames.length; i++){
+      if(parsedColNames[i].cost === "null"){
+        continue;
+       }
+       Logger.log(`Priced items: ${parsedColNames[i].name}, cost: ${parsedColNames[i].cost}`);
+  }
+  */
+
   const { start, end } = getItemColumnIndexes(parsedColNames); // Meow lesson: destructuring
 
   // create row data for unprinted receipts
@@ -78,25 +88,39 @@ function getItemColumnIndexes(parsedColNames) {
   return { start, end };
 }
 
+/**
+ * @param 2D array
+ *
+ * Return range of receipts that will be printed
+ */
 function findUnprintedRange(data) {
-  const sheet = ss.getActiveSheet();
+  const sheet = SpreadsheetApp.openById(
+    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
+  ).getActiveSheet();
+
+  // gets all val of first col, including empty cells
+  const cell = sheet.getRange("A2:A").getValues();
+  const start = 0;
+  for (const i = 1; i < cell.length; i++) {
+    if (cell[i] === "null") {
+    } else {
+      start = i;
+    }
+  }
 }
 
-/**
- * Ensure that the first 2 columns are for our app purposes
- *
- * @param ss is the active sheet
- */
-function checkColumns(ss) {
-  const sheet = ss.getActiveSheet();
+// Ensure that the first 2 columns are for our app purposes
+function checkColumns() {
+  const sheet = SpreadsheetApp.openById(
+    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
+  ).getActiveSheet();
   return (
     sheet.getRange("A1").getValue() === "Sent to Print" &&
     sheet.getRange("B1").getValue() === "Total"
   );
 }
-/**
- * Add cols that will be used for data storage
- */
+
+// Add cols that will be used for data storage
 function addTrackerCols(sheet) {
   sheet.insertColumnsBefore(1, 2);
   sheet.getRange("A1").setValue("Sent to Print");
