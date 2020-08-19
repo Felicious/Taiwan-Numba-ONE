@@ -92,6 +92,10 @@ function getItemColumnIndexes(parsedColNames) {
  * @param 2D array
  *
  * Return range of receipts that will be printed
+ *
+ * Logic: return the indices of the first chunk
+ * of rows that are "null" in the "Sent to Print"
+ * col
  */
 function findUnprintedRange(data) {
   const sheet = SpreadsheetApp.openById(
@@ -100,13 +104,42 @@ function findUnprintedRange(data) {
 
   // gets all val of first col, including empty cells
   const cell = sheet.getRange("A2:A").getValues();
-  const start = 0;
-  for (const i = 1; i < cell.length; i++) {
-    if (cell[i] === "null") {
+  let start = -1;
+  let end = 0;
+  for (const i = 0; i < cell.length; i++) {
+    if (!validRow(data[i])) {
+      break;
+    }
+    // im confused
+    if (cell[i] === "null" && start !== -1) {
+      end = i;
     } else {
-      start = i;
+      if (start === -1) {
+        // haven't begun counting the index
+        if (cell[i] !== "null") {
+          continue;
+        } else {
+          start = i; //find where to start
+        }
+      } else {
+        //now that you've found where to start,
+        // find the end (very first if statement)
+        // cell !== null case
+        break;
+      }
     }
   }
+}
+
+/**
+ * Checks if row is valid or not
+ *
+ * @param row
+ * @returns false if all columns are empty
+ */
+function validRow(row) {
+  // ["hi", "hello"]
+  return !row.every(e => !e);
 }
 
 // Ensure that the first 2 columns are for our app purposes
