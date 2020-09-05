@@ -106,29 +106,57 @@ function findUnprintedRange(data) {
   const cell = sheet.getRange("A2:A").getValues();
   let start = -1;
   let end = 0;
-  for (const i = 0; i < cell.length; i++) {
-    if (!validRow(data[i])) {
+
+  // TODO: refactor this
+
+  let i = 0;
+
+  // find first null cell
+  while (start == -1) {
+    if (!validRow(cell[i])) {
+      Logger.log("Insufficient data to print receipts.");
       break;
     }
-    // im confused
-    if (cell[i] === "null" && start !== -1) {
-      end = i;
-    } else {
-      if (start === -1) {
-        // haven't begun counting the index
-        if (cell[i] !== "null") {
-          continue;
-        } else {
-          start = i; //find where to start
-        }
-      } else {
-        //now that you've found where to start,
-        // find the end (very first if statement)
-        // cell !== null case
-        break;
-      }
+    /**TEST:
+     * Ran into unexpected issues because I added 2 blank cols into the row data to store total and print status
+     * validRow returns false when even one cell is empty (is this correct?)
+     * I'm kinda confused about how to read the code for validRow.
+     *
+     * !row.every(e => !e) ??
+     *
+     * When I take away either "!"" when i test the code in google apps script, I get an error saying that Google apps script doesnt recognize the key word "Every"
+     *
+     * I want to rewrite validRow where it would only return false when every cell in the row is empty. Unsure how to do so
+     *
+     * This is my logic:
+     * I THINK (e => !e) checks and returns true if the input is not empty, so every(e => !e) returns true if all cells have values
+     *
+     * I don't understand the additional "!"
+     *
+     * These are questions i shouldve asked u before, but I think it's because i figure it out one time, forget the next time, and get confused by the e, !e the following time.
+     *
+     * Sorry meow, you're unwell right now so i don't want to bother u with questions. Hope u feel better, love <3
+     */
+    if (cell[i] === null) {
+      start = i;
+      // this should cancel this while loop, right..? i dont need to write break;
     }
+    i += 1;
   }
+
+  // start where we left off
+  while (i < cell.length) {
+    if (!validRow(cell[i])) {
+      break;
+    }
+    if (cell[i] !== null) {
+      break;
+    } else {
+      end = i;
+    }
+    i += 1;
+  }
+  return { start, end };
 }
 
 /**
