@@ -164,10 +164,18 @@ function findUnprintedRange(data) {
  *
  * @param row
  * @returns false if all columns are empty
+ *          true if any column is filled
  */
 function validRow(row) {
   // ["hi", "hello"]
-  return !row.every(e => !e);
+
+  if (row.every(e => !e)) {
+    //.every() true if every row is empty
+    return false;
+  } else {
+    return true;
+  }
+  // cannot simply return !row.every() bc it would return false if ANY row is empty
 }
 
 // Ensure that the first 2 columns are for our app purposes
