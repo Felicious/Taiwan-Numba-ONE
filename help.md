@@ -1,3 +1,11 @@
+## Useful Functions
+
+### Google Sheets Built-ins
+
+1. sheet.getDataRange().getValues() -> get all the cols and rows from the sheet.
+   sheet is a variable assigned the value of the the Spreadsheet
+2. sheet.getRange(parameter) -> getting a specific column. Use "A1:A" to get the entire column of A, starting from row 1
+
 ## Retrieve Rows from Spreadsheet
 
 Easiest way to go through rows of data, from [StackOverflow](https://stackoverflow.com/questions/10518084/retrieve-rows-from-spreadsheet-data-using-google-app-script)

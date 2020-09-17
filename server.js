@@ -15,7 +15,6 @@ function parseSheet() {
   const [columnNames, ...data] = sheet.getDataRange().getValues();
 
   const parsedColNames = extractPriceInfo(columnNames);
-
   /* Testing extractPriceInfo func
   for (let i = 0 ; i < parsedColNames.length; i++){
       if(parsedColNames[i].cost === "null"){
@@ -89,86 +88,72 @@ function getItemColumnIndexes(parsedColNames) {
 }
 
 /**
- * @param 2D array
- *
- * Return range of receipts that will be printed
- *
- * Logic: return the indices of the first chunk
- * of rows that are "null" in the "Sent to Print"
- * col
+ * Print first chunk of receipts from the top of the sheet
+ * 
+ * (default function when running script?)
+ * 
+ * @param data : 2D array of arrays, where each array contains row data
  */
-function findUnprintedRange(data) {
-  const sheet = SpreadsheetApp.openById(
-    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-  ).getActiveSheet();
+function printBulk(data){
+    // parse every row to check 1) row is valid & 2)if data[i][0]-- this is the print col-- is null
+    //  if yes, print
+    // if no, have u started printing yet? (use start flag) if not, look for where to print
+    //                                     if yes, stop now
 
-  // gets all val of first col, including empty cells
-  const cell = sheet.getRange("A2:A").getValues();
-  let start = -1;
-  let end = 0;
+    const start = whereToStart();
+    // check if whereToStart() row is completely empty
 
-  // TODO: refactor this
-
-  let i = 0;
-
-  // find first null cell
-  while (start == -1) {
-    if (!validRow(cell[i])) {
-      Logger.log("Insufficient data to print receipts.");
-      break;
+    let printInfo = [];
+    
+    for (let i = start; i < data.length; i++){
+        if(validRow(data[i])){
+            // check "Sent to Print col"
+            if(data[i][0] == null){
+                printInfo.push(print(data[i]));
+                // fill in col
+                // TODO: look for built in function in Sheets Class that writes to a cell
+            }
+            else{
+                console.log(`Ended print at row ${i}`.);
+                break;
+            }
+        }else {
+            // row is empty
+            break;
+        }
     }
-    /**TEST:
-     * Ran into unexpected issues because I added 2 blank cols into the row data to store total and print status
-     * validRow returns false when even one cell is empty (is this correct?)
-     * I'm kinda confused about how to read the code for validRow.
-     *
-     * !row.every(e => !e) ??
-     *
-     * When I take away either "!"" when i test the code in google apps script, I get an error saying that Google apps script doesnt recognize the key word "Every"
-     *
-     * I want to rewrite validRow where it would only return false when every cell in the row is empty. Unsure how to do so
-     *
-     * This is my logic:
-     * I THINK (e => !e) checks and returns true if the input is not empty, so every(e => !e) returns true if all cells have values
-     *
-     * I don't understand the additional "!"
-     *
-     * These are questions i shouldve asked u before, but I think it's because i figure it out one time, forget the next time, and get confused by the e, !e the following time.
-     *
-     * Sorry meow, you're unwell right now so i don't want to bother u with questions. Hope u feel better, love <3
-     */
-    if (cell[i] === null) {
-      start = i;
-      // this should cancel this while loop, right..? i dont need to write break;
-    }
-    i += 1;
-  }
 
-  // start where we left off
-  while (i < cell.length) {
-    if (!validRow(cell[i])) {
-      break;
-    }
-    if (cell[i] !== null) {
-      break;
-    } else {
-      end = i;
-    }
-    i += 1;
-  }
-  return { start, end };
+}
+
+// generate html info
+function print(row){
+
+}
+
+// find the first row index where the first col is empty
+function whereToStart(){
+    const sheet = SpreadsheetApp.openById(
+        "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
+      ).getActiveSheet();
+    
+      // gets all val of first col, including empty cells
+      const cell = sheet.getRange("A2:A").getValues();
+
+      for(let i = 0; i < cell.length; i++){
+          if(cell[0] == null){
+            return index;
+          }
+      }
 }
 
 /**
- * Checks if row is valid or not
+ * Checks if row is all empty
  *
  * @param row
  * @returns false if all columns are empty
  *          true if any column is filled
  */
 function validRow(row) {
-  // ["hi", "hello"]
-
   if (row.every(e => !e)) {
     //.every() true if every row is empty
     return false;
