@@ -89,61 +89,60 @@ function getItemColumnIndexes(parsedColNames) {
 
 /**
  * Print first chunk of receipts from the top of the sheet
- * 
+ *
  * (default function when running script?)
- * 
+ *
  * @param data : 2D array of arrays, where each array contains row data
  */
-function printBulk(data){
-    // parse every row to check 1) row is valid & 2)if data[i][0]-- this is the print col-- is null
-    //  if yes, print
-    // if no, have u started printing yet? (use start flag) if not, look for where to print
-    //                                     if yes, stop now
+function printBulk(data) {
+  // parse every row to check 1) row is valid & 2)if data[i][0]-- this is the print col-- is null
+  //  if yes, print
+  // if no, have u started printing yet? (use start flag) if not, look for where to print
+  //                                     if yes, stop now
 
-    const start = whereToStart();
-    // check if whereToStart() row is completely empty
+  const start = whereToStart();
+  // check if whereToStart() row is completely empty
 
-    let printInfo = [];
-    
-    for (let i = start; i < data.length; i++){
-        if(validRow(data[i])){
-            // check "Sent to Print col"
-            if(data[i][0] == null){
-                printInfo.push(print(data[i]));
-                // fill in col
-                // TODO: look for built in function in Sheets Class that writes to a cell
-            }
-            else{
-                console.log(`Ended print at row ${i}`.);
-                break;
-            }
-        }else {
-            // row is empty
-            break;
-        }
+  let printInfo = [];
+
+  for (let i = start; i < data.length; i++) {
+    if (validRow(data[i])) {
+      // check "Sent to Print col"
+      if (data[i][0] == null) {
+        // printInfo.push(print(data[i]));
+        Logger.log(data[i][4]);
+        // fill in col
+        // TODO: look for built in function in Sheets Class that writes to a cell
+      } else {
+        Logger.log(`Ended print at row ${i}.`);
+        break;
+      }
+    } else {
+      // row is empty
+      break;
     }
-
+  }
 }
 
 // generate html info
-function print(row){
-
-}
+function print(row) {}
 
 // find the first row index where the first col is empty
-function whereToStart(){
-    const sheet = SpreadsheetApp.openById(
-        "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-      ).getActiveSheet();
-    
-      // gets all val of first col, including empty cells
-      const cell = sheet.getRange("A2:A").getValues();
+// ALERT! index returns undefined
+function whereToStart() {
+  const sheet = SpreadsheetApp.openById(
+    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
+  ).getActiveSheet();
 
-      for(let i = 0; i < cell.length; i++){
-          if(cell[0] == null){
-            return index;
-          }
-      }
+  // gets all val of first col, including empty cells
+  const cell = sheet.getRange("A2:A").getValues();
+
+  for (let i = 0; i < cell.length; i++) {
+    if (cell[i] === null) {
+      // always returns undefined ):
+      return i;
+    }
+  }
 }
 
 /**
