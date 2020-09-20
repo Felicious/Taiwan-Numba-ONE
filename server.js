@@ -108,13 +108,18 @@ function printBulk(data) {
   for (let i = start; i < data.length; i++) {
     if (validRow(data[i])) {
       // check "Sent to Print col"
-      if (data[i][0] == null) {
+      if (!data[i][0]) {
         // printInfo.push(print(data[i]));
-        Logger.log(data[i][4]);
         // fill in col
         // TODO: look for built in function in Sheets Class that writes to a cell
+        /**
+         * Writing: row = i + 2, col A
+         * Start at "A2" to "A11", for instance
+         */
+
+        writeSingleCell("A", 3 + 2, "yay");
       } else {
-        Logger.log(`Ended print at row ${i}.`);
+        console.log(`Ended print at row ${i}.`);
         break;
       }
     } else {
@@ -127,19 +132,51 @@ function printBulk(data) {
 // generate html info
 function print(row) {}
 
+function writeSingleCell(col, row, val) {
+  const sheet = SpreadsheetApp.openById(
+    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
+  ).getActiveSheet();
+
+  const range = col + toString(row);
+  sheet.getRange(range).setValue(val);
+
+  /*
+  This code doesn't work because it uses Advanced Google Services (https://developers.google.com/apps-script/guides/services/advanced),
+  the API, and to use it, it needs to be enabled
+  with some Cloud stuff and i dont wanna work on that right now.. 
+
+  console.log(`Writing ${val}`);
+  const rng = "Sheet1!" + col + row;
+  const request = {
+    valueInputOption: "USER_ENTERED",
+    data: [
+      {
+        range: rng,
+        values: val
+      }
+    ]
+  };
+
+  // second para is spreadsheetID
+  const response = Sheets.Spreadsheets.Values.update(
+    request,
+    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
+  );*/
+}
+
 // find the first row index where the first col is empty
 // ALERT! index returns undefined
 function whereToStart() {
   const sheet = SpreadsheetApp.openById(
     "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-  ).getActiveSheet();
+  );
 
   // gets all val of first col, including empty cells
   const cell = sheet.getRange("A2:A").getValues();
 
   for (let i = 0; i < cell.length; i++) {
-    if (cell[i] === null) {
-      // always returns undefined ):
+    if (!cell[i][0]) {
+      //falsy that is equivalent to if (cell[i][0] === "")
       return i;
     }
   }

@@ -156,3 +156,56 @@ doGet() is run on the server
 I request a meowmeow pic, you doGet() which returns a meowmeow, and you respond with a pic
 you're the server, I'm client
 I just ask you for something, you do the thing, doGet(), and respond with the result
+
+# The problem with Logger.log()
+
+Google Apps Script has its own print statement, Logger.log(), but it automatically formats the string outputs into arrays.
+
+I had this bug where I attempted to compare an empty cell to null, expecting the conditional to allow me to return the index of which the empty cell === null, but the function kept returning undefined after going through all of the empty cells.
+
+```
+function whereToStart() {
+  const sheet = SpreadsheetApp.openById(
+    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
+  ).getActiveSheet();
+
+  // gets all val of first col, including empty cells
+  const cell = sheet.getRange("A2:A").getValues();
+  /**
+   * cell is: [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+   */
+
+  for (let i = 0; i < cell.length; i++) {
+    Logger.log(cell[i]);
+    if (cell[i] === null) {
+      // always returns undefined ):
+      return i;
+    }
+  }
+}
+```
+
+`console.log()` still works on the Google Apps IDE,
+
+and while `Logger.log(cell[i]);` displays [], `console.log(cell[i])` displays ""!
+This means that Logger.log was misrepresenting my output, which confused me and caused my conditional to fail.
+
+I'll just use `console.log()` from now on.
+
+## falsey comparison
+
+_Definition_: any empty/null value considered false like 0, null, undefined (From [Mozilla](https://developer.mozilla.org/en-US/docs/Glossary/Falsy))
+
+Referring the bug above, the if statement is fundamentally incorrect because `if ([""] === "")` is comparing an array to a string, which is incorrect.
+
+- Since the first element of the array [""] is the empty string, I need to do the following instead.
+
+```
+`if(data[0][i] === "")`
+```
+
+- Alternatively, Derrick recommends `if(!cell[i][0])` since if cell[i] is an empty array [], cell[i][0] would return undefined, not ""
+  so just checking if it's falsey compares the following:
+  - if the first element string is empty
+  - if there is no first element since undefined is considered falsey
+  - This is equivalent to explicit checks like: `if (cell[i][0] === undefined || cell[i][0] === "")`
