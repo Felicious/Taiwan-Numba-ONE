@@ -209,3 +209,104 @@ Referring the bug above, the if statement is fundamentally incorrect because `if
   - if the first element string is empty
   - if there is no first element since undefined is considered falsey
   - This is equivalent to explicit checks like: `if (cell[i][0] === undefined || cell[i][0] === "")`
+
+# Server, Client-side
+
+APIs of the REST category and webpages use URLs to send or receive information from a web app or server. My lovely Derrick illustrates this exchange in the following example:
+
+> When a browser makes a request, a letter is sent to the server with information on it, maybe like a request for what I want.
+>
+> For example, I (browser) can send Felicia (server) a letter. The outside of the letter, represented by the URL parameters, contains basic information about the things I am requesting from the server like {"meowmeow":"mimi", "type":"video}
+
+Before moving on, I'd like to clarify that this is an example of an HTTP request from the browser to server requesting a Mimi video. Derrick would then expect a Mimi video served to him from the server in the form of a webpage?
+
+Continuing with the analogy Derrick provided earlier,
+
+> After receiving the contents of the request, the server processes the request with the function doGet(e). The parameter **e** is the information about the letter.
+>
+> Felicia, as the server, can read the letter, which has some requests for specific data regarding Mimi videos.
+>
+> There's two ways to send and receive information-- mostly with GET and POST
+>
+> GET: you can request parameters(? info), basically like writing stuff on the outside of the letter envelope, since it's on the outside, "anyone" who has passed the letter along can read it -- ie. browser will store that data in your history, shows up in logs, etc.
+>
+> POST: send an actual letter inside the envelope, which is the postData, or request body (the actual "content" of the request, as compared to request metadata in data requests) -- so since it's on the "inside" of the letter, the information is "safer" (assuming there's encryption), your browser won't save this information in the history
+
+### Example of an actual GET request
+
+There's an API endpoint @ /api/meowmeow which returns a picture of a meowmeow
+
+But how do I tell the server which meowmeow I want?
+
+I can tell the server some information:
+/api/meowmeow?name=mimi
+which becomes a json object / dictionary / map of {name: mimi}
+
+Another way to conceptualize all this is to think of the endpoint as a "function" and the URL parameters are the function parameters as an object
+
+/api/meowmeow?name=mimi
+
+function meowmeow(obj){ ... }
+
+meowmeow({"name": "mimi"})
+
+# References
+
+## Emily's Github
+
+She wrote a very informative guide + demo on [Github](https://github.com/emilyb7/HTML-templating-with-Google-Apps-Script) about how to use Apps Script for using HTML templates when building a web app.
+
+While referring to her source code, I noticed that Emily had an idiomatic way of writing Javascript that I definitely wanted to learn, since it looked way cleaner than my version. The following is what I learned from her.
+
+### Idiomatic Method of Getting Column Data
+
+The following method returns an array of the applicants' names from a column
+
+```
+function getApplicants() {
+  return devs.getRange(2, 1, devs.getLastRow() - 1)
+    .getValues()
+    .reduce(function (a, b) { // flatten array
+      return a.concat(b[0])
+  }, []);
+}
+```
+
+`getRange()` with three parameters returns a [specific column](https://developers.google.com/apps-script/reference/spreadsheet/sheet#getrangerow,-column,-numrows), and `getValues()` returns that column data as a 2D array.
+
+`.reduce()` has 2 parameters; first one is a function(a, b), and second parameter is the initial value we start with, and here it's an empty array [] that we will fill up with `function(a,b)`
+
+then for the function(a, b), the function is run for each value of the array
+
+and "a" is the return value of the previous iteration as an "accumulator"
+
+so essentially it's just combining all the first value in each "sub-array"
+
+it should be somewhat equivalent to this code
+
+const vals = devs.getRange(2, 1, devs.getLastRow() - 1)
+.getValues();
+
+let acc = []; // initial value for accumulator
+
+for (let i = 0; i < vals.length; i++) {
+acc.concat(vals[i][0])
+}
+
+return acc;
+
+since getvalues is a 2d array right
+so concat would be concatenating arrays. combining them
+
+reduce just converts an array into a single value, it could be like
+
+reduce to single number of the sum an array
+reduce to single number of the max of array
+
+or in this case, reduce to single array
+
+flatting a 2d array would be like
+
+[[1, 2], [3, 4, 5], [6, 7]]
+to
+[1,2,3,4,5,6,7]

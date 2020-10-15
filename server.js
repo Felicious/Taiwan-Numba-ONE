@@ -137,7 +137,7 @@ function writeSingleCell(col, row, val) {
     "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
   ).getActiveSheet();
 
-  const range = col + toString(row);
+  const range = col + row;
   sheet.getRange(range).setValue(val);
 
   /*
@@ -165,7 +165,6 @@ function writeSingleCell(col, row, val) {
 }
 
 // find the first row index where the first col is empty
-// ALERT! index returns undefined
 function whereToStart() {
   const sheet = SpreadsheetApp.openById(
     "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
@@ -215,4 +214,21 @@ function addTrackerCols(sheet) {
   sheet.insertColumnsBefore(1, 2);
   sheet.getRange("A1").setValue("Sent to Print");
   sheet.getRange("B1").setValue("Total");
+}
+
+/**
+ * @param e: request info
+ *
+ * a response to the client's HTTP Get request,
+ * where our server sends back the receipt in html script
+ *
+ */
+function doGet(e) {
+  console.log(`Handling the request for ${e.parameter}`);
+
+  // generate receipt from info stored in e, a JSON obj ie {"name": "alice", "n": "1"}
+  receipt = 
+  return HtmlService.createHtmlOutput
+  .createTemplateFromFile('template')
+  .evaluate();
 }
