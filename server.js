@@ -7,14 +7,14 @@ const sheet = ss.getActiveSheet();
 
 function parseSheet() {
   
-
   if (!checkColumns()) {
     // are the 1st 2 col modified?
     // no? modify it (:<
     addTrackerCols(sheet);
   }
 
-  const [columnNames, ...data] = sheet.getDataRange().getValues();
+  const [columnNames, ...data] = sheet.getRange(1, 1, sheet.getLastRow(), sheet.getLastColumn())
+    .getValues();
 
   const parsedColNames = extractPriceInfo(columnNames);
   /* Testing extractPriceInfo func
@@ -166,10 +166,13 @@ function writeSingleCell(col, row, val) {
 // find the first row index where the first col is empty
 function whereToStart() {
 
-  // gets all val of first col, including empty cells
-  const cell = sheet.getRange("A2:A").getValues();
+  // gets all val of first col, starting from row 2,
+  // NO cells from empty rows (:
+  const cell = sheet.getRange(2, 1, sheet.getLastRow()-1)
+    .getValues();
 
   for (let i = 0; i < cell.length; i++) {
+    // need [0] bc the value is stored at the first col of a 2D arr with i rows
     if (!cell[i][0]) {
       //falsy that is equivalent to if (cell[i][0] === "")
       return i;
