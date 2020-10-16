@@ -1,10 +1,12 @@
 const NAME_COL = 4;
 
+const ss = SpreadsheetApp.openById(
+  "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
+);
+const sheet = ss.getActiveSheet();
+
 function parseSheet() {
-  const ss = SpreadsheetApp.openById(
-    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-  );
-  const sheet = ss.getActiveSheet();
+  
 
   if (!checkColumns()) {
     // are the 1st 2 col modified?
@@ -133,9 +135,6 @@ function printBulk(data) {
 function print(row) {}
 
 function writeSingleCell(col, row, val) {
-  const sheet = SpreadsheetApp.openById(
-    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-  ).getActiveSheet();
 
   const range = col + row;
   sheet.getRange(range).setValue(val);
@@ -166,9 +165,6 @@ function writeSingleCell(col, row, val) {
 
 // find the first row index where the first col is empty
 function whereToStart() {
-  const sheet = SpreadsheetApp.openById(
-    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-  );
 
   // gets all val of first col, including empty cells
   const cell = sheet.getRange("A2:A").getValues();
@@ -200,9 +196,6 @@ function validRow(row) {
 
 // Ensure that the first 2 columns are for our app purposes
 function checkColumns() {
-  const sheet = SpreadsheetApp.openById(
-    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-  ).getActiveSheet();
   return (
     sheet.getRange("A1").getValue() === "Sent to Print" &&
     sheet.getRange("B1").getValue() === "Total"
