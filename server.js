@@ -8,15 +8,18 @@ const sheet = ss.getActiveSheet();
 function parseSheet() {
   
   if (!checkColumns()) {
-    // are the 1st 2 col modified?
-    // no? modify it (:<
+    // add init tracker cols if they don't exist
     addTrackerCols(sheet);
   }
 
   const [columnNames, ...data] = sheet.getRange(1, 1, sheet.getLastRow(), sheet.getLastColumn())
     .getValues();
 
-  const parsedColNames = extractPriceInfo(columnNames);
+  const colNames = sheet.getRange(1, 1, 1, sheet.getLastColumn())
+    .getValues()
+    .reduce((arr, cols) => arr.concat(cols),[]); // flatten array; concat merges arr with []
+
+  const parsedColNames = extractPriceInfo(colNames);
   /* Testing extractPriceInfo func
   for (let i = 0 ; i < parsedColNames.length; i++){
       if(parsedColNames[i].cost === "null"){
@@ -28,10 +31,12 @@ function parseSheet() {
 
   const { start, end } = getItemColumnIndexes(parsedColNames); // Meow lesson: destructuring
 
+  console.log(`Find price from ${start} - ${end}; ${parsedColNames[start]} - ${parsedColNames[end]}`);
+
+  // Find price from 0 - undefined; [object Object] - undefined
+
   // create row data for unprinted receipts
 
-  // find first range of "null"s in col "A1".
-  const { aStart, aEnd } = findUnprintedRange(data);
 }
 
 /**
@@ -72,18 +77,23 @@ function extractPriceInfo(columnNames) {
  * @param parsedColNames array of extractPriceInfo
  */
 function getItemColumnIndexes(parsedColNames) {
-  const start = parsedColNames.findIndex(e => e.parsedColNames !== null);
+  const start = parsedColNames.findIndex(e => e.cost !== null);
   let end;
 
-  // Iterate from start to find first with null
-  for (let i = start; start < parsedColNames.length; i++) {
-    if (parsedColNames[i].cost === null) {
-      // Break before setting `end` since we want previous loop index (not current)
+  let index = start;
+  // functional: loop through array of obj using forEach()
+  
+  parsedColNames
+  .slice(start, parsedColNames.length) // end not inclusive
+  .forEach(function (col){
+    if(col.cost === null){
       break;
+    } 
+    else {
+      end = index;
+      index += 1
     }
-
-    end = i;
-  }
+    });
 
   // TODO: Handle if end isn't found
   return { start, end };

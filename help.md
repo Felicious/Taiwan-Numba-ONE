@@ -310,3 +310,13 @@ flatting a 2d array would be like
 [[1, 2], [3, 4, 5], [6, 7]]
 to
 [1,2,3,4,5,6,7]
+
+#### get a single row
+
+```
+const names = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues();
+
+  console.log(names);
+```
+
+Get 2D array, starting from row 1, col 1. Returns 1 row with sheet.getLastColumn() columns
