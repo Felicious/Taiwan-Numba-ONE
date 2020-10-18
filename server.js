@@ -33,6 +33,8 @@ function parseSheet() {
 
   console.log(`Find price from ${start} - ${end}; ${parsedColNames[start]} - ${parsedColNames[end]}`);
 
+  const ItemList = parsedColNames.slice(start, end);
+
   // Find price from 0 - undefined; [object Object] - undefined
 
   // create row data for unprinted receipts
@@ -72,31 +74,26 @@ function extractPriceInfo(columnNames) {
 }
 
 /**
- * Gets the start and end (inclusive) indices for columns for item quantities
+ * Gets the start and end (NOT inclusive) indices for columns for item quantities
  *
  * @param parsedColNames array of extractPriceInfo
  */
 function getItemColumnIndexes(parsedColNames) {
   const start = parsedColNames.findIndex(e => e.cost !== null);
-  let end;
-
-  let index = start;
-  // functional: loop through array of obj using forEach()
   
-  parsedColNames
-  .slice(start, parsedColNames.length) // end not inclusive
-  .forEach(function (col){
-    if(col.cost === null){
-      break;
-    } 
-    else {
-      end = index;
-      index += 1
-    }
-    });
+  // index of the first cost === null after start
+  let end = parsedColNames.findIndex((e, i) => 
+    e.cost === null && i > start); // findIndex has an optional para; second is index i
 
   // TODO: Handle if end isn't found
-  return { start, end };
+  return { start, end};
+}
+
+/**
+ * @param: ranges where costs are
+ */
+function getChoSmoney(){
+
 }
 
 /**
