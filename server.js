@@ -138,38 +138,20 @@ function getChoSmoney(itemList, start){
  *
  * (default function when running script?)
  *
- * @param data : 2D array of arrays, where each array contains row data
  */
-function printBulk(data) {
-  // parse every row to check 1) row is valid & 2)if data[i][0]-- this is the print col-- is null
-  //  if yes, print
-  // if no, have u started printing yet? (use start flag) if not, look for where to print
-  //                                     if yes, stop now
+function printBulk() {
+  const printCol = sheet.getRange(2, 1, sheet.getLastRow())
+  .getValues()
+  .reduce((arr, cols) => arr.concat(cols),[]);
 
   const start = whereToStart();
-  // check if whereToStart() row is completely empty
-
-  let printInfo = [];
-
-  for (let i = start; i < data.length; i++) {
-    if (validRow(data[i])) {
-      // check "Sent to Print col"
-      if (!data[i][0]) {
-        // printInfo.push(print(data[i]));
-        // fill in col
-        // TODO: look for built in function in Sheets Class that writes to a cell
-        /**
-         * Writing: row = i + 2, col A
-         * Start at "A2" to "A11", for instance
-         */
-
-        writeSingleCell("A", 3 + 2, "yay");
-      } else {
-        console.log(`Ended print at row ${i}.`);
-        break;
-      }
+  for (let i = start; i < sheet.getLastRow(); i++){
+    if (print col not empty){
+      // TODO: generate receipt data 
+      
+      // TODO: write "x" to cell -> getRange(row+1, 1)
     } else {
-      // row is empty
+      // reached a row that has been printed
       break;
     }
   }
@@ -253,14 +235,14 @@ function checkColumns() {
 function addTrackerCols(sheet) {
   sheet.insertColumnsBefore(1, 2);
   sheet.getRange("A1").setValue("Sent to Print");
-  sheet.getRange("B1").setValue("Total");
+  sheet.getRange("B1").setValue("Total $$");
 }
 
 /**
  * @param e: request info
  *
  * a response to the client's HTTP Get request,
- * where our server sends back the receipt in html script
+ * where our server sends back the receipt as a html script
  *
  */
 function doGet(e) {
