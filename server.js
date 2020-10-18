@@ -12,12 +12,15 @@ function parseSheet() {
     addTrackerCols(sheet);
   }
 
+  // idk if I still need this
   const [columnNames, ...data] = sheet.getRange(1, 1, sheet.getLastRow(), sheet.getLastColumn())
     .getValues();
 
   const colNames = sheet.getRange(1, 1, 1, sheet.getLastColumn())
     .getValues()
     .reduce((arr, cols) => arr.concat(cols),[]); // flatten array; concat merges arr with []
+
+    // for this current proj, there are 23 cols
 
   const parsedColNames = extractPriceInfo(colNames);
   /* Testing extractPriceInfo func
@@ -29,13 +32,17 @@ function parseSheet() {
   }
   */
 
+  // these are from arrays and index from 0; Sheets class index from 1, so watch out!
   const { start, end } = getItemColumnIndexes(parsedColNames); // Meow lesson: destructuring
 
-  console.log(`Find price from ${start} - ${end}; ${parsedColNames[start]} - ${parsedColNames[end]}`);
+  // console.log(`Find price from ${start} - ${end}; ${parsedColNames[start]} - ${parsedColNames[end]}`);
 
-  const ItemList = parsedColNames.slice(start, end);
-
-  // Find price from 0 - undefined; [object Object] - undefined
+  /*
+  Calculating the amount we should charge the customer, and write this val into the "Total" col
+  Good example for writing lots of stuff on a same row: https://webapps.stackexchange.com/questions/106503/how-do-i-write-data-to-a-single-range-in-google-apps-script
+  */
+  const itemList = parsedColNames.slice(start, end); // stuff with cost
+  getChoSmoney(itemList, start);
 
   // create row data for unprinted receipts
 
@@ -90,9 +97,39 @@ function getItemColumnIndexes(parsedColNames) {
 }
 
 /**
- * @param: ranges where costs are
+ * Finds and writes the total amt the customer should pay Sue-ayi; saves/writes the $ value into the spreadsheet
+ * 
+ * @param: list of obj containing columns with costs
  */
-function getChoSmoney(){
+function getChoSmoney(itemList, start){
+  // sheet.getRange(i, 1, 1, sheet.getLastColumn()).getValues().reduce((arr, cols) => arr.concat(cols),[]);
+  
+  for(let i = 2; i <= sheet.getLastRow(); i++){ // for every row of customer data
+    
+    let custTotal = 0.0;
+    const currentRow = sheet.getRange(i, 1, 1, sheet.getLastColumn())
+      .getValues().reduce((arr, cols) => arr.concat(cols),[]);
+    index = start;
+    console.log(`Calculating ${currentRow[4]}'s total.`);
+
+    itemList.forEach(function (item) {
+      // currentRow[index] = quantity stored at the cell
+      const qty = currentRow[index];
+    
+      if (qty){ // when not 0 or empty
+        console.log(`Add ${qty} ${item.name} to total: ${custTotal}`);
+        custTotal += item.cost * qty;
+      }
+      index += 1;
+    } );
+
+    // write to the i-th cell in the second column
+    const rng = sheet.getRange(i, 2);
+
+    // ISSUE: gets written as a date on the spreadsheet, but when i manually format, it goes back to a num
+    // WHY
+    rng.setValue(custTotal);
+  }
 
 }
 

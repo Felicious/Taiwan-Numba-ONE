@@ -5,6 +5,14 @@
 1. sheet.getDataRange().getValues() -> get all the cols and rows from the sheet.
    sheet is a variable assigned the value of the the Spreadsheet
 2. sheet.getRange(parameter) -> getting a specific column. Use "A1:A" to get the entire column of A, starting from row 1
+3. Write to a cell
+
+```
+var range = SpreadsheetApp.getActiveSpreadsheet().getRange("B5");
+range.setValue("TEXT");
+```
+
+4.
 
 ## Retrieve Rows from Spreadsheet
 
