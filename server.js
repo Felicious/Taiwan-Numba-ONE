@@ -42,7 +42,9 @@ function parseSheet() {
   Good example for writing lots of stuff on a same row: https://webapps.stackexchange.com/questions/106503/how-do-i-write-data-to-a-single-range-in-google-apps-script
   */
   const itemList = parsedColNames.slice(start, end); // stuff with cost
-  getChoSmoney(itemList, start);
+  // getChoSmoney(itemList, start);
+
+  printBulk(itemList, start);
 
   // create row data for unprinted receipts
 
@@ -97,6 +99,7 @@ function getItemColumnIndexes(parsedColNames) {
 }
 
 /**
+ * TODO: optimize this by combining logic with printBulk()
  * Finds and writes the total amt the customer should pay Sue-ayi; saves/writes the $ value into the spreadsheet
  * 
  * @param: list of obj containing columns with costs
@@ -137,56 +140,61 @@ function getChoSmoney(itemList, start){
  * Print first chunk of receipts from the top of the sheet
  *
  * (default function when running script?)
+ * 
+ * @param: array of items with its names and cost
  *
  */
-function printBulk() {
-  const printCol = sheet.getRange(2, 1, sheet.getLastRow())
-  .getValues()
-  .reduce((arr, cols) => arr.concat(cols),[]);
+function printBulk(itemList, itemIndex) {
+  let allOrders = [];
 
   const start = whereToStart();
-  for (let i = start; i < sheet.getLastRow(); i++){
-    if (print col not empty){
-      // TODO: generate receipt data 
+
+  // ALERT: indexing issue: Google Sheets indexes start 1
+  for (let i = start; i <= sheet.getLastRow(); i++){
+    const currentRow = sheet.getRange(i, 1, 1, sheet.getLastColumn())
+      .getValues().reduce((arr, cols) => arr.concat(cols),[]);
+      col = itemIndex;
+    
+    console.log(`Printing receipt for ${currentRow[4]}!`);
+    // if first col is empty and is a validRow
+    if (!currentRow[0] && validRow(currentRow)){
+      // TODO: generate receipt data
+      let items = [];
       
+      itemList.forEach(function (item){
+        if(currentRow[col]){
+          console.log(`Add ${currentRow[col]} of ${item.name} to cart`);
+          items.push({name: item.name, qty: currentRow[col]});
+          checkOff(i, 1);
+        }
+        col += 1;
+      });
+    
+      allOrders.push(new Order(currentRow[4], items, 
+        currentRow[sheet.getLastColumn()-1]));
+
       // TODO: write "x" to cell -> getRange(row+1, 1)
     } else {
       // reached a row that has been printed
+      console.log("Stop printing");
       break;
     }
+  }
+
+  for (let i = 0; i < allOrders.length; i++){
+    allOrders[i].print();
   }
 }
 
 // generate html info
 function print(row) {}
 
-function writeSingleCell(col, row, val) {
-
-  const range = col + row;
-  sheet.getRange(range).setValue(val);
-
-  /*
-  This code doesn't work because it uses Advanced Google Services (https://developers.google.com/apps-script/guides/services/advanced),
-  the API, and to use it, it needs to be enabled
-  with some Cloud stuff and i dont wanna work on that right now.. 
-
-  console.log(`Writing ${val}`);
-  const rng = "Sheet1!" + col + row;
-  const request = {
-    valueInputOption: "USER_ENTERED",
-    data: [
-      {
-        range: rng,
-        values: val
-      }
-    ]
-  };
-
-  // second para is spreadsheetID
-  const response = Sheets.Spreadsheets.Values.update(
-    request,
-    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-  );*/
+/**
+ * check the cell with an "x" to indicate the row has been read
+ */
+function checkOff(row, col){
+  const range = sheet.getRange(row, col);
+  range.setValue("x");
 }
 
 // find the first row index where the first col is empty
@@ -194,14 +202,15 @@ function whereToStart() {
 
   // gets all val of first col, starting from row 2,
   // NO cells from empty rows (:
-  const cell = sheet.getRange(2, 1, sheet.getLastRow()-1)
+  const cell = sheet.getRange(1, 1, sheet.getLastRow()-1)
     .getValues();
 
   for (let i = 0; i < cell.length; i++) {
     // need [0] bc the value is stored at the first col of a 2D arr with i rows
-    if (!cell[i][0]) {
-      //falsy that is equivalent to if (cell[i][0] === "")
-      return i;
+    if (!cell[i][0]) { //falsy that is equivalent to if (cell[i][0] === "")
+      
+      return i+1;
+      // ALERT: Google Sheets indexes starting from 1, we need to +1
     }
   }
 }

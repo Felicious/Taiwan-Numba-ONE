@@ -6,7 +6,7 @@ class Order {
     if (comment) {
       this.comment = comment;
     } else {
-      comment = null;
+      this.comment = null;
     }
   }
 
@@ -15,8 +15,8 @@ class Order {
     for (let i = 0; i < this.orders.length; i++) {
       console.log(`${this.orders[i].qty} ${this.orders[i].name}`);
     }
-    if (comment) {
-      console.log(comment);
+    if (this.comment) {
+      console.log(this.comment);
     }
   }
 }
