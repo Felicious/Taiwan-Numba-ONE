@@ -14,14 +14,14 @@
     <span><p id="p1">Cust no.</p></span>
     <hr />
 
-    <? const order = print(itemList, itemIndex);
-        for (let i = 0; i < options.length; i++) { ?>
-          <option><?= options[i] ?></option>
-       <? } ?>
     <div id="orders"></div>
 
-    <p id="comments">Comments:</p>
+    <? const order = printHtml()
+        for (let i = 0; i < order.orders.length; i++) { ?>
+    <?= order.orders[i].qty ?>
+    <?= this.orders[i].name ?>
+    <? } ?>
 
-    
+    <p id="comments">Comments:</p>
   </body>
 </html>
