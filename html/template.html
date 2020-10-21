@@ -11,18 +11,17 @@
   <body>
     <h1>Customer Name</h1>
 
-    <p id="p1">Cust no.</p>
+    <span><p id="p1">Cust no.</p></span>
     <hr />
 
+    <? const order = print(itemList, itemIndex);
+        for (let i = 0; i < options.length; i++) { ?>
+          <option><?= options[i] ?></option>
+       <? } ?>
     <div id="orders"></div>
 
     <p id="comments">Comments:</p>
 
-    <? let data =  parseSheet(); ?>
-    <? for (let i = 0; i < data.length; i++){ ?>
-    <? replaceName(data[i].custName, data[i].custNo); ?>
-    <? curateOrders(data[i].order); ?>
-    <? addComment(data[i].comment); ?>
-    <? } ?>
+    
   </body>
 </html>

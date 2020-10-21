@@ -55,6 +55,15 @@ In order for this script to work, it assumes that the user will input data into 
 
 ## Testing
 
+## FAQ
+
+1. Total cost column in Spreadsheet displaying date
+   - Fix: mannually click on the column in Google Sheet
+   - select the "More formats" button on the toolbar at the top of the screen (the icon is `123` with a triangle pointing down)
+   - select "Number"
+   - Make sure all the rows that need to be converted from Date -> Number are highlighted
+2.
+
 ## Author
 
 Felicia Kuan

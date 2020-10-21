@@ -12,41 +12,26 @@ function parseSheet() {
     addTrackerCols(sheet);
   }
 
-  // idk if I still need this
-  const [columnNames, ...data] = sheet.getRange(1, 1, sheet.getLastRow(), sheet.getLastColumn())
-    .getValues();
-
   const colNames = sheet.getRange(1, 1, 1, sheet.getLastColumn())
     .getValues()
     .reduce((arr, cols) => arr.concat(cols),[]); // flatten array; concat merges arr with []
 
-    // for this current proj, there are 23 cols
+    // note: for this current proj, there are 23 cols
 
+  // array of obj {name: of column, cost: of menu item}
   const parsedColNames = extractPriceInfo(colNames);
-  /* Testing extractPriceInfo func
-  for (let i = 0 ; i < parsedColNames.length; i++){
-      if(parsedColNames[i].cost === "null"){
-        continue;
-       }
-       Logger.log(`Priced items: ${parsedColNames[i].name}, cost: ${parsedColNames[i].cost}`);
-  }
-  */
 
   // these are from arrays and index from 0; Sheets class index from 1, so watch out!
   const { start, end } = getItemColumnIndexes(parsedColNames); // Meow lesson: destructuring
 
-  // console.log(`Find price from ${start} - ${end}; ${parsedColNames[start]} - ${parsedColNames[end]}`);
-
-  /*
-  Calculating the amount we should charge the customer, and write this val into the "Total" col
-  Good example for writing lots of stuff on a same row: https://webapps.stackexchange.com/questions/106503/how-do-i-write-data-to-a-single-range-in-google-apps-script
-  */
+  // Calculating the amount we should charge the customer, and write this val into the "Total" col
   const itemList = parsedColNames.slice(start, end); // stuff with cost
   // getChoSmoney(itemList, start);
 
-  printBulk(itemList, start);
-
   // create row data for unprinted receipts
+  //const allOrders = printBulk(itemList, start);
+
+  // print a single receipt first!
 
 }
 
@@ -100,7 +85,8 @@ function getItemColumnIndexes(parsedColNames) {
 
 /**
  * TODO: optimize this by combining logic with printBulk()
- * Finds and writes the total amt the customer should pay Sue-ayi; saves/writes the $ value into the spreadsheet
+ * Finds and writes the total amt the customer should pay Sue-ayi; 
+ *    saves/writes the $ value into the spreadsheet
  * 
  * @param: list of obj containing columns with costs
  */
@@ -130,7 +116,6 @@ function getChoSmoney(itemList, start){
     const rng = sheet.getRange(i, 2);
 
     // ISSUE: gets written as a date on the spreadsheet, but when i manually format, it goes back to a num
-    // WHY
     rng.setValue(custTotal);
   }
 
@@ -181,13 +166,45 @@ function printBulk(itemList, itemIndex) {
     }
   }
 
-  for (let i = 0; i < allOrders.length; i++){
-    allOrders[i].print();
-  }
+  return allOrders;
 }
 
 // generate html info
-function print(row) {}
+function printHtml() {
+
+  const colNames = sheet.getRange(1, 1, 1, sheet.getLastColumn())
+    .getValues()
+    .reduce((arr, cols) => arr.concat(cols),[]); // flatten array; concat merges arr with []
+
+  const parsedColNames = extractPriceInfo(colNames);
+
+  // these are from arrays and index from 0; Sheets class index from 1, so watch out!
+  const { start, end } = getItemColumnIndexes(parsedColNames); // Meow lesson: destructuring
+
+  const itemList = parsedColNames.slice(start, end);
+  const itemIndex = start;
+
+  console.log("Printing Mommy's order (:");
+  const currentRow = sheet.getRange(8, 1, 1, sheet.getLastColumn())
+      .getValues().reduce((arr, cols) => arr.concat(cols),[]);
+  
+  const col = itemIndex;
+  let items = [];
+  
+  itemList.forEach(function (item){
+    if(currentRow[col]){
+      console.log(`Add ${currentRow[col]} of ${item.name} to cart`);
+      items.push({name: item.name, qty: currentRow[col]});
+      checkOff(i, 1);
+    }
+    col += 1;
+  });
+
+  const mommy = new Order(currentRow[4], items, 
+    currentRow[sheet.getLastColumn()-1]);
+    
+  return mommy;
+}
 
 /**
  * check the cell with an "x" to indicate the row has been read
