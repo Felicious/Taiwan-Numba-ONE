@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<!--TODO: add css here!-->
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Print this Ticket</title>
+  </head>
+
+  <body>
+    <h1>print receipts here</h1>
+    <form>
+        <p><em>Choose a customer to print a receipt</em></p>
+        <select id="select">
+        <option disabled selected value> -- select -- </option>
+        <? const order = printHtml()
+            for (let i = 0; i < order.length; i++) { ?>
+            <option><?= order[i].name ?></option>
+            <? } ?>
+        </select>
+        &nbsp;<a id="btn">Display</a>
+    </form>
+    <hr>
+    <p><span id ="custName">-</span></p>
+    <span id="custNo">-</span></p>
+
+    <div id="orders">Orders</div>
+    
+    <p id="comments">Comments:</p>
+
+    <script type="module" src="/js/server.js"></script>
+  </body>
+</html>

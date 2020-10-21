@@ -280,3 +280,14 @@ function doGet(e) {
   .createTemplateFromFile('template')
   .evaluate();
 }
+
+// TODO: modify this to work with order
+document.querySelector('#btn').addEventListener("click", function () {
+  var name = document.getElementById("select").value;
+  var data = google.script.run.withSuccessHandler(function (data) {
+    document.querySelector("#custName").innerHTML = data.name;
+    document.querySelector("#custNo").innerHTML = data.github;
+    document.querySelector("#orders").innerHTML = data.role;
+    document.querySelector("#comments").innerHTML = data.language;
+  }).getData(name);
+});

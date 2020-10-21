@@ -328,3 +328,26 @@ const names = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues();
 ```
 
 Get 2D array, starting from row 1, col 1. Returns 1 row with sheet.getLastColumn() columns
+
+## Struggles with UI/UX designs
+
+Specifically, I was wondering how to design an interface that allows the user to request which receipts they wanted to print.
+
+Derrick mentions:
+
+> so if i have 30 ice cream flavors and you want 1 flavor what would you do
+> you'd tell me which one you want right
+> that's one way, you tell the server which one you want
+
+This solution is the one Emily from Github uses, that I might heavily reference once more x:
+
+Derrick also suggests another solution:
+
+> alternatively you could just respond with the single oldest but still pending receipt
+> but you don't want like a refresh to just suddenly mark it as done
+> yeah if you want to respond with only 1 single receipt at a time, you'd need to either let the client pick which one, or the server picks
+> i think it'll get a bit complicated when thinking about a good ux
+> so i'd probably just start with something simple like the client requests row x
+> to finish the other parts firs
+
+Okay, I like the sound of this. I'll do both (':
