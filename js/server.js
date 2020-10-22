@@ -1,5 +1,8 @@
 const NAME_COL = 4;
 
+//TODO: pass spreadsheetID as a variable;
+// receive it from user
+
 const ss = SpreadsheetApp.openById(
   "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
 );
@@ -170,7 +173,7 @@ function printBulk(itemList, itemIndex) {
 }
 
 // generate html info
-function printHtml() {
+function getReceipt() {
 
   const colNames = sheet.getRange(1, 1, 1, sheet.getLastColumn())
     .getValues()
@@ -280,14 +283,3 @@ function doGet(e) {
   .createTemplateFromFile('template')
   .evaluate();
 }
-
-// TODO: modify this to work with order
-document.querySelector('#btn').addEventListener("click", function () {
-  var name = document.getElementById("select").value;
-  var data = google.script.run.withSuccessHandler(function (data) {
-    document.querySelector("#custName").innerHTML = data.name;
-    document.querySelector("#custNo").innerHTML = data.github;
-    document.querySelector("#orders").innerHTML = data.role;
-    document.querySelector("#comments").innerHTML = data.language;
-  }).getData(name);
-});

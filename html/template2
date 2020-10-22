@@ -14,7 +14,7 @@
         <p><em>Choose a customer to print a receipt</em></p>
         <select id="select">
         <option disabled selected value> -- select -- </option>
-        <? const order = printHtml()
+        <? const order = getReceipt()
             for (let i = 0; i < order.length; i++) { ?>
             <option><?= order[i].name ?></option>
             <? } ?>

@@ -351,3 +351,12 @@ Derrick also suggests another solution:
 > to finish the other parts firs
 
 Okay, I like the sound of this. I'll do both (':
+
+### Serving HTML as a web app
+
+When beginning this project, I was confused about what [Serving HTML as a web app](https://developers.google.com/apps-script/guides/html#serve_html_as_a_web_app) really meant.
+
+- I'm not going to go into too much detail about what sort of mess my brain was in, but...
+- I thought that the server was "serving" the receipt to the user, which was why I was so confused about what my `doGet()` function that returns an `HtmlOutput` was meant to do.
+
+Clarification: `doGet()` tells the script how to display the page users interact with to get info from your server. In other words, it's supposed to be your UI.
