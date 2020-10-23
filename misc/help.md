@@ -165,42 +165,7 @@ I request a meowmeow pic, you doGet() which returns a meowmeow, and you respond 
 you're the server, I'm client
 I just ask you for something, you do the thing, doGet(), and respond with the result
 
-# The problem with Logger.log()
-
-Google Apps Script has its own print statement, Logger.log(), but it automatically formats the string outputs into arrays.
-
-I had this bug where I attempted to compare an empty cell to null, expecting the conditional to allow me to return the index of which the empty cell === null, but the function kept returning undefined after going through all of the empty cells.
-
-```
-function whereToStart() {
-  const sheet = SpreadsheetApp.openById(
-    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-  ).getActiveSheet();
-
-  // gets all val of first col, including empty cells
-  const cell = sheet.getRange("A2:A").getValues();
-  /**
-   * cell is: [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
-   */
-
-  for (let i = 0; i < cell.length; i++) {
-    Logger.log(cell[i]);
-    if (cell[i] === null) {
-      // always returns undefined ):
-      return i;
-    }
-  }
-}
-```
-
-`console.log()` still works on the Google Apps IDE,
-
-and while `Logger.log(cell[i]);` displays [], `console.log(cell[i])` displays ""!
-This means that Logger.log was misrepresenting my output, which confused me and caused my conditional to fail.
-
-I'll just use `console.log()` from now on.
-
-## falsey comparison
+# falsey comparison
 
 _Definition_: any empty/null value considered false like 0, null, undefined (From [Mozilla](https://developer.mozilla.org/en-US/docs/Glossary/Falsy))
 
@@ -258,6 +223,12 @@ function meowmeow(obj){ ... }
 
 meowmeow({"name": "mimi"})
 
+### Some fun illustrations for this example
+
+![1](../images/httpRequest.jpg)
+
+![2](../images/urlContents.jpg)
+
 # References
 
 ## Emily's Github
@@ -292,6 +263,7 @@ so essentially it's just combining all the first value in each "sub-array"
 
 it should be somewhat equivalent to this code
 
+```
 const vals = devs.getRange(2, 1, devs.getLastRow() - 1)
 .getValues();
 
@@ -302,6 +274,7 @@ acc.concat(vals[i][0])
 }
 
 return acc;
+```
 
 since getvalues is a 2d array right
 so concat would be concatenating arrays. combining them
@@ -352,7 +325,7 @@ Derrick also suggests another solution:
 
 Okay, I like the sound of this. I'll do both (':
 
-### Serving HTML as a web app
+# Serving HTML as a web app
 
 When beginning this project, I was confused about what [Serving HTML as a web app](https://developers.google.com/apps-script/guides/html#serve_html_as_a_web_app) really meant.
 
@@ -360,3 +333,17 @@ When beginning this project, I was confused about what [Serving HTML as a web ap
 - I thought that the server was "serving" the receipt to the user, which was why I was so confused about what my `doGet()` function that returns an `HtmlOutput` was meant to do.
 
 Clarification: `doGet()` tells the script how to display the page users interact with to get info from your server. In other words, it's supposed to be your UI.
+
+## Components of a Dynamic Site
+
+> A dynamic site is one that can generate and return content based on the specific request URL and data
+
+From [MDN](https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Client-Server_overview)
+
+The notable components are the web app, HTML template, and database.
+
+### Web Application
+
+Initially, I thought a web application was like a mobile app like Spotify; something a user interacted with to request information. However, the definition of a web app in the context of client-server web programming is:
+
+> server-side code that processes HTTP requests and returns HTTP responses
