@@ -223,11 +223,19 @@ function meowmeow(obj){ ... }
 
 meowmeow({"name": "mimi"})
 
-### Some fun illustrations for this example
+### A simple server-client interaction
+
+Usually, I have difficulty absorbing lots of new technical information at once, so I made some doodles and jokes to help myself retain the information. Hopefully this is useful/entertaining to anyone.
 
 ![1](../images/httpRequest.jpg)
 
 ![2](../images/urlContents.jpg)
+
+Say that Capoo wants to request information from the server. As the client, he sends an HTTP request to the server. The contents of his request are stored as a url, with `/thing_he's_requesting?` before the question mark. Additionally, he specifically requests the server to "show-yu" the noods by elaborating: `name=shoyu`.
+
+Thus, the server, who is the bunny Tutu, is given sufficient information to understand that Capoo wants ramen noodles in shoyu broth.
+
+![3](../images/oreCreatedFiles.jpg)
 
 # References
 
