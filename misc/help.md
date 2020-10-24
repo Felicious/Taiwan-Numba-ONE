@@ -231,11 +231,15 @@ Usually, I have difficulty absorbing lots of new technical information at once, 
 
 ![2](../images/urlContents.jpg)
 
-Say that Capoo wants to request information from the server. As the client, he sends an HTTP request to the server. The contents of his request are stored as a url, with `/thing_he's_requesting?` before the question mark. Additionally, he specifically requests the server to "show-yu" the noods by elaborating: `name=shoyu`.
+![3](../images/simpleHttpResponse.jpg)
 
-Thus, the server, who is the bunny Tutu, is given sufficient information to understand that Capoo wants ramen noodles in shoyu broth.
+1. Say that Capoo wants to request information from the server. As the client, he sends an HTTP request to the server. The contents of his request are stored as a url, with `/thing_he's_requesting?` before the question mark. Additionally, he specifically requests the server to "show-yu" the noods by elaborating: `name=shoyu`.
 
-![3](../images/oreCreatedFiles.jpg)
+2. Thus, the server, who is the bunny Tutu, is given sufficient information to understand that Capoo wants ramen noodles in shoyu broth.
+
+3. Within the server, Tutu has several pre-made, ready-to-order shoyu ramen available. These are static HTML pages, like `shoyuRamen.html` that she simply serves to Capoo. The server also includes a [status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status), like "200 OK", which means the server successfully fulfilled the client's request and bunbun loves her meowmeow very much.
+
+This concludes a **static** HTTP Request, where the client is requesting for the same, hard-coded content, which can be inefficient to curate when there's a lot of pages. Instead, HTML pages can be created and tailored to a client's request with **dynamic** sites, which I will illustrate next.
 
 # References
 
