@@ -244,9 +244,28 @@ This concludes a **static** HTTP Request, where the client is requesting for the
 # Illustration of a Dynamic Site
 
 ![4](../images/dynamicHTTPRequest.jpg)
+
+When Capoo asks for a specific type of nood, the web server recognizes that she'll need to process the HTTP request with a web application.
+
 ![5](../images/webApp.jpg)
+
+Tutu passes the relatively complex request from the client to the web app, or server-side code. When the info is passed, it is often encoded so that the web app can easily process the request parameters.
+
+It is similar to how restaurant servers often type and print an order so that the kitchen staff can actually read it. In regards to this project, the client's request is passed to the server code `doGet()` as an [object parameter](https://developers.google.com/apps-script/guides/web#request_parameters) `e`.
+
 ![6](../images/webApp2.jpg)
+
+Once the web app identifies the intention of Capoo's request (for `/noods`) based on the URL, the chef acquires the recipe for shoyu ramen and searches for the required ingredients within the database. Thus the resulting bowl of ramen, created from an HTML template/recipe, where the chef specifically tailors this dynamically created HTML page from specific pre-existing data/ingredients from within the database.
+
+If the client requested for further analysis on the data (so, more than just a data look-up), more functions must be written within the web app to handle those queries.
+
+For the purpose of this example and doodle, however, the web app is only equipped with `cook()` to process ramen orders.
+
 ![7](../images/httpResponse.jpg)
+
+Although not depicted in the illustration, the web application first passes the completed HTML page of ramen (with a status code of "200 OK") to Tutu, the web server/browser, so that Tutu can personally serve each piping-hot bowl of ramen to Tutu's love of her life, Capoo!
+
+I wish I had a better understanding of what happens on the client-side and how the HTTP response is handled by the browser and served to the client, but I'm still a little bit in the dark. I'm glad that I had the opportunity to illustrate and better understand the server-side of the this process, though! Hope you enjoyed reading my goofy doodles and dad puns (:
 
 # References
 
