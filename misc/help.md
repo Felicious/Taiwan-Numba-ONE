@@ -243,10 +243,10 @@ This concludes a **static** HTTP Request, where the client is requesting for the
 
 # Illustration of a Dynamic Site
 
-[4](../images/dynamicHTTPRequest.jpg)
-[5](../images/webApp.jpg)
-[6](../images/webApp2.jpg)
-[7](../images/httpResponse.jpg)
+![4](../images/dynamicHTTPRequest.jpg)
+![5](../images/webApp.jpg)
+![6](../images/webApp2.jpg)
+![7](../images/httpResponse.jpg)
 
 # References
 
