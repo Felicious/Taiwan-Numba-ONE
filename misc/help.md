@@ -241,6 +241,13 @@ Usually, I have difficulty absorbing lots of new technical information at once, 
 
 This concludes a **static** HTTP Request, where the client is requesting for the same, hard-coded content, which can be inefficient to curate when there's a lot of pages. Instead, HTML pages can be created and tailored to a client's request with **dynamic** sites, which I will illustrate next.
 
+# Illustration of a Dynamic Site
+
+[4](../images/dynamicHTTPRequest.jpg)
+[5](../images/webApp.jpg)
+[6](../images/webApp2.jpg)
+[7](../images/httpResponse.jpg)
+
 # References
 
 ## Emily's Github
