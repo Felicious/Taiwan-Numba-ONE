@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top" />
+    <title>萬巒豬腳 Print Station</title>
+  </head>
+
+  <style>
+    body {
+      margin: 10px;
+      background-color: rgb(68, 68, 68);
+      font-family: Candara, Calibri, Segoe, Segoe UI, Optima, Arial, sans-serif;
+      color: rgb(255, 165, 0);
+    }
+  </style>
+  <body>
+    <h1>Order Tickets for 萬巒豬腳</h1>
+    <form>
+      <!--TODO: make text box option to enter doc ID-->
+      <p>Choose a receipt to print</p>
+      <select id="select">
+        <option disabled selected value> -- select -- </option>
+        <? const choices = getCustomers()
+                    for (let i = 0; i < choices.length; i++) { ?>
+        <option><?= choices[i] ?></option>
+        <? } ?>
+      </select>
+      &nbsp;<a id="btn">Print</a>
+    </form>
+
+    <script>
+      document.querySelector("#btn").addEventListener("click", printHtml);
+
+      function printHtml() {
+        const custName = document.getElementById("select").value;
+
+        const data = google.script.run
+          .withSuccessHandler(function(data) {
+            document.querySelector("#custName").innerHTML = data.name;
+            document.querySelector("#custNo").innerHTML = data.github;
+            document.querySelector("#orders").innerHTML = data.role;
+            document.querySelector("#comments").innerHTML = data.language;
+          })
+          .getReceipt(custName);
+
+        // TODO: serve data as html (how???)
+      }
+    </script>
+  </body>
+</html>

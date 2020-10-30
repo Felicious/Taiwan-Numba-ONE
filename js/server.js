@@ -9,17 +9,17 @@ const ss = SpreadsheetApp.openById(
 const sheet = ss.getActiveSheet();
 
 function parseSheet() {
-  
   if (!checkColumns()) {
     // add init tracker cols if they don't exist
     addTrackerCols(sheet);
   }
 
-  const colNames = sheet.getRange(1, 1, 1, sheet.getLastColumn())
+  const colNames = sheet
+    .getRange(1, 1, 1, sheet.getLastColumn())
     .getValues()
-    .reduce((arr, cols) => arr.concat(cols),[]); // flatten array; concat merges arr with []
+    .reduce((arr, cols) => arr.concat(cols), []); // flatten array; concat merges arr with []
 
-    // note: for this current proj, there are 23 cols
+  // note: for this current proj, there are 23 cols
 
   // array of obj {name: of column, cost: of menu item}
   const parsedColNames = extractPriceInfo(colNames);
@@ -35,7 +35,6 @@ function parseSheet() {
   //const allOrders = printBulk(itemList, start);
 
   // print a single receipt first!
-
 }
 
 /**
@@ -77,43 +76,46 @@ function extractPriceInfo(columnNames) {
  */
 function getItemColumnIndexes(parsedColNames) {
   const start = parsedColNames.findIndex(e => e.cost !== null);
-  
+
   // index of the first cost === null after start
-  let end = parsedColNames.findIndex((e, i) => 
-    e.cost === null && i > start); // findIndex has an optional para; second is index i
+  let end = parsedColNames.findIndex((e, i) => e.cost === null && i > start); // findIndex has an optional para; second is index i
 
   // TODO: Handle if end isn't found
-  return { start, end};
+  return { start, end };
 }
 
 /**
  * TODO: optimize this by combining logic with printBulk()
- * Finds and writes the total amt the customer should pay Sue-ayi; 
+ * Finds and writes the total amt the customer should pay Sue-ayi;
  *    saves/writes the $ value into the spreadsheet
- * 
+ *
  * @param: list of obj containing columns with costs
  */
-function getChoSmoney(itemList, start){
+function getChoSmoney(itemList, start) {
   // sheet.getRange(i, 1, 1, sheet.getLastColumn()).getValues().reduce((arr, cols) => arr.concat(cols),[]);
-  
-  for(let i = 2; i <= sheet.getLastRow(); i++){ // for every row of customer data
-    
+
+  for (let i = 2; i <= sheet.getLastRow(); i++) {
+    // for every row of customer data
+
     let custTotal = 0.0;
-    const currentRow = sheet.getRange(i, 1, 1, sheet.getLastColumn())
-      .getValues().reduce((arr, cols) => arr.concat(cols),[]);
+    const currentRow = sheet
+      .getRange(i, 1, 1, sheet.getLastColumn())
+      .getValues()
+      .reduce((arr, cols) => arr.concat(cols), []);
     index = start;
     console.log(`Calculating ${currentRow[4]}'s total.`);
 
-    itemList.forEach(function (item) {
+    itemList.forEach(function(item) {
       // currentRow[index] = quantity stored at the cell
       const qty = currentRow[index];
-    
-      if (qty){ // when not 0 or empty
+
+      if (qty) {
+        // when not 0 or empty
         console.log(`Add ${qty} ${item.name} to total: ${custTotal}`);
         custTotal += item.cost * qty;
       }
       index += 1;
-    } );
+    });
 
     // write to the i-th cell in the second column
     const rng = sheet.getRange(i, 2);
@@ -121,14 +123,13 @@ function getChoSmoney(itemList, start){
     // ISSUE: gets written as a date on the spreadsheet, but when i manually format, it goes back to a num
     rng.setValue(custTotal);
   }
-
 }
 
 /**
  * Print first chunk of receipts from the top of the sheet
  *
  * (default function when running script?)
- * 
+ *
  * @param: array of items with its names and cost
  *
  */
@@ -138,28 +139,31 @@ function printBulk(itemList, itemIndex) {
   const start = whereToStart();
 
   // ALERT: indexing issue: Google Sheets indexes start 1
-  for (let i = start; i <= sheet.getLastRow(); i++){
-    const currentRow = sheet.getRange(i, 1, 1, sheet.getLastColumn())
-      .getValues().reduce((arr, cols) => arr.concat(cols),[]);
-      col = itemIndex;
-    
+  for (let i = start; i <= sheet.getLastRow(); i++) {
+    const currentRow = sheet
+      .getRange(i, 1, 1, sheet.getLastColumn())
+      .getValues()
+      .reduce((arr, cols) => arr.concat(cols), []);
+    col = itemIndex;
+
     console.log(`Printing receipt for ${currentRow[4]}!`);
     // if first col is empty and is a validRow
-    if (!currentRow[0] && validRow(currentRow)){
+    if (!currentRow[0] && validRow(currentRow)) {
       // TODO: generate receipt data
       let items = [];
-      
-      itemList.forEach(function (item){
-        if(currentRow[col]){
+
+      itemList.forEach(function(item) {
+        if (currentRow[col]) {
           console.log(`Add ${currentRow[col]} of ${item.name} to cart`);
-          items.push({name: item.name, qty: currentRow[col]});
+          items.push({ name: item.name, qty: currentRow[col] });
           checkOff(i, 1);
         }
         col += 1;
       });
-    
-      allOrders.push(new Order(currentRow[4], items, 
-        currentRow[sheet.getLastColumn()-1]));
+
+      allOrders.push(
+        new Order(currentRow[4], items, currentRow[sheet.getLastColumn() - 1])
+      );
 
       // TODO: write "x" to cell -> getRange(row+1, 1)
     } else {
@@ -173,11 +177,18 @@ function printBulk(itemList, itemIndex) {
 }
 
 // generate html info
-function getReceipt() {
+function getReceipt(name) {
+  const ss = SpreadsheetApp.openById(
+    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
+  );
+  const sheet = ss.getActiveSheet();
 
-  const colNames = sheet.getRange(1, 1, 1, sheet.getLastColumn())
+  const currentRow = findRowByName(name);
+
+  const colNames = sheet
+    .getRange(1, 1, 1, sheet.getLastColumn())
     .getValues()
-    .reduce((arr, cols) => arr.concat(cols),[]); // flatten array; concat merges arr with []
+    .reduce((arr, cols) => arr.concat(cols), []); // flatten array; concat merges arr with []
 
   const parsedColNames = extractPriceInfo(colNames);
 
@@ -187,49 +198,83 @@ function getReceipt() {
   const itemList = parsedColNames.slice(start, end);
   const itemIndex = start;
 
-  console.log("Printing Mommy's order (:");
-  const currentRow = sheet.getRange(8, 1, 1, sheet.getLastColumn())
-      .getValues().reduce((arr, cols) => arr.concat(cols),[]);
-  
-  const col = itemIndex;
+  //console.log("Printing Mommy's order (:");
+  //const currentRow = sheet.getRange(8, 1, 1, sheet.getLastColumn())
+  //    .getValues().reduce((arr, cols) => arr.concat(cols),[]);
+
+  let col = itemIndex;
   let items = [];
-  
-  itemList.forEach(function (item){
-    if(currentRow[col]){
+
+  itemList.forEach(function(item) {
+    if (currentRow[col]) {
       console.log(`Add ${currentRow[col]} of ${item.name} to cart`);
-      items.push({name: item.name, qty: currentRow[col]});
+      items.push({ name: item.name, qty: currentRow[col] });
       checkOff(i, 1);
     }
     col += 1;
   });
 
-  const mommy = new Order(currentRow[4], items, 
-    currentRow[sheet.getLastColumn()-1]);
-    
+  const mommy = new Order(
+    currentRow[4],
+    items,
+    currentRow[sheet.getLastColumn() - 1]
+  );
+
   return mommy;
+}
+
+/**
+ * gets the names of all customers whose receipts that haven't been printed yet
+ */
+
+function getCustomers() {
+  let customers = [];
+
+  for (let i = 2; i <= sheet.getLastRow(); i++) {
+    // for every row of customer data
+
+    const currentPrintCell = sheet.getRange(i, 1).getValue();
+    if (!currentPrintCell) {
+      customers.push(sheet.getRange(i, 5).getValue());
+    }
+  }
+
+  return customers;
+}
+
+/**
+ * Returns the entire row matching the customer's name
+ */
+function findRowByName(name) {
+  const allData = sheet
+    .getRange(2, 1, sheet.getLastRow(), sheet.getLastColumn())
+    .getValues();
+
+  return allData.filter(function(row) {
+    return row[4] === name; // 4 is the col where the names are stored
+  })[0]; // filter returns an arr of elements that satisfy the condition
 }
 
 /**
  * check the cell with an "x" to indicate the row has been read
  */
-function checkOff(row, col){
+function checkOff(row, col) {
   const range = sheet.getRange(row, col);
   range.setValue("x");
 }
 
 // find the first row index where the first col is empty
 function whereToStart() {
-
   // gets all val of first col, starting from row 2,
   // NO cells from empty rows (:
-  const cell = sheet.getRange(1, 1, sheet.getLastRow()-1)
-    .getValues();
+  const cell = sheet.getRange(1, 1, sheet.getLastRow() - 1).getValues();
 
   for (let i = 0; i < cell.length; i++) {
     // need [0] bc the value is stored at the first col of a 2D arr with i rows
-    if (!cell[i][0]) { //falsy that is equivalent to if (cell[i][0] === "")
-      
-      return i+1;
+    if (!cell[i][0]) {
+      //falsy that is equivalent to if (cell[i][0] === "")
+
+      return i + 1;
       // ALERT: Google Sheets indexes starting from 1, we need to +1
     }
   }
@@ -267,19 +312,25 @@ function addTrackerCols(sheet) {
   sheet.getRange("B1").setValue("Total $$");
 }
 
-/**
- * @param e: request info
- *
- * a response to the client's HTTP Get request,
- * where our server sends back the receipt as a html script
- *
- */
-function doGet(e) {
-  console.log(`Handling the request for ${e.parameter}`);
+// TODO: modify this to work with order
+document.querySelector("#btn").addEventListener("click", printHtml);
 
-  // generate receipt from info stored in e, a JSON obj ie {"name": "alice", "n": "1"}
-  receipt = 
-  return HtmlService.createHtmlOutput
-  .createTemplateFromFile('template')
-  .evaluate();
+function printHtml() {
+  const name = document.getElementById("select").value;
+
+  /**
+   * Wait, i thought i couldn't use document functions
+   * only the google apps script one, since i can't use DOM??
+   */
+  // client waits for server to respond with receipt data
+  const data = google.script.run
+    .withSuccessHandler(function(data) {
+      document.querySelector("#custName").innerHTML = data.name;
+      document.querySelector("#custNo").innerHTML = data.github;
+      document.querySelector("#orders").innerHTML = data.role;
+      document.querySelector("#comments").innerHTML = data.language;
+    })
+    .getData(name);
+
+  // TODO: serve data as html (how???)
 }

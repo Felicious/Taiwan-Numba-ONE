@@ -62,7 +62,10 @@ In order for this script to work, it assumes that the user will input data into 
    - select the "More formats" button on the toolbar at the top of the screen (the icon is `123` with a triangle pointing down)
    - select "Number"
    - Make sure all the rows that need to be converted from Date -> Number are highlighted
-2.
+2. Selects unmarked cells to print; Make sure you've cleared and CLICKED OUT OF a cell, otherwise Sheets would think you're still editing a cell and think that the cell isn't empty
+   - In the image below, for example, Jenny Lee's print box would NOT be considered empty yet since the user had not yet clicked away from the cell.
+   - ![1](images/FAQ-clarification.jpg)
+3. kk
 
 ## Author
 

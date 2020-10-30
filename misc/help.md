@@ -119,6 +119,32 @@ HTML loads the JS as compared to apps script which is JS generating a HTML strin
 
 For an incredibly useful guide on HTML templating with Google Apps Script that I followed, please look at [Emily's github](https://github.com/emilyb7/HTML-templating-with-Google-Apps-Script)
 
+## Understanding Emily's code
+
+Her [src code](https://github.com/emilyb7/HTML-templating-with-Google-Apps-Script/blob/master/Code.gs) had a lot of idiomatic JS things that I didn't immediately understand; the source of much of the confusion was regarding the callback logic.
+
+While I was heavily _referencing_ her code, I was puzzling over `getData()`, specifically why it was necessary to index the first array element `[0]` after filtering `allData()` to a single row.
+
+```
+function findRowByName(name) {
+  const allData = sheet
+    .getRange(2, 1, sheet.getLastRow(), sheet.getLastColumn())
+    .getValues();
+
+  return allData.filter(function(row) {
+    return row[4] === name; // 4 is the col where the names are stored
+  })[0]; // filter returns an arr of elements that satisfy the condition
+}
+```
+
+The function returns a 1D array containing the row data from the Sheet that matches the `name` passed in as the parameter.
+
+The confusion lies in the return value of `.filter()` and why the `[0]` is necessary.
+
+![1](../images/filtering-2D-array.jpg)
+
+The main clarifying explanation is that `.filter()` returns an _array_ of elements `[ [row data] ]` that satisfies the condition. However, the element, the row data, is an array. So we have an array within an array, which isn't ideal. To just get the inner array, we index it with `[0]`, which gives us the first and only element of the outer array.
+
 # Middle of the Project Complete Overhaul
 
 Originally, I approached this project like this:
