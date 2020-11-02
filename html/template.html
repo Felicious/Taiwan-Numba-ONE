@@ -9,14 +9,14 @@
   </head>
 
   <body>
-    <h1>Customer Name</h1>
+    <h1 id="name">Customer Name</h1>
 
-    <span><p id="p1">Cust no.</p></span>
+    <!--<span><p id="p1">Cust no.</p></span> -->
     <hr />
 
     <div id="orders"></div>
 
-    <? const order = printHtml()
+    <? const order = ()
         for (let i = 0; i < order.orders.length; i++) { ?>
     <?= order.orders[i].qty ?>
     <?= this.orders[i].name ?>
@@ -24,4 +24,6 @@
 
     <p id="comments">Comments:</p>
   </body>
+
+  <script type="module" src="../js/webApp.js"></script>
 </html>

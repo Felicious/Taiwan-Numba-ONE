@@ -20,3 +20,5 @@ class Order {
     }
   }
 }
+
+export { Order };
