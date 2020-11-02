@@ -14,6 +14,8 @@ I thought my first theme was a little plain, as I tried to go with monochrome at
 
 ![2](faded-red-theme.png)
 
+CHOSEN MOCK-UP (:
+
 Next, I wanted to try a color scheme that was more similar to the restaurant. I couldn't fully commit to it, since I (personally) dislike bright orange ;-; It looks subjectively too strong for my eyes LOL, so for experimentation, I tried light blue because orange and blue are complimentary colors. Perhaps I subjectively had to add my favorite color into the mix to balance my disdain for my least favorite color.
 
 ![3](orange-cream-lightblue.png)
@@ -28,6 +30,10 @@ I picked a [palette] that looked cute, warm, and relatively similar to the resta
 
 Personally, this one is my favorite, but that's because I spent the longest and had Kaelynn's input. I think using someone's color palette reallyyy makes a difference, so I think it'd be useful to go back and fix the colors in the others too (like that orange cream one LOL)
 
+![5](cotton-candy-theme.png)
+
+I got a little addicted to browsing through color palettes, and I fell in love with this pastel one. After applying it, the colors seem a little light. Even the dark grey might be a little hard to read. Perhaps I can use this cute color palette sometime in the future (:
+
 # Credits and Acknowledgements
 
 ## Half-screen design
@@ -37,6 +43,10 @@ My design capabilities are incapable of coming up with the cute half-color, half
 ## Salmon-yellow Theme
 
 For this mock-up, I used a [color palette](https://colorhunt.co/palette/201781) from ColorHunt.co. I wish I could name the designer since the colors are so cute!
+
+## Cotton Candy Theme
+
+I used this adorable [pastel palette](https://colorhunt.co/palette/213308) from ColorHunt.co again.
 
 ## Kaelynn's Advice
 
