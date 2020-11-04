@@ -34,6 +34,10 @@ Personally, this one is my favorite, but that's because I spent the longest and 
 
 I got a little addicted to browsing through color palettes, and I fell in love with this pastel one. After applying it, the colors seem a little light. Even the dark grey might be a little hard to read. Perhaps I can use this cute color palette sometime in the future (:
 
+## Thoughts
+
+I was the most proud of my salmon chef theme mockup! Although I was initially disappointed that my favorite design was not chosen by the client (Stephanie), I understand that the chef icon is a little distracting with Chloe (the doggo)'s face inside the hat. This goes to show how subjective the design process is, and beauty is in the eye of the beholder! (: I'm just low-key proud because the client chose a design that I just randomly experimented with; I didn't even use a color palette from a professional, so it was (nearly bc I used someone's half-border design) basically all of my work! (:
+
 # Credits and Acknowledgements
 
 ## Half-screen design

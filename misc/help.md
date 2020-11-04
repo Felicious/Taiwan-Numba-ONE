@@ -293,6 +293,38 @@ Although not depicted in the illustration, the web application first passes the 
 
 I wish I had a better understanding of what happens on the client-side and how the HTTP response is handled by the browser and served to the client, but I'm still a little bit in the dark. I'm glad that I had the opportunity to illustrate and better understand the server-side of the this process, though! Hope you enjoyed reading my goofy doodles and dad puns (:
 
+# Templating
+
+Used to simply the process of creating a web page, templates serve as a structural base for web creation that the server-side script fills in the details. Templates are rendered on the server, so all of the logic will be on the server side.
+
+For example, main page is a template that creates all the links to other things like selecting which receipt to print. That list of receipts would be generated on the server and part of the html. The receipts can link to another page like example.com/receipt and that receipt url will generate different template for the receipt.
+
+### Derrick:
+
+https://developers.google.com/apps-script/guides/html/reference/run#code.gs_2
+
+google.script.run is on the client side, which lets you run a server side function via their abstracted api
+
+google.script.run.getData(name); would be calling the server side getData(name) function from the client side,
+adding .withSuccessHandler((data) => ...) means it will run that given handler when getData(name) is successful
+
+so the logic flow would be
+
+var name = document.getElementById("select").value;
+// send name to server and call getData(name)
+// server responds successfully with data and then runs the given function (withSuccessHandler) on the client side
+function (data) {
+document.querySelector("#devName").innerHTML = data.name;
+document.querySelector("#devGithub").innerHTML = data.github;
+document.querySelector("#devRole").innerHTML = data.role;
+document.querySelector("#devLanguage").innerHTML = data.language;
+document.querySelector("#github_img").src = data.img;
+}
+5h
+google.script.run is an asynchronous client-side JavaScript API available in HTML-service pages that can call server-side Apps Script functions.
+
+so it's essentially handling the client/server GET/POST requests for you, so it will make it very confusing what is client and server side
+
 # References
 
 ## Emily's Github

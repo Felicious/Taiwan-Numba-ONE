@@ -1,5 +1,10 @@
 import { checkColumns, addTrackerCols, validRow } from "helpers.js";
-import {Order} from "OrderClass.js";
+import { Order } from "OrderClass.js";
+
+/*
+
+Commenting this out rn because it's still too early for me to handle buttons 
+w/o understanding API calls and stuff
 
 document.querySelector('#btn').addEventListener("click", function () {
     const name = document.getElementById("select").value;
@@ -16,6 +21,12 @@ document.querySelector('#btn').addEventListener("click", function () {
     
       }).getReceipt(name);
 
+*/
+
+function doGet(e){
+    // e: request parameter https://developers.google.com/apps-script/guides/web#request_parameters
+    const s = 
+}
 
 // gets called by the Event Listener to
 // generate html info
@@ -71,12 +82,9 @@ function getReceipt(name) {
   return mommy;
 }
 
-function doGet(e){
-    return HtmlService
-  .createTemplateFromFile('template')
-  .evaluate();
+function doGet(e) {
+  return HtmlService.createTemplateFromFile("template").evaluate();
 }
-
 
 /**
  * gets the names of all customers whose receipts that haven't been printed yet
@@ -158,13 +166,12 @@ function getItemColumnIndexes(parsedColNames) {
 }
 
 /**
-*    @param: the text that will be inserted into the paragraph element
-*    returns: a paragraph-type html element that displays the passed in text
-*/
-function displayPara(words)
-{
-    const addInfo = document.createTextNode(words);
-    const pElement = document.createElement("P");
-    pElement.appendChild(addInfo);
-    return pElement;
+ *    @param: the text that will be inserted into the paragraph element
+ *    returns: a paragraph-type html element that displays the passed in text
+ */
+function displayPara(words) {
+  const addInfo = document.createTextNode(words);
+  const pElement = document.createElement("P");
+  pElement.appendChild(addInfo);
+  return pElement;
 }
