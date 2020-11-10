@@ -23,9 +23,25 @@ document.querySelector('#btn').addEventListener("click", function () {
 
 */
 
-function doGet(e){
-    // e: request parameter https://developers.google.com/apps-script/guides/web#request_parameters
-    const s = 
+function doGet() {
+  // e: request parameter https://developers.google.com/apps-script/guides/web#request_parameters
+  const s = getReceipt("Mei Yu");
+  // s is currently an object
+
+  // trying to make a JSON object
+
+  const receipt = JSON.stringify(
+    {
+      "customer name": s.name,
+      order: s.orders,
+      comments: s.comment
+    },
+    null,
+    3
+  );
+  return HtmlService.createHtmlOutput(
+    "<b>Hello, world!</b><pre>" + receipt + "</pre>"
+  );
 }
 
 // gets called by the Event Listener to
