@@ -8,6 +8,15 @@
     <title>Print this Ticket</title>
   </head>
 
+  <style>
+    body {
+      margin: 10px;
+      background-color: rgb(68, 68, 68);
+      font-family: Candara, Calibri, Segoe, Segoe UI, Optima, Arial, sans-serif;
+      color: rgb(255, 165, 0);
+    }
+  </style>
+
   <body>
     <h1 id="name">Customer Name</h1>
 
@@ -16,14 +25,20 @@
 
     <div id="orders"></div>
 
-    <? const order = ()
-        for (let i = 0; i < order.orders.length; i++) { ?>
-    <?= order.orders[i].qty ?>
-    <?= this.orders[i].name ?>
-    <? } ?>
-
     <p id="comments">Comments:</p>
   </body>
 
-  <script type="module" src="../js/webApp.js"></script>
+  <script>
+    window.onload = function(customer) {
+      document.querySelector("#name").innerHTML = customer.name;
+
+      const parent = document.getElementById("orders");
+      for (let i = 0; i < customer.length; i++) {
+        // TODO: add some spans and stuff
+        parent.appendChild(displayPara(customer.orders[i].qty));
+        parent.appendChild(displayPara(customer.orders[i].name));
+      }
+      document.querySelector("#comments").innerHTML = customer.comment;
+    };
+  </script>
 </html>
