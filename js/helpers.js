@@ -32,14 +32,15 @@ function checkColumns() {
 
 // Add cols that will be used for data storage
 function addTrackerCols(sheet) {
-  const ss = SpreadsheetApp.openById(
-    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-  );
-  const sheet = ss.getActiveSheet();
-
   sheet.insertColumnsBefore(1, 2);
   sheet.getRange("A1").setValue("Sent to Print");
   sheet.getRange("B1").setValue("Total $$");
 }
 
-export { checkColumns, addTrackerCols };
+/**
+ * check the cell with an "x" to indicate the row has been read
+ */
+function checkOff(row, col) {
+  const range = sheet.getRange(row, col);
+  range.setValue("x");
+}

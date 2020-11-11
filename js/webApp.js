@@ -1,6 +1,3 @@
-import { checkColumns, addTrackerCols, validRow } from "helpers.js";
-import { Order } from "OrderClass.js";
-
 /*
 
 Commenting this out rn because it's still too early for me to handle buttons 
@@ -23,25 +20,55 @@ document.querySelector('#btn').addEventListener("click", function () {
 
 */
 
-function doGet() {
-  // e: request parameter https://developers.google.com/apps-script/guides/web#request_parameters
-  const s = getReceipt("Mei Yu");
+function doGet(e) {
+  // e: entered "/order?name=Mei Yu" -> got "/order?name=Mei%20Yu" in the URL
+  // stringified e and got:
+  /*
+  {
+    "parameter": {
+        "name": "Mei Yu"
+    },
+    "parameters": {
+        "name": [
+            "Mei Yu"
+        ]
+    },
+    "contextPath": "",
+    "contentLength": -1,
+    "queryString": "name=Mei%20Yu",
+    "pathInfo": "order"
+}
+  */
+
+  // seems like i just need e.parameter and e.pathInfo
+
+  const custName = e.parameter["name"];
+
+  const receipt = getReceipt(custName);
   // s is currently an object
 
-  // trying to make a JSON object
+  let s = "<b>" + receipt.name + "</b>";
 
-  const receipt = JSON.stringify(
-    {
-      "customer name": s.name,
-      order: s.orders,
-      comments: s.comment
-    },
-    null,
-    3
-  );
-  return HtmlService.createHtmlOutput(
-    "<b>Hello, world!</b><pre>" + receipt + "</pre>"
-  );
+  for (let i = 0; i < receipt.orders.length; i++) {
+    s +=
+      "<pre>" + receipt.orders[i].qty + " " + receipt.orders[i].name + "</pre>";
+  }
+
+  return HtmlService.createHtmlOutput(s + "<pre>" + receipt.comment + "</pre>");
+
+  /*
+  OMGGG!!
+
+  Web App returns:
+
+  Mei Yu
+    1 套餐 
+    2 黑椒豬排麵
+    null
+  
+  Finally making some progress!!!
+  
+  */
 }
 
 // gets called by the Event Listener to

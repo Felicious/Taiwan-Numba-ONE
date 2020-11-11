@@ -20,5 +20,3 @@ class Order {
     }
   }
 }
-
-export { Order };
