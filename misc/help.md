@@ -374,6 +374,58 @@ google.script.run is an asynchronous client-side JavaScript API available in HTM
 
 so it's essentially handling the client/server GET/POST requests for you, so it will make it very confusing what is client and server side
 
+## Why I don't actually need templating in my project
+
+for example, with
+
+```
+<html>
+  <body>
+    <b>
+      <?= receipt.name ?>
+    </b>
+    <? for (var i = 0; i < receipt.orders.length; i++) { ?>
+        Quantity:  <?= receipt.orders[i].qty ?>
+        Name: <?= receipt.orders[i].name ?>
+    <? } ?>
+  </body>
+</html>
+```
+
+is essentially what you already have written here
+https://github.com/Felicious/Taiwan-Numba-ONE/blob/master/js/webApp.js#L50-L55
+
+the template expands to basically
+
+```
+let output = "<html><body><b>" + receipt.name + "</b>"
+for (var i = 0; i < receipt.orders.length; i++) {
+    output +=  "Quantity: " + receipt.orders[i].qty
+    output += "Name:" + receipt.orders[i].name
+}
+
+output += "</body></html>"
+```
+
+anythinig you put in <? here ?> uses js
+everything else is just a big string
+
+so like you have a template for your ramen,
+you can swap out different things like noodles, broth etc,
+"bowl" + noodlesVariable + broth + "chopsticks"
+
+then once it's all put together in one big string, you give it to me
+
+if it's like client side code then i would have to assemble the ramen myself after i get it from the server, which defeats the purpose of templating
+
+## Use getCode()
+
+This is a built in function for Google Apps Script that can help me debug and see what's going on better
+
+[This example](https://developers.google.com/apps-script/guides/html/templates#index.html_6) shows how the template actually works
+
+switch to the log (evaulated) tab, it is just a bunch of strings being appended
+
 # References
 
 ## Emily's Github

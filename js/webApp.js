@@ -44,17 +44,12 @@ function doGet(e) {
 
   const custName = e.parameter["name"];
 
-  const receipt = getReceipt(custName);
-  // s is currently an object
+  const receipt = HtmlService.createTemplateFromFile("template");
 
-  let s = "<b>" + receipt.name + "</b>";
+  // push variables as a property of the HtmlTemplate object
+  receipt.data = getReceipt(custName);
 
-  for (let i = 0; i < receipt.orders.length; i++) {
-    s +=
-      "<pre>" + receipt.orders[i].qty + " " + receipt.orders[i].name + "</pre>";
-  }
-
-  return HtmlService.createHtmlOutput(s + "<pre>" + receipt.comment + "</pre>");
+  return receipt.evaluate(); //ERROR: unexpected identifier
 
   /*
   OMGGG!!
@@ -67,7 +62,7 @@ function doGet(e) {
     null
   
   Finally making some progress!!!
-  
+
   */
 }
 

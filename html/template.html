@@ -18,27 +18,21 @@
   </style>
 
   <body>
-    <h1 id="name">Customer Name</h1>
+    <h1>
+      <?= receipt.name ?>
+    </h1>
 
     <!--<span><p id="p1">Cust no.</p></span> -->
     <hr />
 
-    <div id="orders"></div>
+    <div id="orders">
+      <? for (var i = 0; i < receipt.orders.length; i++) { ?>
+      <p><?= receipt.orders[i].qty receipt.orders[i].name ?></p>
+      <? } ?>
+    </div>
 
-    <p id="comments">Comments:</p>
+    <p id="comments">
+      <?= receipt.comments ?>
+    </p>
   </body>
-
-  <script>
-    window.onload = function(customer) {
-      document.querySelector("#name").innerHTML = customer.name;
-
-      const parent = document.getElementById("orders");
-      for (let i = 0; i < customer.length; i++) {
-        // TODO: add some spans and stuff
-        parent.appendChild(displayPara(customer.orders[i].qty));
-        parent.appendChild(displayPara(customer.orders[i].name));
-      }
-      document.querySelector("#comments").innerHTML = customer.comment;
-    };
-  </script>
 </html>
