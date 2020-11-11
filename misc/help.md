@@ -277,7 +277,7 @@ When Capoo asks for a specific type of nood, the web server recognizes that she'
 
 Tutu passes the relatively complex request from the client to the web app, or server-side code. When the info is passed, it is often encoded so that the web app can easily process the request parameters.
 
-It is similar to how restaurant servers often type and print an order so that the kitchen staff can actually read it. In regards to this project, the client's request is passed to the server code `doGet()` as an [object parameter](https://developers.google.com/apps-script/guides/web#request_parameters) `e`.
+It is similar to how restaurant servers often type and print an order so that the kitchen staff can actually read it. In regards to this project, the client's request is passed to the server code `doGet()` as `e`.
 
 ![6](../images/webApp2.jpg)
 
@@ -292,6 +292,55 @@ For the purpose of this example and doodle, however, the web app is only equippe
 Although not depicted in the illustration, the web application first passes the completed HTML page of ramen (with a status code of "200 OK") to Tutu, the web server/browser, so that Tutu can personally serve each piping-hot bowl of ramen to Tutu's love of her life, Capoo!
 
 I wish I had a better understanding of what happens on the client-side and how the HTTP response is handled by the browser and served to the client, but I'm still a little bit in the dark. I'm glad that I had the opportunity to illustrate and better understand the server-side of the this process, though! Hope you enjoyed reading my goofy doodles and dad puns (:
+
+## A Somewhat Confusing Example Involving Code
+
+In lieu of a web app, the contents of the request Tutu (who is the web app) receives is the object `e`. You can read more about the [request parameters](https://developers.google.com/apps-script/guides/web#request_parameters) here, but I wanted to see the entirety of Capoo's `/noods?name=shoyu` request.
+
+But how did Capoo make this mischeivous request in the first place?
+
+First, he needed Chef Tutu's app URL, which is `https://script.google.com/macros/s/{ID of my web app}`.
+
+However, since this web app is still in beta testing, Capoo needs to add `/dev`. What follows after is the contents of his request. The full HTTP request is the following:
+
+`https://script.google.com/macros/s/{ID of my web app}/dev/noods?name=shoyu`
+
+The script written within the web app (so inside the `Code.gs` file) instructs Tutu on how to fulfill Capoo (the client's) request. However, since I just wanted to scrutinize Capoo's request and not actually make a bowl of noodles for him, I wrote **"How Tutu Baits Capoo"** inside `Code.gs` to simply display the contents of the request.
+
+Chef Tutu's reply to Capoo is found in **"Tutu's Reply to Capoo."** However, Capoo (who's expecting a bowl of ramen) might be disappointed that I wrote script to simply display Capoo's request back to him in JSON format.
+
+**How Tutu Baits Capoo**:
+
+```
+function doGet(e) {
+  // I'm just showing you your order; nothing to see here
+  const s = JSON.stringify(e, null, 4);
+  return HtmlService.createHtmlOutput(s);
+}
+```
+
+**Tutu's Reply to Capoo**:
+
+```
+{
+    "contextPath": "",
+    "contentLength": -1,
+    "parameters": {
+        "name": [
+            "shoyu"
+        ]
+    },
+    "parameter": {
+        "name": "shoyu"
+    },
+    "pathInfo": "noods",
+    "queryString": "name=shoyu"
+}
+```
+
+In short, the URL `https://script.google.com/macros/s/{ID of my web app}` represents the ramen shop Tutu owns. For Capoo to request noods, he needs to go to the URL and attach his request `/noods?name=shoyu` to that URL. The web app, Tutu, processes the order according to the instructions written in her employee manual, which represents the **backend script** within `Code.js`. Then, the web app displays results of the script (Tutu)'s work on the page.
+
+This is more or less the code and client-server communication described in the art above (:
 
 # Templating
 
