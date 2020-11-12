@@ -44,12 +44,12 @@ function doGet(e) {
 
   const custName = e.parameter["name"];
 
-  const receipt = HtmlService.createTemplateFromFile("template");
+  const t = HtmlService.createTemplateFromFile("template");
 
   // push variables as a property of the HtmlTemplate object
-  receipt.data = getReceipt(custName);
+  t.receipt = getReceipt(custName);
 
-  return receipt.evaluate(); //ERROR: unexpected identifier
+  return t.evaluate(); //ERROR: unexpected identifier
 
   /*
   OMGGG!!

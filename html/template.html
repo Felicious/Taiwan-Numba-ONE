@@ -27,7 +27,10 @@
 
     <div id="orders">
       <? for (var i = 0; i < receipt.orders.length; i++) { ?>
-      <p><?= receipt.orders[i].qty receipt.orders[i].name ?></p>
+      <p>
+        <?= receipt.orders[i].qty ?>
+        <?= receipt.orders[i].name ?>
+      </p>
       <? } ?>
     </div>
 
