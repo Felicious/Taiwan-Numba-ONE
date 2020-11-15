@@ -202,14 +202,3 @@ function getItemColumnIndexes(parsedColNames) {
   // TODO: Handle if end isn't found
   return { start, end };
 }
-
-/**
- *    @param: the text that will be inserted into the paragraph element
- *    returns: a paragraph-type html element that displays the passed in text
- */
-function displayPara(words) {
-  const addInfo = document.createTextNode(words);
-  const pElement = document.createElement("P");
-  pElement.appendChild(addInfo);
-  return pElement;
-}
