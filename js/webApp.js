@@ -1,25 +1,3 @@
-/*
-
-Commenting this out rn because it's still too early for me to handle buttons 
-w/o understanding API calls and stuff
-
-document.querySelector('#btn').addEventListener("click", function () {
-    const name = document.getElementById("select").value;
-    var data = google.script.run.withSuccessHandler(function (customer) {
-        document.querySelector("#name").innerHTML = customer.name;
-        
-        const parent = document.getElementById("orders");
-        for (let i = 0; i < customer.length; i++){
-            // TODO: add some spans and stuff
-            parent.appendChild(displayPara(customer.orders[i].qty));
-            parent.appendChild(displayPara(customer.orders[i].name));
-        }
-        document.querySelector("#comments").innerHTML = customer.comment;
-    
-      }).getReceipt(name);
-
-*/
-
 function doGet(e) {
   // e: entered "/order?name=Mei Yu" -> got "/order?name=Mei%20Yu" in the URL
   // stringified e and got:

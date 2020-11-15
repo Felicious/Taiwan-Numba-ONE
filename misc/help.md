@@ -522,6 +522,15 @@ Derrick also suggests another solution:
 
 Okay, I like the sound of this. I'll do both (':
 
+## A Progression of Receipt Designs
+
+I thought it would be interesting to see how the first versions of my site/receipt look in comparison to the end result! This could also be used to show my growth (if any LOL) so that maybe I could feel proud later hehe
+
+1. Very first working receipt request (11/12/20)
+
+This one was achieved by typing in Mom's name in the request URL. Little to no formatting, other than choosing a font (Calibri) and colors.
+![first_receipt](<../images/Screenshot%20(17).png>)
+
 # Serving HTML as a web app
 
 When beginning this project, I was confused about what [Serving HTML as a web app](https://developers.google.com/apps-script/guides/html#serve_html_as_a_web_app) really meant.
