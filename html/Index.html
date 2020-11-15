@@ -6,14 +6,48 @@
   </head>
 
   <style>
-    body {
-      margin: 10px;
-      background-color: rgb(68, 68, 68);
-      font-family: Candara, Calibri, Segoe, Segoe UI, Optima, Arial, sans-serif;
-      color: rgb(255, 165, 0);
-    }
-  </style>
-  <body>
-    <h1>Order Tickets for 萬巒豬腳</h1>
-  </body>
+      * {
+        box-sizing: border-box;
+      }
+      
+      .container {
+        display: flex;
+      }
+      
+      /* Create two equal columns that sits next to each other */
+      .column {
+        flex: 50%;
+        padding: 10px;
+        height: 300px; /* Should be removed. Only for demonstration */
+      }
+      
+      body {
+              margin-top: 10%;
+              margin-bottom: 10%;
+              margin-right: 10%;
+              margin-left: 10%;
+      
+              background: linear-gradient(90deg, #ffffff 50%, #d76f67 50%);
+      
+              font-family: 'Poppins', sans-serif;
+      
+            }
+      </style>
+      </head>
+      <body>
+      
+      <div class="container">
+        <div class="column" style="background-color:#d76f67;">
+          <p>Chloe's pic goes here</p>
+          <p> remember to look at the "Faded red" mockup!</p>
+        </div>
+        <div class="column" style="background-color:#ffffff;">
+          <h2>Choose Spreadsheet</h2>
+          <form>
+            <p> ask them for some stuff </p>
+          </form>
+        </div>
+      </div>
+      
+      </body>
 </html>

@@ -531,6 +531,14 @@ I thought it would be interesting to see how the first versions of my site/recei
 This one was achieved by typing in Mom's name in the request URL. Little to no formatting, other than choosing a font (Calibri) and colors.
 ![first_receipt](<../images/Screenshot%20(17).png>)
 
+## Flexbox
+
+I wanted to ensure the layout of my site looked nice on mobile too, so I thought [Flexbox's container-type layouts](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) were most suitable to compartmentalize the grids in my site.
+
+### Linear Gradient
+
+Unsure if there was a better way to achieve the split design, but I used linear gradient.
+
 # Serving HTML as a web app
 
 When beginning this project, I was confused about what [Serving HTML as a web app](https://developers.google.com/apps-script/guides/html#serve_html_as_a_web_app) really meant.
