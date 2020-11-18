@@ -49,10 +49,35 @@
        	color: white;
        	padding: 10px 24px;
         text-align: center;
-  		text-decoration: none;
-  		display: inline-block;
-  		font-size: 16px;
+  		  text-decoration: none;
+  		  display: inline-block;
+  		  font-size: 16px;
         border-radius: 12px;
+        }
+
+        .describeID {
+          position: relative;
+          display: inline-block;
+        }
+
+        .describeID .describeIDtext {
+          visibility: hidden;
+          width: 50%;
+          background-color: white;
+          color: #d76f67;
+          text-align: left;
+          font-size: 12 px;
+          border-radius: 8px;
+
+          position: absolute;
+          z-index: 1;
+          top: 100%;
+          left: 50%;
+          margin-left: -60px;
+        }
+
+        .describeID:hover .describeIDtext{
+          visibility: visible;
         }
       </style>
       </head>
@@ -67,9 +92,15 @@
           <h2>Choose Spreadsheet</h2>
           <form>
             <div class= "sheetInput">
-              <p>Sheet ID<p>
-              <input type="text" id="sheetId" maxlength="44" placeholder="enter sheet ID"/>
-              	<button class="button1" type="button">submit</button>
+              <label>Sheet ID
+                <input type="text" name="sheetId" maxlength="44" placeholder="enter sheet ID"/>
+              </label>
+              <div class="describeID">?
+                <span class="describeIDtext">
+                  The sheet ID is found in the URL of your Google Sheet. It follows after "https://docs.google.com/spreadsheets/d" and stops at the "/"
+                </span>
+              </div>
+              <button class="button1" type="button">submit</button>
             </div>
             <p> ask them for some stuff </p>
           </form>
