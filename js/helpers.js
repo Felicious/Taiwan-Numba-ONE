@@ -44,3 +44,34 @@ function checkOff(row, col) {
   const range = sheet.getRange(row, col);
   range.setValue("x");
 }
+
+function getSheetId() {
+  const userInput = getElementbyId("sheetId");
+  let message = document.getElementById("message");
+  message.innerHTML = "";
+
+  // check if valid
+  if (userInput.length > 44) {
+    try {
+      const possibleSheet = SpreadsheetApp.openByUrl(userInput);
+
+      // return type: int
+      return possibleSheet.getSheetId(); // built-in func of Google Sheets class
+    } catch (err) {
+      message.innerHTML =
+        'Did you try to input a url? Make sure to include the "https://..." part too.';
+    }
+  } else {
+    try {
+      const possibleSheet = SpreadsheetApp.openById(userInput);
+      return possibleSheet.getSheetId();
+    } catch (err) {
+      if (userInput.length < 44) {
+        message.innerHTML = "ID not long enough?";
+        // TODO: check if all IDs need to be 44 characters
+      } else {
+        message.innerHTML = "Google Sheet not found from the ID inputted.";
+      }
+    }
+  }
+}
