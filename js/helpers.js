@@ -50,6 +50,8 @@ function getSheetId() {
   let message = document.getElementById("message");
   message.innerHTML = "";
 
+  // TODO: change ifs to check if userInput begins with http://
+
   // check if valid
   if (userInput.length > 44) {
     try {
