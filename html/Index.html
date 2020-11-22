@@ -18,6 +18,8 @@
       height: 100%;
     }
 
+    /*Displays two equally sized panels:
+  one is the image, the other is the form*/
     .column {
       flex: 50%;
       padding: 10px;
@@ -28,37 +30,20 @@
       margin-bottom: 10%;
       margin-right: 10%;
       margin-left: 10%;
-
       background: linear-gradient(90deg, #ffffff 50%, #d76f67 50%);
-
       font-family: "Poppins", sans-serif;
+    }
+
+    /* Formatting for textbox */
+    label {
+      color: #d76f67;
+      font-size: 18px;
     }
 
     input[type="text"] {
       border-style: none none solid;
       border-color: #e0cb92;
       width: 100%;
-    }
-
-    .inputRow {
-      display: flex;
-      margin: 2rem 1rem 2rem;
-      padding: 5px;
-    }
-
-    .flexInput {
-      flex: 4;
-      margin: 0 0.5rem 0;
-    }
-
-    .flexButton {
-      margin: 0 1rem 0;
-      align-self: flex-end;
-    }
-
-    label {
-      color: #d76f67;
-      font-size: 18px;
     }
 
     button {
@@ -71,6 +56,23 @@
       display: inline-block;
       font-size: 1rem;
       border-radius: 12px;
+    }
+
+    /* Parent container for Sheet URL inputs*/
+    .inputRow {
+      display: flex;
+      margin: 2rem 1rem 2rem;
+      padding: 5px;
+    }
+
+    /* Child items that stay on the same line */
+    .flexInput {
+      flex: 4;
+      margin: 0 0.5rem 0;
+    }
+    .flexButton {
+      margin: 0 1rem 0;
+      align-self: flex-end;
     }
   </style>
 
@@ -98,6 +100,8 @@
           </div>
           <p id="message"></p>
         </form>
+        <br />
+        <br />
       </div>
     </div>
   </body>

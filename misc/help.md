@@ -549,7 +549,7 @@ The child containers are `flexInput` and `flexButton`. I wanted the textbox to e
 
 In the end, however, I removed `flex: 1;` from the button because flex grow was applied not to the button itself, but the space around it. Thus, there was an uncomfortable amount of white space around the button at larger window sizes.
 
-**Question**: How do I make a button dynamically grow? Is it possible with flexbox?
+**Question**: How do I make a button grow dynamically? Is it possible with flexbox?
 
 lastly, the submit button was floating and not aligned with the yellow line of the textbox, so I used `align-self: flex-end;` to align the button with the bottom edge of the container.
 

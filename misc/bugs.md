@@ -53,3 +53,15 @@ Thankfully, Google Apps Script handles this confusion I have!
 > You are not limited to a single server Code.gs file. You can spread server code across multiple files for ease of development. All of the server files are loaded into the same global namespace, so use JavaScript classes when you want to provide safe encapsulation.
 
 Therefore, to fix this issue, I just need to remove all import statements and call all functions as if they're not written in separate server-side files (everything ending in .gs)! Thank you!!! <3
+
+# Debugging tips for HTML and CSS
+
+## Inspecting a Webpage (Derrick's Method)
+
+To be frank, I still don't really understand this...
+
+## Use Codepen
+
+> CodePen is an online community for testing and showcasing user-created HTML, CSS and JavaScript code snippets. It functions as an online code editor and open-source learning environment, where developers can create code snippets, called "pens," and test them.
+
+Specifically, there's an option within the code editor to "Analyze HTML" or CSS that helped me catch bugs, like an unclosed `<div>`, wrong way to comment `//`, and others!
