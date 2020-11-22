@@ -397,14 +397,14 @@ https://github.com/Felicious/Taiwan-Numba-ONE/blob/master/js/webApp.js#L50-L55
 
 the template expands to basically
 
-```
-let output = "<html><body><b>" + receipt.name + "</b>"
+```js
+let output = "<html><body><b>" + receipt.name + "</b>";
 for (var i = 0; i < receipt.orders.length; i++) {
-    output +=  "Quantity: " + receipt.orders[i].qty
-    output += "Name:" + receipt.orders[i].name
+  output += "Quantity: " + receipt.orders[i].qty;
+  output += "Name:" + receipt.orders[i].name;
 }
 
-output += "</body></html>"
+output += "</body></html>";
 ```
 
 anythinig you put in <? here ?> uses js
@@ -438,13 +438,15 @@ While referring to her source code, I noticed that Emily had an idiomatic way of
 
 The following method returns an array of the applicants' names from a column
 
-```
+```js
 function getApplicants() {
-  return devs.getRange(2, 1, devs.getLastRow() - 1)
+  return devs
+    .getRange(2, 1, devs.getLastRow() - 1)
     .getValues()
-    .reduce(function (a, b) { // flatten array
-      return a.concat(b[0])
-  }, []);
+    .reduce(function(a, b) {
+      // flatten array
+      return a.concat(b[0]);
+    }, []);
 }
 ```
 
@@ -491,10 +493,10 @@ to
 
 #### get a single row
 
-```
+```js
 const names = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues();
 
-  console.log(names);
+console.log(names);
 ```
 
 Get 2D array, starting from row 1, col 1. Returns 1 row with sheet.getLastColumn() columns
@@ -534,6 +536,22 @@ This one was achieved by typing in Mom's name in the request URL. Little to no f
 ## Flexbox
 
 I wanted to ensure the layout of my site looked nice on mobile too, so I thought [Flexbox's container-type layouts](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) were most suitable to compartmentalize the grids in my site.
+
+The following is the result of an entire day's of coding ;-; I had trouble figuring out which CSS tricks to use to align the input box and button, resulting in ~4hrs of trial and (LOTS of) error. If you'd like to see the monstrosity I started with, [here it is](https://github.com/Felicious/Taiwan-Numba-ONE/issues/10)
+
+![wowfinally](../images/flex-container-ex.png)
+
+For future reference, Flexbox is container-ized, so `inputRow` is the parent container that holds the textbox and button elements.
+
+Within the parent container, I needed to specify that I'm defining a flex container for this row using `display: flex`. Margin with 3 parameters indicates the top, horizontal, and bottom margins, respectively. I had auto in the 2nd parameter in the screenshot, but I ended up changing it to `1rem` (denoting 1 unit of the standard font size) so that the row is centered. I also removed `padding` because I didn't really see a visual difference in its inclusion.
+
+The child containers are `flexInput` and `flexButton`. I wanted the textbox to elongate horizontally when the window size expanded, so I set the flex-grow value to 4, and the button to 1, so that the input box would be 4x longer than the button. The StackOverflow thread I referenced was [this](https://stackoverflow.com/questions/42421361/input-button-elements-not-shrinking-in-a-flex-container)
+
+In the end, however, I removed `flex: 1;` from the button because flex grow was applied not to the button itself, but the space around it. Thus, there was an uncomfortable amount of white space around the button at larger window sizes.
+
+**Question**: How do I make a button dynamically grow? Is it possible with flexbox?
+
+lastly, the submit button was floating and not aligned with the yellow line of the textbox, so I used `align-self: flex-end;` to align the button with the bottom edge of the container.
 
 ### Linear Gradient
 
