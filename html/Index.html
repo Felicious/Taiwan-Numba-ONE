@@ -74,6 +74,52 @@
       margin: 0 1rem 0;
       align-self: flex-end;
     }
+
+    .tab {
+      display: flex;
+      width: 75%;
+      overflow: hidden;
+      margin: 1rem 1rem 1rem;
+    }
+
+    /* Style the buttons inside the tab */
+    .tab button {
+      flex: 1 1 0px;
+      border: 4px solid;
+      border-color: #e0cb92;
+      background-color: white;
+      color: #2f4f4f;
+      /*controls space between tab buttons */
+      margin: 0 0.75rem 0.5rem;
+      /* controls spacing within tab button */
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 17px;
+      font: inherit;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+      background-color: #e0cb92;
+      color: white;
+      border: none;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+      background-color: #d76f67;
+      border: none;
+      color: white;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
   </style>
 
   <body>
@@ -102,7 +148,80 @@
         </form>
         <br />
         <br />
+
+        <div class="tab">
+          <button
+            class="tablinks"
+            onclick="openTab(event, 'single')"
+            id="defaultOpen"
+          >
+            Single
+          </button>
+          <button class="tablinks" onclick="openTab(event, 'bulk')">
+            Bulk
+          </button>
+          <button class="tablinks" onclick="openTab(event, 'actions')">
+            Actions
+          </button>
+        </div>
+
+        <div id="single" class="tabcontent">
+          <h3>Single</h3>
+          <p>TODO:</p>
+          <p>Fill this in with a drop down menu of customer names</p>
+          <p>Also add a submit button displaying a paw (:</p>
+        </div>
+
+        <div id="bulk" class="tabcontent">
+          <h3>Bulk</h3>
+          <p>
+            Notice: this feature has yet to be added! Thank you for your
+            patience as I continue to work on this project (:
+          </p>
+          <p>TODO:</p>
+          <p>Add a button to generate all unprinted customers</p>
+        </div>
+
+        <div id="actions" class="tabcontent">
+          <h3>Actions</h3>
+          <p>
+            Here are additional scripts I wrote to make the Sheet more
+            convenient for y'all
+          </p>
+          <p>Includes:</p>
+          <p>
+            Function that totals each customer order + saves it to the Google
+            Sheet
+          </p>
+          <p>
+            TODO: create a checklist of customers Stephanie needs to bill on
+            Venmo
+          </p>
+          <p>
+            TODO???: (hard level) Invite customers to Google Calendar event
+            based on user entry of the date
+          </p>
+        </div>
       </div>
     </div>
   </body>
+
+  <script>
+    function openTab(evt, evtType) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(evtType).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+  </script>
 </html>

@@ -553,6 +553,12 @@ In the end, however, I removed `flex: 1;` from the button because flex grow was 
 
 lastly, the submit button was floating and not aligned with the yellow line of the textbox, so I used `align-self: flex-end;` to align the button with the bottom edge of the container.
 
+### Padding vs Margin
+There are so many attributes you can modify in CSS, and so it's quite overwhelming at first when I first started using them all. While coding, I noticed an important distinction:
+- Padding controls the element's __intra__-spacial whitespace, so the whitespace within the button, container, etc
+- Margin controls the element's __inter__-spacial whitespace, or the whitespace between objects
+
+To illustrate, we have
 ### Linear Gradient
 
 Unsure if there was a better way to achieve the split design, but I used linear gradient.
