@@ -46,7 +46,7 @@ function checkOff(row, col) {
 }
 
 function getSheetId() {
-  const userInput = getElementbyId("sheetId");
+  const userInput = getElementbyId("sheetUrl");
   let message = document.getElementById("message");
   message.innerHTML = "";
 
@@ -60,19 +60,20 @@ function getSheetId() {
       // return type: int
       return possibleSheet.getSheetId(); // built-in func of Google Sheets class
     } catch (err) {
+      /* TODO: make the text box underline red to indicate error */
       message.innerHTML =
-        'Did you try to input a url? Make sure to include the "https://..." part too.';
+        'Couldn\'t find sheet from url. Make sure to include the "https://..." part too.';
     }
-  } else {
+  }
+  // This else might be antiquated since the site only requests the URL
+  else {
     try {
       const possibleSheet = SpreadsheetApp.openById(userInput);
       return possibleSheet.getSheetId();
     } catch (err) {
       if (userInput.length < 44) {
-        message.innerHTML = "ID not long enough?";
+        message.innerHTML = "Sheet not found. Is the ID not long enough?";
         // TODO: check if all IDs need to be 44 characters
-      } else {
-        message.innerHTML = "Google Sheet not found from the ID inputted.";
       }
     }
   }
