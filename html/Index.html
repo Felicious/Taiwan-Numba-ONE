@@ -52,9 +52,16 @@
 
         <div id="single" class="tabcontent">
           <h3>Single</h3>
-          <p>TODO:</p>
-          <p>Fill this in with a drop down menu of customer names</p>
-          <p>Also add a submit button displaying a paw (:</p>
+          <p>Print Receipts one at a time</p>
+          <div class="drop-down" style="width:200px;">
+            <select id="dropbox-values">
+              <option disabled selected value> -- select -- </option>
+              <? const options = getCustomers()
+              for (let i = 0; i < options.length; i++) { ?>
+              <option><?= options[i] ?></option>
+              <? } ?>
+            </select>
+          </div>
         </div>
 
         <div id="bulk" class="tabcontent">
