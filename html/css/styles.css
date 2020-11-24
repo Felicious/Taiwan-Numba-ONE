@@ -112,3 +112,82 @@ button {
   border: 1px solid #ccc;
   border-top: none;
 }
+
+/* parent for the entire dropdown box, including the options */
+.dropdown {
+  position: relative; /*want to skew to the left*/
+  font-family: inherit;
+  /*color: */
+}
+
+.dropdown select {
+  display: none; /*hide uggo default SELECT element:*/
+}
+
+/* Style drop-down box*/
+.select-selected {
+  border: 2px solid;
+  border-color: #d76f67;
+  background-color: white;
+  color: black;
+  margin: 0 0.75rem 0.5rem;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.select-selected:hover {
+  background-color: #ffe6ee;
+}
+
+/* downwards arrow in the dropdown box */
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 21px;
+  right: 25px;
+  width: 0;
+  height: 0;
+  border: 10px solid #d76f67;
+  /* each of these four values are triangles that make up a square*/
+  border-color: #d76f67 transparent transparent transparent;
+}
+
+/*point arrow upwards when the items are dropped down*/
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #d76f67 transparent;
+  top: 10px;
+}
+
+/*style the items (options)*/
+.select-items div {
+  color: black;
+  padding: 8px 29px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  background-color: white;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99; /* not sure what this does */
+  border-radius: 8px;
+  /*needs to match the margin of the drop-down box*/
+  margin: 0.25rem 0.75rem 0.5rem;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: #ffe6ee;
+}

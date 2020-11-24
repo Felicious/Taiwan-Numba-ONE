@@ -566,6 +566,8 @@ I simply copied the example from making a tab and I didn't understand what all t
 
 Therefore, in this context below, the tabs that aren't displayed should physically disappear, not hidden, because the inactive objects from the other tabs shouldn't be there when the other tabs aren't active.
 
+The following is how to set the value of the property in Javascript.
+
 ```js
 function openTab(evt, evtType) {
   const tabContent = document.getElementsByClassName("tabcontent");
@@ -583,6 +585,14 @@ function openTab(evt, evtType) {
 ```
 
 This `style.display` property can also be set to "block", like in the code above, which makes the entire width of the screen that element (in our case, it's the tab content)
+
+One more thing; this `style.display` property is set css more directly:
+
+```css
+.dropdown select {
+  display: none;
+}
+```
 
 ### Linear Gradient
 
