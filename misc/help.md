@@ -554,11 +554,36 @@ In the end, however, I removed `flex: 1;` from the button because flex grow was 
 lastly, the submit button was floating and not aligned with the yellow line of the textbox, so I used `align-self: flex-end;` to align the button with the bottom edge of the container.
 
 ### Padding vs Margin
-There are so many attributes you can modify in CSS, and so it's quite overwhelming at first when I first started using them all. While coding, I noticed an important distinction:
-- Padding controls the element's __intra__-spacial whitespace, so the whitespace within the button, container, etc
-- Margin controls the element's __inter__-spacial whitespace, or the whitespace between objects
 
-To illustrate, we have
+There are so many attributes you can modify in CSS, and so it's quite overwhelming at first when I first started using them all. While coding, I noticed an important distinction:
+
+- Padding controls the element's **intra**-spacial whitespace, so the whitespace within the button, container, etc
+- Margin controls the element's **inter**-spacial whitespace, or the whitespace between objects
+
+### DOMElement.style.display
+
+I simply copied the example from making a tab and I didn't understand what all the lines meant. The `{some HTML element}.style.display` is a property that, when is set to "none," the element disappears. "Hidden" means it exists, but it's invisible to the eye.
+
+Therefore, in this context below, the tabs that aren't displayed should physically disappear, not hidden, because the inactive objects from the other tabs shouldn't be there when the other tabs aren't active.
+
+```js
+function openTab(evt, evtType) {
+  const tabContent = document.getElementsByClassName("tabcontent");
+  for (let i = 0; i < tabContent.length; i++) {
+    tabContent[i].style.display = "none";
+  }
+  const tabLinks = document.getElementsByClassName("tablinks");
+  for (let i = 0; i < tabLinks.length; i++) {
+    tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+  }
+  // set tab content box
+  document.getElementById(evtType).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+```
+
+This `style.display` property can also be set to "block", like in the code above, which makes the entire width of the screen that element (in our case, it's the tab content)
+
 ### Linear Gradient
 
 Unsure if there was a better way to achieve the split design, but I used linear gradient.
