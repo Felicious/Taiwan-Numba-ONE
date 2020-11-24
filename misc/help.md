@@ -594,6 +594,46 @@ One more thing; this `style.display` property is set css more directly:
 }
 ```
 
+## The Curse of Copying Code
+
+WHAT DOES THIS MEAN? ;-;
+
+I'm trying to make a dropdown menu to select customers to print. However, I'm having trouble understanding the javascript in the [code I copied](https://www.w3schools.com/howto/tryit.asp?filename=tryhow_custom_select).
+
+Thus, I've decided to comment it to better understand it.
+
+### What is x?
+
+```js
+var x, i, j, l, ll, selElmnt, a, b, c;
+/*look for any elements with the class "custom-select":*/
+x = document.getElementsByClassName("custom-select");
+l = x.length;
+```
+
+Firstly, what is "custom-select"? In the html code, the dropdown menu is surrounded by a div with the class name "custom-select" that wraps around the `select` type of input with 13 different `options`.
+
+Here's the code:
+
+```html
+<div class="custom-select" style="width:200px;">
+  <select>
+    <option value="0">Select car:</option>
+    <option value="1">Audi</option>
+    ...
+    <option value="12">Volvo</option>
+  </select>
+</div>
+```
+
+Thus, x stores an array of elements, the first of which is select box itself, then the 13 options: `x = [{select box}, {option Select car: }, {option Audi}, ... {option Volvo}];`
+
+DERRICK: is this correct? ;-; im so confused.
+
+### The outermost for loop
+
+Next I'm going to try to figure out what's going on in the outermost for loop, with the variables a and b.
+
 ### Linear Gradient
 
 Unsure if there was a better way to achieve the split design, but I used linear gradient.

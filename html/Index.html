@@ -120,37 +120,39 @@
     // Get the element with id="defaultOpen" & open it when the page loads
     document.getElementById("defaultOpen").click();
 
-    var i, j, ll, a, b, c;
+    var i, j, ll, c;
 
     /*look for any elements with the class "dropdown":*/
     const dropdownParent = document.getElementsByClassName("dropdown");
     for (i = 0; i < dropdownParent.length; i++) {
       let dropdownMenu = document.getElementById("dropdown-values");
       ll = dropdownMenu.length;
-      /*for each element, create a new DIV that will act as the selected item:*/
-      a = document.createElement("DIV");
+
+      // for each element, create a new DIV that acts as the selected item:
+      // this div surrounds the "select a customer" prompt of the dropdown box
+      let a = document.createElement("DIV");
       a.setAttribute("class", "select-selected");
       a.innerHTML = dropdownMenu.options[dropdownMenu.selectedIndex].innerHTML;
       dropdownParent[i].appendChild(a);
       /*for each element, create a new DIV that will contain the option list:*/
-      b = document.createElement("DIV");
-      b.setAttribute("class", "select-items select-hide");
+      let b = document.createElement("DIV");
+      b.setAttribute("class", "select-items select-hide"); // hides them initially
       for (j = 1; j < ll; j++) {
         /*for each option in the original select element,
     create a new DIV that will act as an option item:*/
         c = document.createElement("DIV");
-        c.innerHTML = dropdownMenu.options[j].innerHTML;
+        c.innerHTML = dropdownMenu.options[j].innerHTML; // sets option items
         c.addEventListener("click", function(e) {
           /*when an item is clicked, update the original select box,
         and the selected item:*/
           var y, i, k, s, h, sl, yl;
-          s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+          s = this.parentNode.parentNode.getElementsByTagName("select")[0]; // changes topmost box into the value of the clicked select option
           sl = s.length;
           h = this.parentNode.previousSibling;
           for (i = 0; i < sl; i++) {
             if (s.options[i].innerHTML == this.innerHTML) {
               s.selectedIndex = i;
-              h.innerHTML = this.innerHTML;
+              h.innerHTML = this.innerHTML; // changes topmost box into the value of the clicked select option
               y = this.parentNode.getElementsByClassName("same-as-selected");
               yl = y.length;
               for (k = 0; k < yl; k++) {
