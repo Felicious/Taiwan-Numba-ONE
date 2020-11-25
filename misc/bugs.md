@@ -65,3 +65,29 @@ To be frank, I still don't really understand this...
 > CodePen is an online community for testing and showcasing user-created HTML, CSS and JavaScript code snippets. It functions as an online code editor and open-source learning environment, where developers can create code snippets, called "pens," and test them.
 
 Specifically, there's an option within the code editor to "Analyze HTML" or CSS that helped me catch bugs, like an unclosed `<div>`, wrong way to comment `//`, and others!
+
+# Image broken
+
+Bug: image broken/doesn't load even though the image source exists.
+
+```html
+<p align="center">
+  <img
+    src="https://github.com/Felicious/Taiwan-Numba-ONE/blob/master/images/homepage-graphic.png"
+  />
+</p>
+```
+
+**how to fix**
+The link we copied wasn't the true image, but rather a github page. To get the link for the true image, do the following:
+
+1. Go to the page https://github.com/Felicious/Taiwan-Numba-ONE/blob/master/images/homepage-graphic.png
+2. Press "Download"
+3. Copy the link at the top
+
+OR
+
+1. go to the page
+2. Right click the image
+3. Select "open image in new tab"
+4. Copy the link at the top
