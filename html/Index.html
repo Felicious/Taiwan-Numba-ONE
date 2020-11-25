@@ -18,17 +18,23 @@
       </div>
       <div class="column" style="background-color:#ffffff;">
         <h2>Choose Spreadsheet</h2>
-        <form>
+        <form action="/orders" method="get">
           <div class="inputRow">
             <div class="flexInput">
               <label>Sheet URL</label>
               <input
                 type="text"
                 id="sheetUrl"
+                name="spreadsheetId"
                 placeholder="copy + paste complete URL"
               />
             </div>
-            <button id="submitSheet" class="flexButton" type="button">
+            <button
+              id="submitSheet"
+              class="flexButton"
+              type="button"
+              value="Submit"
+            >
               submit
             </button>
           </div>
