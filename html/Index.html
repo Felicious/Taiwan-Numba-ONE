@@ -63,6 +63,7 @@
         <div id="single" class="tabcontent">
           <div class="command">Select a name to print ticket</div>
           <div class="dropdownRow">
+            <form action="/customer" method="get">
             <div class="selectFlex">
               <select name="customerName">
                 <? const options = getCustomers()
@@ -79,6 +80,7 @@
               />
             </button>
           </div>
+          </form>
         </div>
 
         <div id="bulk" class="tabcontent">
