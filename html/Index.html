@@ -13,6 +13,7 @@
         <p align="center">
           <img
             src="https://raw.githubusercontent.com/Felicious/Taiwan-Numba-ONE/master/images/homepage-graphic.png"
+            alt="pic of Chloe"
           />
         </p>
       </div>
@@ -60,20 +61,24 @@
         </div>
 
         <div id="single" class="tabcontent">
-          <span class="command">Select a name to print ticket</span>
-          <br />
-          <select>
-            <option disabled selected value>
-              -- select customer name to print --
-            </option>
-            <? const options = getCustomers()
+          <div class="command">Select a name to print ticket</div>
+          <div class="dropdownRow">
+            <div class="selectFlex">
+              <select name="customerName">
+                <? const options = getCustomers()
               for (let i = 0; i < options.length; i++) { ?>
-            <option><?= options[i] ?></option>
-            <? } ?>
-          </select>
+                <option><?= options[i] ?></option>
+                <? } ?>
+              </select>
+            </div>
 
-          <br />
-          <p>Also add a submit button displaying a paw (:</p>
+            <button class="selectButton" type="button" value="Submit">
+              <img
+                src="https://raw.githubusercontent.com/Felicious/Taiwan-Numba-ONE/master/images/paw-button.png"
+                alt="submit button (paw)"
+              />
+            </button>
+          </div>
         </div>
 
         <div id="bulk" class="tabcontent">
