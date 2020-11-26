@@ -62,24 +62,24 @@
 
         <div id="single" class="tabcontent">
           <div class="command">Select a name to print ticket</div>
-          <div class="dropdownRow">
-            <form action="/customer" method="get">
-            <div class="selectFlex">
-              <select name="customerName">
-                <? const options = getCustomers()
+          <form action="/customer" method="get">
+            <div class="dropdownRow">
+              <div class="selectFlex">
+                <select name="customerName">
+                  <? const options = getCustomers()
               for (let i = 0; i < options.length; i++) { ?>
-                <option><?= options[i] ?></option>
-                <? } ?>
-              </select>
-            </div>
+                  <option><?= options[i] ?></option>
+                  <? } ?>
+                </select>
+              </div>
 
-            <button class="selectButton" type="button" value="Submit">
-              <img
-                src="https://raw.githubusercontent.com/Felicious/Taiwan-Numba-ONE/master/images/paw-button.png"
-                alt="submit button (paw)"
-              />
-            </button>
-          </div>
+              <button class="selectButton" type="button" value="Submit">
+                <img
+                  src="https://raw.githubusercontent.com/Felicious/Taiwan-Numba-ONE/master/images/paw-button.png"
+                  alt="submit button (paw)"
+                />
+              </button>
+            </div>
           </form>
         </div>
 
