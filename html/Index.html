@@ -4,15 +4,12 @@
     <base target="_top" />
     <title>萬巒豬腳 Print Station</title>
 
-    <link
-      rel="stylesheet"
-      href="https://raw.githubusercontent.com/Felicious/Taiwan-Numba-ONE/master/html/css/styles.css"
-    />
+    <?!= include('Stylesheet'); ?>
   </head>
 
   <body>
     <div class="container">
-      <div class="column" style="background-color:#d76f67;">
+      <div class="column" style="background-color: #d76f67">
         <p align="center">
           <img
             src="https://raw.githubusercontent.com/Felicious/Taiwan-Numba-ONE/master/images/homepage-graphic.png"
@@ -20,7 +17,7 @@
           />
         </p>
       </div>
-      <div class="column" style="background-color:#ffffff;">
+      <div class="column" style="background-color: #ffffff">
         <h2>Choose Spreadsheet</h2>
         <form action="/orders" method="get">
           <div class="inputRow">
@@ -144,7 +141,7 @@
 
     // need an event listener on the input box to get enter to press the submit button
     const submitWithEnter = document.getElementById("sheetUrl");
-    submitWithEnter.addEventListener("keydown", e => {
+    submitWithEnter.addEventListener("keydown", (e) => {
       if (e.keyCode == 13) {
         // if the pressed key is "Enter"
         somefunction();

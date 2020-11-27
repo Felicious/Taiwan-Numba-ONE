@@ -44,6 +44,11 @@ function doGet(e) {
   */
 }
 
+/**open stylesheet using include() */
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+}
+
 // gets called by the Event Listener to
 // generate html info
 
@@ -80,7 +85,7 @@ function getReceipt(name) {
   let col = itemIndex;
   let items = [];
 
-  itemList.forEach(function(item) {
+  itemList.forEach(function (item) {
     if (currentRow[col]) {
       console.log(`Add ${currentRow[col]} of ${item.name} to cart`);
       items.push({ name: item.name, qty: currentRow[col] });
@@ -129,7 +134,7 @@ function findRowByName(name) {
     .getRange(2, 1, sheet.getLastRow(), sheet.getLastColumn())
     .getValues();
 
-  return allData.filter(function(row) {
+  return allData.filter(function (row) {
     return row[4] === name; // 4 is the col where the names are stored
   })[0]; // filter returns an arr of elements that satisfy the condition
 }
@@ -150,7 +155,7 @@ function findRowByName(name) {
  */
 function extractPriceInfo(columnNames) {
   // Find values in column name with the above described format
-  return columnNames.map(col => {
+  return columnNames.map((col) => {
     const matches = col.match(/(?<item>[^\[]*)\$(?<cost>\d+)/); // key info stored in 3 capture grps
 
     // No matches and no matching groups cost -> not menu item
@@ -161,7 +166,7 @@ function extractPriceInfo(columnNames) {
 
     return {
       name: matches.groups.item,
-      cost: matches.groups.cost
+      cost: matches.groups.cost,
     };
   });
 }
@@ -172,7 +177,7 @@ function extractPriceInfo(columnNames) {
  * @param parsedColNames array of extractPriceInfo
  */
 function getItemColumnIndexes(parsedColNames) {
-  const start = parsedColNames.findIndex(e => e.cost !== null);
+  const start = parsedColNames.findIndex((e) => e.cost !== null);
 
   // index of the first cost === null after start
   let end = parsedColNames.findIndex((e, i) => e.cost === null && i > start); // findIndex has an optional para; second is index i

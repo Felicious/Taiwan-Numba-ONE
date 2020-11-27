@@ -91,3 +91,26 @@ OR
 2. Right click the image
 3. Select "open image in new tab"
 4. Copy the link at the top
+
+# Stylesheet doesn't open on Google Apps Script
+
+```html
+<link
+  rel="stylesheet"
+  href="https://raw.githubusercontent.com/Felicious/Taiwan-Numba-ONE/master/html/css/styles.css"
+/>
+```
+
+The resulting webpage does not contain any CSS because for some reason, the CSS file isn't open/applied to the HTML page.
+
+**The cause**: The error is actually caused by Google's way of protecting against malicious scripts; when the Apps Script API detects any links or files that are scripts within a page, it deletes the header, causing the generated file to be blank.
+
+To fix this, Google Apps Script Docs asks developers to follow this set of [Best Practices](https://developers.google.com/apps-script/guides/html/best-practices#separate_html_css_and_javascript) that advises to create an HTML file specifically for CSS and include this call within `main.gs`:
+
+```js
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+}
+```
+
+Then, replace erroneous HTML code mentioned above with: `<?!= include('Stylesheet')>`
