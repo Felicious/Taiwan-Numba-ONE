@@ -443,7 +443,7 @@ function getApplicants() {
   return devs
     .getRange(2, 1, devs.getLastRow() - 1)
     .getValues()
-    .reduce(function(a, b) {
+    .reduce(function (a, b) {
       // flatten array
       return a.concat(b[0]);
     }, []);
@@ -660,3 +660,35 @@ The notable components are the web app, HTML template, and database.
 Initially, I thought a web application was like a mobile app like Spotify; something a user interacted with to request information. However, the definition of a web app in the context of client-server web programming is:
 
 > server-side code that processes HTTP requests and returns HTTP responses
+
+# Form Submission and GET Requests
+
+I learned a lot of unfamiliar coding terminology while working on the submit buttons for this project, so I can share with you (:
+
+## Routing
+
+First, I was completely unaware that **URL** stood for **uniform resource locator** "used to communicate and send requests to the server." The URI, or the **uniform resource identifier**, is used by any application that manages routing, and using a specific one like Node and ExpressJS gains you access to convenient methods like GET [and POST] that works with these requests.[^1]
+
+**Question for Derrick**: what URI does Google Apps Script use? Does it have its own, modified version, like how it has its own version of JavaScript (like their .gs file type)?
+
+In response to this question I posed to Derrick, I read about `google.script.url` an asynchronous client-side JavaScript API that can [query URLs to obtain the current URL parameters and fragment](https://developers.google.com/apps-script/guides/html/reference/url). I don't think this really relates much to my question, and it seems like this is used mostly in conjunction with `google.script.history` to use browser history in web apps.
+
+However, the documentation mentions [`IFRAME`](<(https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe)>), which is a state represented by another HTML page embedded into the current one. This concept is key to understanding the work-around Derrick employed to send the GET request-- a URL-- from the form back to the server and receive an HTML page with embedded new information(?) like the list of customer names who needs their receipt printed.
+
+### Key Components
+
+After all of that confusion, I will now summarize the lecture (see footnote 1). When visiting any web app, the first page you see-- like the landing page of a website-- is the **root route**.
+
+To ask the web app for specific information, you'll have to routing using a specific key word concerts for `mamamoo.kr/concerts`. Within the server code, there should be a function that handles GET requests for Mamamoo concert information `/concerts`, which will send a response back to the user. (See my bunny illustrations for more info!)
+
+In summary, the key components of routing is the request (what specifically is being requested is found in the **path info**, like /concerts in our example), back-end script that designates how the response is constructed, and the response-- how it's served back to the user.
+
+While the idea is simple, the specifics of which to implement is different across frameworks. It seemed simple in the demo of the lecture using Node.js, but it'll be different implementing routing on Google Apps Script.
+
+**Question**: what's a framework vs API vs IDE vs software?
+
+### References + More Info
+
+[^1]: From Ray Villalobos's [lecture](https://www.linkedin.com/learning/mastering-web-developer-interview-code/how-does-routing-work-in-a-modern-web-application) "How does routing work in the modern web application" on LinkedIn, at the timestamp: 0:40.
+
+[The concept of IFRAME](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe)-- I don't think I completely get how to use it yet.
