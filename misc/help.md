@@ -679,7 +679,7 @@ However, the documentation mentions [`IFRAME`](<(https://developer.mozilla.org/e
 
 After all of that confusion, I will now summarize the lecture (see footnote 1). When visiting any web app, the first page you see-- like the landing page of a website-- is the **root route**.
 
-To ask the web app for specific information, you'll have to routing using a specific key word concerts for `mamamoo.kr/concerts`. Within the server code, there should be a function that handles GET requests for Mamamoo concert information `/concerts`, which will send a response back to the user. (See my bunny illustrations for more info!)
+To ask the web app for specific information, you'll have to routing using a specific key word concerts for `mamamoo.kr/concerts`. Within the server code, there should be a function that handles GET requests for Mamamoo concert information `/concerts`, which will send a response back to the user. (See my [bunny illustrations](https://github.com/Felicious/Taiwan-Numba-ONE/blob/master/misc/help.md#a-simple-server-client-interaction) for more info!)
 
 In summary, the key components of routing is the request (what specifically is being requested is found in the **path info**, like /concerts in our example), back-end script that designates how the response is constructed, and the response-- how it's served back to the user.
 
