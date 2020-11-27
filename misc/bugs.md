@@ -114,3 +114,21 @@ function include(filename) {
 ```
 
 Then, replace erroneous HTML code mentioned above with: `<?!= include('Stylesheet')>`
+
+# Routing <form action="/orders" method="get"> fails
+
+This above code works on a regular web app, and usually you can type that line to go to "example.com/orders" but doesn't work for Apps Script.
+
+According to Derrick,
+
+> since it's on google with their long weird url it would go to script.google.com/orders
+> but also your web app runs in an iframe so it's not atually on script.google.com
+> it runs on some weird url like
+> https://n-5yl7c7llzo5bc35qmgkh4nl5yrvt7llhuary2ei-0lu-script.googleusercontent.com/userCodeAppPanel
+> iframes are like embedding a page in another page
+
+Thus, to work around this problem, Derrick replaced the above code with this line: `<form action="<?= ScriptApp.getService().getUrl() ?>/orders" method="get">`
+
+He got this info from this Stack Overflow [thread](https://stackoverflow.com/questions/15668119/linking-to-another-html-page-in-google-apps-script), wow so useful haha.
+
+Read more about [what routing is](link will be added later lol) on my other doc!

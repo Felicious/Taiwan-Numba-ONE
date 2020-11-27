@@ -19,7 +19,10 @@
       </div>
       <div class="column" style="background-color: #ffffff">
         <h2>Choose Spreadsheet</h2>
-        <form action="/orders" method="get">
+        <form
+          action="<?= ScriptApp.getService().getUrl() ?>/sheet"
+          method="get"
+        >
           <div class="inputRow">
             <div class="flexInput">
               <label>Sheet URL</label>
@@ -62,10 +65,18 @@
 
         <div id="single" class="tabcontent">
           <div class="command">Select a name to print ticket</div>
-          <form action="/customer" method="get">
+          <p id="notice">
+            Oops! Please submit the Sheet URL above to continue.
+          </p>
+          <!-- TODO: change the above option into "generating customer names..." once script runs -->
+          <form
+            action="<?= ScriptApp.getService().getUrl() ?>/order"
+            method="get"
+          >
             <div class="dropdownRow">
               <div class="selectFlex">
                 <select name="customerName">
+                  <!-- TODO: don't load the customers using the template! -->
                   <? const options = getCustomers()
               for (let i = 0; i < options.length; i++) { ?>
                   <option><?= options[i] ?></option>
