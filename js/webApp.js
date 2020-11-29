@@ -110,7 +110,6 @@ function doGet(e) {
 /**
  * gets the names of all customers whose receipts that haven't been printed yet
  */
-
 function getCustomers() {
   let customers = [];
 

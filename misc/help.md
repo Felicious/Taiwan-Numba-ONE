@@ -675,6 +675,8 @@ In response to this question I posed to Derrick, I read about `google.script.url
 
 However, the documentation mentions [`IFRAME`](<(https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe)>), which is a state represented by another HTML page embedded into the current one. This concept is key to understanding the work-around Derrick employed to send the GET request-- a URL-- from the form back to the server and receive an HTML page with embedded new information(?) like the list of customer names who needs their receipt printed.
 
+Note: Derrick says we don't need to care about iframes bc u hardly need to use it lol
+
 ### Key Components
 
 After all of that confusion, I will now summarize the lecture (see footnote 1). When visiting any web app, the first page you see-- like the landing page of a website-- is the **root route**.

@@ -77,10 +77,6 @@
               <div class="selectFlex">
                 <select name="customerName">
                   <!-- TODO: don't load the customers using the template! -->
-                  <? const options = getCustomers()
-              for (let i = 0; i < options.length; i++) { ?>
-                  <option><?= options[i] ?></option>
-                  <? } ?>
                 </select>
               </div>
 
@@ -149,6 +145,18 @@
     // event listeners
     const submitButton = document.getElementById("submitSheet");
     submitButton.addEventListener("click", somefunction);
+
+    function displayCustomers(customers) {
+      let options;
+      for (let i = 0; i < customers.length; i++) {
+        options.append("<option>" + customers[i] + "</option>");
+      }
+    }
+
+    // this runs when the page is loaded
+    $(() => {
+      google.script.run.withSuccessHandler(displayCustomers).getCustomers();
+    });
 
     // need an event listener on the input box to get enter to press the submit button
     const submitWithEnter = document.getElementById("sheetUrl");
