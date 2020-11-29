@@ -8,7 +8,7 @@
  *          true if any column is filled
  */
 function validRow(row) {
-  if (row.every(e => !e)) {
+  if (row.every((e) => !e)) {
     //.every() true if every row is empty
     return false;
   } else {
@@ -45,10 +45,18 @@ function checkOff(row, col) {
   range.setValue("x");
 }
 
-function getSheetId() {
-  const userInput = getElementbyId("sheetUrl");
+/**
+ * Takes url submitted by the user and attempts to open a sheet with it
+ * @param userInput is possible url string
+ *
+ * Returns: active Google Sheet
+ *    - additionally makes responsive changes to page
+ *      to update user on status of their url submission
+ */
+function openSheetFromUrl(userInput) {
   let message = document.getElementById("message");
-  message.innerHTML = "";
+  message.style.color = "black";
+  message.innerHTML = "validating url..";
 
   // TODO: change ifs to check if userInput begins with http://
 
@@ -57,10 +65,10 @@ function getSheetId() {
     try {
       const possibleSheet = SpreadsheetApp.openByUrl(userInput);
 
-      // return type: int
-      return possibleSheet.getSheetId(); // built-in func of Google Sheets class
+      message.innerHTML = "";
+      return possibleSheet.getActiveSheet();
     } catch (err) {
-      /* TODO: make the text box underline red to indicate error */
+      message.style.color = "red";
       message.innerHTML =
         'Couldn\'t find sheet from url. Make sure to include the "https://..." part too.';
     }
@@ -69,9 +77,11 @@ function getSheetId() {
   else {
     try {
       const possibleSheet = SpreadsheetApp.openById(userInput);
-      return possibleSheet.getSheetId();
+      message.innerHTML = "";
+      return possibleSheet.getActiveSheet();
     } catch (err) {
       if (userInput.length < 44) {
+        message.style.color = "red";
         message.innerHTML = "Sheet not found. Is the ID not long enough?";
         // TODO: check if all IDs need to be 44 characters
       }

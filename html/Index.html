@@ -76,6 +76,9 @@
               <div class="selectFlex">
                 <select name="customerName">
                   <!-- TODO: don't load the customers using the template! -->
+                  <? for (let i = 0; i < customers.length; i++) { ?>
+                  <option><?= customers[i] ?></option>
+                  <? } ?>
                 </select>
               </div>
 

@@ -18,9 +18,14 @@ function doGet(e) {
 }
   */
   if (e.pathInfo === "sheet") {
-    const sheetId = e.parameter["url"];
+    const url = e.parameter["url"];
+    const sheet = openSheetFromUrl(url);
 
-    //
+    // load options of the drop-down
+    const loadOptions = HtmlService.createTemplateFromFile("Index");
+    loadOptions.customers = getCustomers(sheet);
+
+    return loadOptions.evaluate();
   }
   // seems like i just need e.parameter and e.pathInfo
   else if (e.PathInfo === "order") {
@@ -115,7 +120,7 @@ function doGet(e) {
 /**
  * gets the names of all customers whose receipts that haven't been printed yet
  */
-function getCustomers() {
+function getCustomers(sheet) {
   let customers = [];
 
   for (let i = 2; i <= sheet.getLastRow(); i++) {
