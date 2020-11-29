@@ -1,3 +1,8 @@
+/**open stylesheet (in "Index") using include() */
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+}
+
 /**
  * Checks if row is all empty
  *
@@ -18,12 +23,7 @@ function validRow(row) {
 }
 
 // Ensure that the first 2 columns are for our app purposes
-function checkColumns() {
-  const ss = SpreadsheetApp.openById(
-    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-  );
-  const sheet = ss.getActiveSheet();
-
+function checkColumns(sheet) {
   return (
     sheet.getRange("A1").getValue() === "Sent to Print" &&
     sheet.getRange("B1").getValue() === "Total"

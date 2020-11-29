@@ -37,6 +37,9 @@ function doGet(e) {
     t.receipt = getReceipt(custName);
 
     return t.evaluate();
+  } else {
+    //just load the homepage
+    return HtmlService.createTemplateFromFile("Index").evaluate();
   }
 
   /*
@@ -54,21 +57,11 @@ function doGet(e) {
   */
 }
 
-/**open stylesheet using include() */
-function include(filename) {
-  return HtmlService.createHtmlOutputFromFile(filename).getContent();
-}
-
 // gets called by the Event Listener to
 // generate html info
 
-function getReceipt(name) {
-  const ss = SpreadsheetApp.openById(
-    "1pjD2wbT-Gt0fFefdpXvwek3dNguD0NG9APYqbT8v5J8"
-  );
-  const sheet = ss.getActiveSheet();
-
-  if (!checkColumns()) {
+function getReceipt(name, sheet) {
+  if (!checkColumns(sheet)) {
     // add init tracker cols if they don't exist
     addTrackerCols(sheet);
   }
