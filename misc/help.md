@@ -689,6 +689,49 @@ While the idea is simple, the specifics of which to implement is different acros
 
 **Question**: what's a framework vs API vs IDE vs software?
 
+## Apps Script Routing
+
+### Form Submission Basics
+
+When submitting a `form`, the value assigned to the property `action` becomes the path info in the HTTP request. Since we're doing a GET request, I set the value of `method` to "get".
+
+```html
+<form action="<?= ScriptApp.getService().getUrl() ?>/sheet" method="get"></form>
+```
+
+The script `<?= ScriptApp.getService().getUrl() ?>` is an Apps Script work around that **Derrick** found to set the path info to `/sheet`.
+
+Then, within the same form above, the `input` element that takes in user input has a property called `name`. The value assigned to `name` becomes the key of which the user-inputted data is stored with. For example, I have the following specified in the input:
+
+```html
+<label>Sheet URL</label>
+<input type="text" name="url" placeholder="copy + paste complete URL" />
+```
+
+Thus, when the user clicks the submit button that follows after the input element above, an HTTP Get request is sent to the server with the following URL:
+
+`script.google.com/{this really long link of the web app}/sheet?url={whatever the user inputted in the text box}`
+
+### Server-side Processing
+
+Now that the HTTP request has been sent, we have a `doGet(e)` function on the server that will handle the incoming HTTP request.
+
+As mentioned before, the `action` value is stored as `e.pathInfo`, (e is the contents of the HTTP request packaged neatly into an object we can extract data form), and the user input is stored at `e.parameter["url"]`, where url is the value stored within the `name` property of the `input` element. This input box is where the user is expected to copy and paste the url of their Google Spreadsheet they intend to generate receipts from.
+
+In fact, in earlier renditions of my code, I got the sheetId by using `document.getElementById("sheetUrl")`, where sheetUrl was the value assigned to the `id` property of the input. (so I had prematurely had):
+
+```html
+<input type="text" id="sheetUrl" name="url" />
+```
+
+and
+
+```js
+const id = document.getElementById("sheetUrl");
+```
+
+But Derrick told me that using e.parameter achieved the same result, and it was a cleaner way of processing the request without using hard-coded values stored in the `id` or `name` property of an HTML page.
+
 ### References + More Info
 
 [^1]: From Ray Villalobos's [lecture](https://www.linkedin.com/learning/mastering-web-developer-interview-code/how-does-routing-work-in-a-modern-web-application) "How does routing work in the modern web application" on LinkedIn, at the timestamp: 0:40.

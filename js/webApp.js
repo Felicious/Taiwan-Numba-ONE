@@ -17,17 +17,22 @@ function doGet(e) {
     "pathInfo": "order"
 }
   */
+  if (e.pathInfo === "sheet") {
+    const sheetId = e.parameter["url"];
 
+    //
+  }
   // seems like i just need e.parameter and e.pathInfo
+  else if (e.PathInfo === "order") {
+    const custName = e.parameter["name"];
 
-  const custName = e.parameter["name"];
+    const t = HtmlService.createTemplateFromFile("template");
 
-  const t = HtmlService.createTemplateFromFile("template");
+    // push variables as a property of the HtmlTemplate object
+    t.receipt = getReceipt(custName);
 
-  // push variables as a property of the HtmlTemplate object
-  t.receipt = getReceipt(custName);
-
-  return t.evaluate(); //ERROR: unexpected identifier
+    return t.evaluate();
+  }
 
   /*
   OMGGG!!
