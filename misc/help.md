@@ -38,6 +38,12 @@ The function getItemColumnIndexes() returns an object with two properties, and t
 
 `const object = getItemColumnIndexes(menuItems); const start = object.start; const end = object.end;`
 
+Also destructuring {start, end} is shorthand for {start: start, end: end}, where the start/end on the left is the name of the variable, and the right is the value.
+
+I ran into a bug where I didn't understand this concept and had to make the following change in my `findRowNum` function: `return {currentRow, rowNum: i};`
+
+rowNum was the name I gave to the value of i in getReceipt(), and I had naively set const `{currentRow, rowNum} = getRowNum()` where getRowNum() returned {currentRow, i}; rowNum kept evaluating to undefined, because rowNum didn't exist in getRowNum, only i. Therefore, within getRowNum(), I needed to assign i a new name before returning it.
+
 ### Regular Expressions
 
 Herein lie notes on the subject that are extremely useful to find patterns in words. To extract the price from the name and description of Chinese menu items, Derrick used [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) to find the pattern of a dollar sign directly followed by a number (no space!) `$price`

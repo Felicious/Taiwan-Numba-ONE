@@ -121,7 +121,7 @@ function findRowNum(name, sheet) {
       .reduce((arr, cols) => arr.concat(cols), []);
 
     if (currentRow[4] === name) {
-      return { currentRow, i };
+      return { currentRow, rowNum: i };
     }
   }
 }
