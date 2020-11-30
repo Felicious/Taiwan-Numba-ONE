@@ -7,9 +7,16 @@ Written for my favorite restaurant, Taiwan Cafe, this project aims to reduce foo
 In order to run the [Google Apps Script](https://script.google.com), a Google tool to automate and manage your Google apps, like Google Forms & Sheets, you will need to follow these instructions:
 
 1. Open the Taiwan Cafe spreadsheet containing all the form responses
-2. Open the _Tools_> _Script editor_ tab and it will take you to Google Apps Script [IDE](https://www.codecademy.com/articles/what-is-an-ide "What is an IDE?") to create a script to do things
-
-[These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.]
+2. Find the latest update of my web app and open it.
+3. Now you're here!
+   ![homepage](images/homepage.png)
+4. Go ahead and fill in the URL after copy and pasting it from the Google Sheet.
+5. Once you click submit, scroll down to the "Single" tab at the bottom and you can now select the names of the people you'd like to make a receipt for! Just a note: only customers whose receipts have yet to printed will show up in the drop-down menu.
+6. Once you've picked a name, press the button with the paw to generate the receipt!
+7. It'll take you to the page the receipt is (even though it's not that cute rn)
+8. To print, press Ctrl + P and select "Microsoft Print to PDF"
+   ![print](images/printing.png)
+9. After you're done printing, press back **once** and you'll be on the same page after submitting the url of the Google Sheets. Reload the page (Ctrl + R) to update it, and you should be able to select more customer names!
 
 ### Deployment
 
