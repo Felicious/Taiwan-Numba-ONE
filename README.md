@@ -18,6 +18,15 @@ In order to run the [Google Apps Script](https://script.google.com), a Google to
    ![print](images/printing.png)
 9. After you're done printing, press back **once** and you'll be on the same page after submitting the url of the Google Sheets. Reload the page (Ctrl + R) to update it, and you should be able to select more customer names!
 
+### Expected Behaviors
+
+Things the web app will do or change that you should be aware of:
+
+1. Will add 2 new columns for storage purposes on your Spreadsheet.
+2. The names of the customers are determined by column numbers, so it's **IMPERATIVE** that the names of the customers are always in the the fifth column, E, after my 2 columns are added. Therefore I expect the name to be in the third column (C)before the web app changes anything.
+   ![censored column names](./images/columnC.png)
+3. more...
+
 ### Deployment
 
 1. Open the spreadsheet containing all the form responses
