@@ -37,10 +37,18 @@ function addTrackerCols(sheet) {
   sheet.getRange("B1").setValue("Total $$");
 }
 
+/**calls to check if these columns exist */
+function getColumns(sheet) {
+  if (!checkColumns(sheet)) {
+    // add init tracker cols if they don't exist
+    addTrackerCols(sheet);
+  }
+}
+
 /**
  * check the cell with an "x" to indicate the row has been read
  */
-function checkOff(row, col) {
+function checkOff(row, col, sheet) {
   const range = sheet.getRange(row, col);
   range.setValue("x");
 }

@@ -48,14 +48,8 @@ function doGet(e) {
 
 // gets called by the Event Listener to
 // generate html info
-
 function getReceipt(name, sheet) {
-  if (!checkColumns(sheet)) {
-    // add init tracker cols if they don't exist
-    addTrackerCols(sheet);
-  }
-
-  const currentRow = findRowByName(name, sheet);
+  const { currentRow, rowNum } = findRowNum(name, sheet);
 
   const colNames = sheet
     .getRange(1, 1, 1, sheet.getLastColumn())
@@ -81,7 +75,6 @@ function getReceipt(name, sheet) {
     if (currentRow[col]) {
       console.log(`Add ${currentRow[col]} of ${item.name} to cart`);
       items.push({ name: item.name, qty: currentRow[col] });
-      checkOff(i, 1);
     }
     col += 1;
   });
@@ -91,6 +84,9 @@ function getReceipt(name, sheet) {
     items,
     currentRow[sheet.getLastColumn() - 1]
   );
+
+  // mark receipt as completed on the spreadsheet
+  checkOff(rowNum, 1, sheet);
 
   return mommy;
 }
@@ -113,17 +109,21 @@ function getCustomers(sheet) {
   return customers;
 }
 
-/**
- * Returns the entire row matching the customer's name
+/*
+ * returns an object with an array of row info that matches the @param name
+ * and the row number
  */
-function findRowByName(name, sheet) {
-  const allData = sheet
-    .getRange(2, 1, sheet.getLastRow(), sheet.getLastColumn())
-    .getValues();
+function findRowNum(name, sheet) {
+  for (let i = 2; i <= sheet.getLastRow(); i++) {
+    const currentRow = sheet
+      .getRange(i, 1, 1, sheet.getLastColumn())
+      .getValues()
+      .reduce((arr, cols) => arr.concat(cols), []);
 
-  return allData.filter(function (row) {
-    return row[4] === name; // 4 is the col where the names are stored
-  })[0]; // filter returns an arr of elements that satisfy the condition
+    if (currentRow[4] === name) {
+      return { currentRow, i };
+    }
+  }
 }
 
 /**
