@@ -33,7 +33,8 @@ function doGet(e) {
 
     const t = HtmlService.createTemplateFromFile("template");
 
-    const sheet = e.parameters["url"];
+    const ss = SpreadsheetApp.openByUrl(e.parameters["url"]);
+    const sheet = ss.getActiveSheet();
 
     // push variables as a property of the HtmlTemplate object
     t.receipt = getReceipt(custName, sheet); // how to get sheet?
