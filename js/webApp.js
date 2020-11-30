@@ -13,6 +13,9 @@ function doGet(e) {
 
     const sheet = ss.getActiveSheet();
 
+    // check if tracking cols need to be added
+    getColumns(sheet);
+
     // load options of the drop-down
     const loadOptions = HtmlService.createTemplateFromFile("Index");
     loadOptions.e = e;
