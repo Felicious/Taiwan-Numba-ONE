@@ -26,16 +26,18 @@
           <div class="inputRow">
             <div class="flexInput">
               <label>Sheet URL</label>
+              <? if(e.pathInfo === "sheet") { ?>
+
+              <? } else { ?>
               <input
                 type="text"
                 name="url"
-                placeholder="copy + paste complete
-              URL"
+                placeholder="copy + paste complete URL"
               />
+              <? } ?>
             </div>
             <button class="flexButton" type="submit">submit</button>
           </div>
-          <p id="message"></p>
         </form>
         <br />
         <br />
@@ -58,7 +60,7 @@
 
         <div id="single" class="tabcontent">
           <div class="command">Select a name to print ticket</div>
-          <? if (e.pathInfo === "sheet") { ?>
+          <? if (e.pathInfo !== "sheet") { ?>
           <p id="notice">
             Oops! Please submit the Sheet URL above to continue.
           </p>
@@ -68,7 +70,7 @@
             action="<?= ScriptApp.getService().getUrl() ?>/order"
             method="get"
           >
-            <input type="hidden" name="url" value="<?= e.parameter["url"] ?>"
+            <input type="hidden" name="url" value="<?= e.parameter["url"] ?>" />
             <div class="dropdownRow">
               <div class="selectFlex">
                 <select name="customerName">
