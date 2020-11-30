@@ -34,7 +34,7 @@ function doGet(e) {
     const t = HtmlService.createTemplateFromFile("template");
 
     // push variables as a property of the HtmlTemplate object
-    t.receipt = getReceipt(custName);
+    t.receipt = getReceipt(custName, sheet); // how to get sheet?
 
     return t.evaluate();
   } else {

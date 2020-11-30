@@ -708,6 +708,12 @@ Then, within the same form above, the `input` element that takes in user input h
 <input type="text" name="url" placeholder="copy + paste complete URL" />
 ```
 
+Then, the submit button needs to have the property `type` set to "submit" so that the form submission could be completed by the button.
+
+```html
+<button class="selectButton" type="submit">submit</button>
+```
+
 Thus, when the user clicks the submit button that follows after the input element above, an HTTP Get request is sent to the server with the following URL:
 
 `script.google.com/{this really long link of the web app}/sheet?url={whatever the user inputted in the text box}`
@@ -731,6 +737,10 @@ const id = document.getElementById("sheetUrl");
 ```
 
 But Derrick told me that using e.parameter achieved the same result, and it was a cleaner way of processing the request without using hard-coded values stored in the `id` or `name` property of an HTML page.
+
+In addition, Google Apps Script **does not support** document methods, so I couldn't use the second method even if I wanted to!
+
+Therefore, the correct way to imple
 
 ### References + More Info
 
