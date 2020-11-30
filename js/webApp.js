@@ -44,20 +44,6 @@ function doGet(e) {
     //just load the homepage
     return HtmlService.createTemplateFromFile("Index").evaluate();
   }
-
-  /*
-  OMGGG!!
-
-  Web App returns:
-
-  Mei Yu
-    1 套餐 
-    2 黑椒豬排麵
-    null
-  
-  Finally making some progress!!!
-
-  */
 }
 
 // gets called by the Event Listener to
