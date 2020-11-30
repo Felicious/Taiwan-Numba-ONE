@@ -29,7 +29,8 @@
               <input
                 type="text"
                 name="url"
-                placeholder="copy + paste complete URL"
+                placeholder="copy + paste complete
+              URL"
               />
             </div>
             <button class="flexButton" type="submit">submit</button>
@@ -57,23 +58,33 @@
 
         <div id="single" class="tabcontent">
           <div class="command">Select a name to print ticket</div>
+          <? if (e.pathInfo === "sheet") { ?>
           <p id="notice">
             Oops! Please submit the Sheet URL above to continue.
           </p>
+          <? } ?>
           <!-- TODO: change the above option into "generating customer names..." once script runs -->
           <form
             action="<?= ScriptApp.getService().getUrl() ?>/order"
             method="get"
           >
+            <input type="hidden" name="url" value="<?= e.parameter["url"] ?>"
             <div class="dropdownRow">
               <div class="selectFlex">
-                <select name="customerName"></select>
+                <select name="customerName">
+                  <? if (e.pathInfo === "sheet") { ?>
+                  <!-- TODO: don't load the customers using the template! -->
+                  <? for (let i = 0; i < customers.length; i++) { ?>
+                  <option><?= customers[i] ?></option>
+                  <? } ?>
+                  <? } ?>
+                </select>
               </div>
 
               <button class="selectButton" type="submit">
                 <img
                   src="https://raw.githubusercontent.com/Felicious/Taiwan-Numba-ONE/master/images/paw-button.png"
-                  alt="submit button (paw)"
+                  alt="submit (paw)"
                 />
               </button>
             </div>

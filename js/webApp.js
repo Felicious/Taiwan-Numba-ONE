@@ -28,10 +28,12 @@ function doGet(e) {
     return loadOptions.evaluate();
   }
   // seems like i just need e.parameter and e.pathInfo
-  else if (e.PathInfo === "order") {
-    const custName = e.parameter["name"];
+  else if (e.pathInfo === "order") {
+    const custName = e.parameters["customerName"];
 
     const t = HtmlService.createTemplateFromFile("template");
+
+    const sheet = e.parameters["url"];
 
     // push variables as a property of the HtmlTemplate object
     t.receipt = getReceipt(custName, sheet); // how to get sheet?
@@ -66,7 +68,7 @@ function getReceipt(name, sheet) {
     addTrackerCols(sheet);
   }
 
-  const currentRow = findRowByName(name);
+  const currentRow = findRowByName(name, sheet);
 
   const colNames = sheet
     .getRange(1, 1, 1, sheet.getLastColumn())
@@ -106,10 +108,6 @@ function getReceipt(name, sheet) {
   return mommy;
 }
 
-function doGet(e) {
-  return HtmlService.createTemplateFromFile("template").evaluate();
-}
-
 /**
  * gets the names of all customers whose receipts that haven't been printed yet
  */
@@ -131,7 +129,7 @@ function getCustomers(sheet) {
 /**
  * Returns the entire row matching the customer's name
  */
-function findRowByName(name) {
+function findRowByName(name, sheet) {
   const allData = sheet
     .getRange(2, 1, sheet.getLastRow(), sheet.getLastColumn())
     .getValues();
