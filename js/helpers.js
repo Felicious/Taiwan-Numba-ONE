@@ -4,22 +4,50 @@ function include(filename) {
 }
 
 /**
- * Checks if row is all empty
+ * gets costs, name of item from column names.
  *
- * WARN: this might be an obsolete func since I've been implementing this differently
+ * NOTE: Column names MUST have a $cost in name (no space between $ and cost)
+ * example: "$11 Taiwan sausage [very yummy]"
  *
- * @param row
- * @returns false if all columns are empty
- *          true if any column is filled
+ * returns array of objects:
+ * {name: "found item name", cost: "found cost"}
+ *
+ * Only returns complete obj of menu items; if not in req. format,
+ * the column does not describe a menu item
+ *
+ * @param columnNames array of column names
  */
-function validRow(row) {
-  if (row.every((e) => !e)) {
-    //.every() true if every row is empty
-    return false;
-  } else {
-    return true;
-  }
-  // cannot simply return !row.every() bc it would return false if ANY row is empty
+function extractPriceInfo(columnNames) {
+  // Find values in column name with the above described format
+  return columnNames.map((col) => {
+    const matches = col.match(/(?<item>[^\[]*)\$(?<cost>\d+)/); // key info stored in 3 capture grps
+
+    // No matches and no matching groups cost -> not menu item
+    if (!matches || !matches.groups || !matches.groups.cost) {
+      Logger.log("WARN: cost not found in:", col);
+      return { name: col, cost: null };
+    }
+
+    return {
+      name: matches.groups.item,
+      cost: matches.groups.cost,
+    };
+  });
+}
+
+/**
+ * Gets the start and end (NOT inclusive) indices for columns for item quantities
+ *
+ * @param parsedColNames array of extractPriceInfo
+ */
+function getItemColumnIndexes(parsedColNames) {
+  const start = parsedColNames.findIndex((e) => e.cost !== null);
+
+  // index of the first cost === null after start
+  let end = parsedColNames.findIndex((e, i) => e.cost === null && i > start); // findIndex has an optional para; second is index i
+
+  // TODO: Handle if end isn't found
+  return { start, end };
 }
 
 // Ensure that the first 2 columns are for our app purposes
@@ -51,48 +79,4 @@ function getColumns(sheet) {
 function checkOff(row, col, sheet) {
   const range = sheet.getRange(row, col);
   range.setValue("x");
-}
-
-/**
- * Takes url submitted by the user and attempts to open a sheet with it
- * @param userInput is possible url string
- *
- * Returns: active Google Sheet
- *    - additionally makes responsive changes to page
- *      to update user on status of their url submission
- */
-function openSheetFromUrl(userInput) {
-  let message = document.getElementById("message");
-  message.style.color = "black";
-  message.innerHTML = "validating url..";
-
-  // TODO: change ifs to check if userInput begins with http://
-
-  // check if valid
-  if (userInput.length > 44) {
-    try {
-      const possibleSheet = SpreadsheetApp.openByUrl(userInput);
-
-      message.innerHTML = "";
-      return possibleSheet.getActiveSheet();
-    } catch (err) {
-      message.style.color = "red";
-      message.innerHTML =
-        'Couldn\'t find sheet from url. Make sure to include the "https://..." part too.';
-    }
-  }
-  // This else might be antiquated since the site only requests the URL
-  else {
-    try {
-      const possibleSheet = SpreadsheetApp.openById(userInput);
-      message.innerHTML = "";
-      return possibleSheet.getActiveSheet();
-    } catch (err) {
-      if (userInput.length < 44) {
-        message.style.color = "red";
-        message.innerHTML = "Sheet not found. Is the ID not long enough?";
-        // TODO: check if all IDs need to be 44 characters
-      }
-    }
-  }
 }
