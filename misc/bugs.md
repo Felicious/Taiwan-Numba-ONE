@@ -132,3 +132,11 @@ Thus, to work around this problem, Derrick replaced the above code with this lin
 He got this info from this Stack Overflow [thread](https://stackoverflow.com/questions/15668119/linking-to-another-html-page-in-google-apps-script), wow so useful haha.
 
 Read more about [what routing is]([link will be added later lol](https://github.com/Felicious/Taiwan-Numba-ONE/blob/master/misc/help.md#form-submission-and-get-requests)) on my other doc!
+
+# Destructuring
+
+My function getRowNum() returns an array and a row number as an object {currentRow, i} that getReceipt() saves to {currentRow, rowNum}. However, rowNum evaluates to undefined while i is a real number.
+
+How to solve:
+
+Destructuring shorthand explained [here](https://github.com/Felicious/Taiwan-Numba-ONE/blob/master/misc/help.md#destructuring):

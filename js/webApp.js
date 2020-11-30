@@ -1,48 +1,41 @@
 function doGet(e) {
-  // e: entered "/order?name=Mei Yu" -> got "/order?name=Mei%20Yu" in the URL
-  // stringified e and got:
-  /*
-  {
-    "parameter": {
-        "name": "Mei Yu"
-    },
-    "parameters": {
-        "name": [
-            "Mei Yu"
-        ]
-    },
-    "contextPath": "",
-    "contentLength": -1,
-    "queryString": "name=Mei%20Yu",
-    "pathInfo": "order"
-}
-  */
   if (e.pathInfo === "sheet") {
     const url = e.parameter["url"];
-    const sheet = openSheetFromUrl(url);
+    let ss;
+
+    try {
+      ss = SpreadsheetApp.openByUrl(url);
+    } catch (err) {
+      const errorPage = HtmlService.createTemplateFromFile("urlFailed");
+      errorPage.url = url;
+      return errorPage.evaluate();
+    }
+
+    const sheet = ss.getActiveSheet();
 
     // load options of the drop-down
     const loadOptions = HtmlService.createTemplateFromFile("Index");
+    loadOptions.e = e;
     loadOptions.customers = getCustomers(sheet);
 
     return loadOptions.evaluate();
-  }
-  // seems like i just need e.parameter and e.pathInfo
-  else if (e.pathInfo === "order") {
-    const custName = e.parameters["customerName"];
+  } else if (e.pathInfo === "order") {
+    // ALERT const custName = e.parameters["customerName"]; this gives an array with 1 item in it!
 
+    const custName = e.parameters["customerName"][0];
     const t = HtmlService.createTemplateFromFile("template");
 
-    const ss = SpreadsheetApp.openByUrl(e.parameters["url"]);
+    const ss = SpreadsheetApp.openByUrl(e.parameters["url"][0]);
     const sheet = ss.getActiveSheet();
 
     // push variables as a property of the HtmlTemplate object
-    t.receipt = getReceipt(custName, sheet); // how to get sheet?
+    t.receipt = getReceipt(custName, sheet);
 
     return t.evaluate();
   } else {
-    //just load the homepage
-    return HtmlService.createTemplateFromFile("Index").evaluate();
+    const page = HtmlService.createTemplateFromFile("Index");
+    page.e = e;
+    return page.evaluate();
   }
 }
 
